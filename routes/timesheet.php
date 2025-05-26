@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::middleware('auth')->prefix('Timesheet')->controller(TimesheetController::class)->name('timesheet.')->group(function () {
+Route::middleware('auth')->prefix('timesheet')->controller(TimesheetController::class)->name('timesheet.')->group(function () {
     Route::get('/', [TimesheetController::class, 'index'])->name('index');
 });

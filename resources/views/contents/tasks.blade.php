@@ -1,12 +1,12 @@
 <x-app-layout>
 
-    @include('contents.timesheet-partials.header')
+    @include('contents.tasks-partials.header')
 
     <hr class="h-px my-5 bg-gray-200 border-0 dark:bg-gray-700">
 
     <main>
-        <section class="flex items-center justify-between gap-3">
-            <div class="pb-4 bg-white dark:bg-gray-900 flex-grow max-w-md">
+        <section class="flex items-center gap-3 mb-5">
+            <div class=" bg-white dark:bg-gray-900 flex-grow max-w-md">
                 <label for="table-search" class="sr-only">Search</label>
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -20,11 +20,18 @@
                         placeholder="Search Task..." extraClass="pl-10"></x-forms.text-input>
                 </div>
             </div>
+
+            <div>
+                <x-forms.select-input color="gray" label="Priority" width="28" :options="['High', 'medium', 'low']" />
+            </div>
         </section>
 
-        @include('contents.timesheet-partials.list-view')
+        <div
+            class="bg-gray-50 dark:bg-gray-800 p-5 rounded-md border border-gray-200 dark:border-gray-600 resize-div mb-5">
+            @include('contents.tasks-partials.table-view')
 
-        @include('contents.timesheet-partials.grid-view')
+            @include('contents.tasks-partials.list-view')
+        </div>
 
     </main>
 
@@ -32,9 +39,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Get all necessary elements
             const tableView = document.getElementById('table-view');
-            const gridView = document.getElementById('grid-view');
+            const listView = document.getElementById('list-view');
+            const tableButton = document.getElementById('table-btn');
             const listButton = document.getElementById('list-btn');
-            const gridButton = document.getElementById('grid-btn');
 
             // These are the styles we'll switch for active/inactive buttons
             const activeClasses = [
@@ -47,17 +54,17 @@
                 'dark:hover:bg-gray-700', 'dark:text-white', 'dark:hover:border-gray-600'
             ];
 
-            // This function switches between list and grid views
+            // This function switches between table and list views
             function toggleView(viewType) {
-                const isList = viewType === 'list';
+                const istable = viewType === 'table';
 
                 // Show or hide views
-                tableView.classList.toggle('hidden', !isList);
-                gridView.classList.toggle('hidden', isList);
+                tableView.classList.toggle('hidden', !istable);
+                listView.classList.toggle('hidden', istable);
 
                 // Update button styles
-                updateButtonStyle(listButton, isList);
-                updateButtonStyle(gridButton, !isList);
+                updateButtonStyle(tableButton, istable);
+                updateButtonStyle(listButton, !istable);
             }
 
             // This function applies the correct styles to a button
@@ -75,7 +82,7 @@
             window.toggleView = toggleView;
 
             // Set the default view on page load
-            toggleView('grid');
+            toggleView('table');
         });
     </script>
 </x-app-layout>

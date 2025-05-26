@@ -14,7 +14,7 @@
     // Sizes
     $sizeClasses = [
         'xs' => 'text-xs px-3 py-1',
-        'sm' => 'text-sm px-4 py-2',
+        'sm' => 'text-sm px-4 py-1.5',
         'md' => 'text-base px-4 py-2',
         'lg' => 'text-lg px-4 py-2',
         'xl' => 'text-xl px-4 py-2',
@@ -52,6 +52,12 @@
                 'text-white bg-red-700 hover:bg-red-800 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900',
             'outline' =>
                 'text-red-700 border border-red-700 hover:bg-red-800 hover:text-white focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900',
+        ],
+        'purple' => [
+            'solid' =>
+                'text-white bg-purple-700 hover:bg-purple-800 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900',
+            'outline' =>
+                'text-purple-700 border border-purple-700 hover:bg-purple-800 hover:text-white focus:ring-purple-300 dark:border-purple-500 dark:text-purple-500 dark:hover:text-white dark:hover:bg-purple-600 dark:focus:ring-purple-900',
         ],
     ];
 

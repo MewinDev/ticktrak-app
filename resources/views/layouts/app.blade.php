@@ -26,13 +26,15 @@
 </head>
 
 <body class="font-sans antialiased font-abz bg-white">
-    <div class="min-h-screen dark:bg-gray-900">
-        @include('layouts.navigation')
-        @include('layouts.aside')
+    <div x-data="" class="min-h-screen dark:bg-gray-900">
+        <header x-data="{ open: false }">
+            @include('layouts.navigation')
+            @include('layouts.aside')
+        </header>
 
         <!-- Page Content -->
-        <main class="px-5 md:px-10 w-full md:pl-64">
-            <div class="pt-24 md:ml-10">
+        <main class="px-5 lg:px-10 w-full lg:pl-64">
+            <div class="pt-20 sm:pt-24 lg:ml-10">
                 {{ $slot }}
             </div>
         </main>

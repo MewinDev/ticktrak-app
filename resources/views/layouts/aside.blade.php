@@ -1,29 +1,29 @@
 <aside
-    class="fixed top-0 left-0 z-50 w-64 h-screen transition-transform -translate-x-full bg-gray-50 border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-    aria-label="Sidebar">
-    <div class="h-full px-3 pb-4 overflow-y-auto">
+    class="fixed top-0 left-0 z-50 w-64 h-screen transition-transform -translate-x-full bg-gray-50 border-r border-gray-200 lg:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+    :class="{
+        'translate-x-0': open
+    }" aria-label="Sidebar">
+    <div class="h-full px-5 pb-4 overflow-y-auto">
         <div class="flex items-center justify-start my-5">
-            <button type="button"
-                class="inline-flex items-center p-2 text-sm text-gray-500 rounded-md sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+            <button type="button" x-on:click="open =!open"
+                class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 dark:focus:ring-gray-900 rounded-lg text-sm p-1.5">
                 <span class="sr-only">Open sidebar</span>
-                <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path clip-rule="evenodd" fill-rule="evenodd"
-                        d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
-                    </path>
+                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
                 </svg>
+
             </button>
             <a href="/" class="flex ms-2 md:me-24">
-                <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
                 <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Ticktrak
                     App</span>
             </a>
         </div>
         <ul class="space-y-2 font-medium mt-7">
             <li>
-                <a href="{{ route('dashboard') }}"
-                    class="flex items-center p-2 text-gray-900 rounded-md dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <svg class="shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-purple-600 dark:group-hover:text-white"
+                <x-navs.nav-link href="{{ route('dashboard') }}" :active="Str::contains(request()->url(), 'dashboard')">
+                    <svg class="shrink-0 w-6 h-6 transition duration-75  group-hover:text-purple-600 dark:group-hover:text-purple-500"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -31,12 +31,11 @@
                     </svg>
 
                     <span class="ms-3">Dashboard</span>
-                </a>
+                </x-navs.nav-link>
             </li>
             <li>
-                <a href="{{ route('tasks.index') }}"
-                    class="flex items-center p-2 text-gray-900 rounded-md dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <svg class="shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-purple-600 dark:group-hover:text-white"
+                <x-navs.nav-link href="{{ route('tasks.index') }}" :active="Str::contains(request()->url(), 'tasks')">
+                    <svg class="shrink-0 w-6 h-6 transition duration-75  group-hover:text-purple-600 dark:group-hover:text-purple-500"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -44,12 +43,11 @@
                     </svg>
 
                     <span class="flex-1 ms-3 whitespace-nowrap">Tasks</span>
-                </a>
+                </x-navs.nav-link>
             </li>
             <li>
-                <a href="{{ route('timesheet.index') }}"
-                    class="flex items-center p-2 text-gray-900 rounded-md dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <svg class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-purple-600 dark:group-hover:text-white"
+                <x-navs.nav-link href="{{ route('timesheet.index') }}" :active="Str::contains(request()->url(), 'timesheet')">
+                    <svg class="w-6 h-6 transition duration-75  group-hover:text-purple-600 dark:group-hover:text-purple-500"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -58,7 +56,7 @@
 
 
                     <span class="flex-1 ms-3 whitespace-nowrap">Timesheet</span>
-                </a>
+                </x-navs.nav-link>
             </li>
         </ul>
     </div>
