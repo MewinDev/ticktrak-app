@@ -24,7 +24,7 @@
 <div x-data="{
     show: @js($show),
     focusables() {
-        return [...$el.querySelectorAll('a, button, input:not([type=hidden]), textarea, select, details, [tabindex]:not([tabindex=-1])')]
+        return [...$el.querySelectorAll('a, button, input:not([type=hidden]), textarea, select, details, [tabindex]:not([tabindex])')]
             .filter(el => !el.hasAttribute('disabled'));
     },
     firstFocusable() { return this.focusables()[0]; },
@@ -77,7 +77,7 @@
         </div>
 
         <!-- Modal Body -->
-        <div class="p-7 overflow-y-auto max-h-[75vh]">
+        <div class="p-4 md:p-5 space-y-4 overflow-y-auto max-h-[75vh]">
             {{ $slot }}
         </div>
 

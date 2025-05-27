@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth')->prefix('tasks')->controller(TaskController::class)->name('tasks.')->group(function () {
-    Route::get('/', [TaskController::class, 'index'])->name('index');
+    Route::get('/', 'index')->name('index');
 });

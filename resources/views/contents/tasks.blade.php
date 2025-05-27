@@ -16,13 +16,19 @@
                                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                         </svg>
                     </div>
-                    <x-forms.text-input color="gray" type="search" id="search-task-table"
+                    <x-forms.text-input color="purple" type="search" id="search-task-table"
                         placeholder="Search Task..." extraClass="pl-10"></x-forms.text-input>
                 </div>
             </div>
 
             <div>
-                <x-forms.select-input color="gray" label="Priority" width="28" :options="['High', 'medium', 'low']" />
+                <x-forms.select-input color="purple" label="Priority" width="28">
+                    <option value="">Priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                    <option value="all">All</option>
+                </x-forms.select-input>
             </div>
         </section>
 
@@ -85,4 +91,73 @@
             toggleView('table');
         });
     </script>
+
+    <script>
+        function taskForm() {
+            return {
+                form: {
+                    title: '',
+                    priority: '',
+                    due_date: '',
+                    details: '',
+                },
+                errors: {},
+                loading: false,
+
+                async submit() {
+                    this.errors = {};
+                    this.loading = true;
+
+                    try {
+                        const response = await fetch('/api/tasks', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                            },
+                            body: JSON.stringify(this.form),
+                        });
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            if (response.status === 422) {
+                                this.errors = data.errors;
+                            } else {
+                                alert(data.message || 'Something went wrong.');
+                            }
+                            this.loading = false;
+                            return;
+                        }
+
+                        // Dispatch event on window to notify table
+                        window.dispatchEvent(new CustomEvent('task-created', {
+                            detail: data.task
+                        }));
+
+                        this.resetForm();
+                        this.loading = false;
+
+                        // Optional: close modal or UI signal
+                        // $dispatch('close');
+
+                    } catch (error) {
+                        console.error('Fetch Error:', error);
+                        alert('Request failed. Please try again.');
+                        this.loading = false;
+                    }
+                },
+
+                resetForm() {
+                    this.form = {
+                        title: '',
+                        priority: '',
+                        due_date: '',
+                        details: '',
+                    };
+                }
+            }
+        }
+    </script>
+
 </x-app-layout>

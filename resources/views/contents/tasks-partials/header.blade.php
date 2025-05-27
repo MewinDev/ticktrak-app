@@ -32,7 +32,7 @@
 
         <div>
             <x-forms.button x-on:click.prevent="$dispatch('open-modal', 'add-tasks-modal')" size="xs"
-                color="purple" type="button" outline="true" extraClass="rounded-md flex items-center gap-2">
+                color="purple" type="button" extraClass="rounded-md flex items-center gap-2">
                 <span>Add Tasks</span>
                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="currentColor">
@@ -40,17 +40,39 @@
                 </svg>
             </x-forms.button>
 
-            <x-modal title="Add Task" name="add-tasks-modal">
-                <form method="POST" class="space-y-4">
-                    @csrf
-
+            <x-modal title="Add Task" name="add-tasks-modal" :show="$errors->isNotEmpty()" focusable>
+                <form x-data="taskForm()" @submit.prevent="submit" class="space-y-4">
                     <!-- Title -->
                     <div>
                         <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             Task Title
                         </label>
-                        <input type="text" name="title" id="title" required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
+                        <x-forms.text-input color="purple" type="text" name="title" id="title"
+                            x-model="form.title" placeholder="Title..."></x-forms.text-input>
+                    </div>
+
+                    <div class="flex items-center gap-4 w-full">
+                        <!-- Priority -->
+                        <div class="w-full">
+                            <label for="priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Priority
+                            </label>
+                            <x-forms.select-input color="purple" name="priority" id="priority" x-model="form.priority">
+                                <option value="">Priority</option>
+                                <option value="low">Low Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="high">High Priority</option>
+                            </x-forms.select-input>
+                        </div>
+
+                        <!-- Due Date -->
+                        <div class="w-full">
+                            <label for="due_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Due Date (optional)
+                            </label>
+                            <x-forms.text-input color="purple" type="date" name="due_date" x-model="form.due_date"
+                                id="due_date"></x-forms.text-input>
+                        </div>
                     </div>
 
                     <!-- Details -->
@@ -58,37 +80,15 @@
                         <label for="details" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             Details
                         </label>
-                        <textarea name="details" id="details" rows="4" required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"></textarea>
+                        <x-forms.text-area color="purple" name="details" id="details" rows="4"
+                            x-model="form.details" placeholder="Details..."></x-forms.text-area>
                     </div>
 
-                    <!-- Priority -->
-                    <div>
-                        <label for="priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Priority
-                        </label>
-                        <select name="priority" id="priority" required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
-                            <option value="">Select Priority</option>
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                        </select>
-                    </div>
 
-                    <!-- Due Date -->
-                    <div>
-                        <label for="due_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Due Date
-                        </label>
-                        <input type="date" name="due_date" id="due_date" required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
-                    </div>
 
                     <!-- Actions -->
                     <div class="flex justify-end space-x-3 pt-4">
-                        <x-forms.button color="gray" type="button"
-                            @click="$dispatch('close')">Cancel</x-forms.button>
+                        <x-forms.button color="gray" type="button" @click="$dispatch('close')">Close</x-forms.button>
                         <x-forms.button color="purple" type="submit" name="add-tasks">Add Task</x-forms.button>
                     </div>
                 </form>
