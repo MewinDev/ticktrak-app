@@ -31,7 +31,7 @@
         </div>
 
         <div>
-            <x-forms.button x-on:click.prevent="$dispatch('open-modal', 'add-tasks-modal')" size="xs"
+            <x-forms.button x-on:click.prevent="$dispatch('open-modal', 'add-tasks-modal')" size="sm"
                 color="blue" type="button" extraClass="rounded-md flex items-center gap-2">
                 <span>Add Tasks</span>
                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
