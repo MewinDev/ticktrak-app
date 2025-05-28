@@ -9,6 +9,13 @@ use Illuminate\Http\JsonResponse;
 
 class TaskApiController extends Controller
 {
+    public function index(): JsonResponse
+    {
+
+        $task = Task::all();
+        return response()->json(['task' => $task]);
+    }
+
     public function store(TaskApiRequest $request): JsonResponse
     {
         $task = Task::create($request->validated());

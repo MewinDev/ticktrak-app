@@ -23,7 +23,7 @@
         <ul class="space-y-2 font-medium mt-7">
             <li>
                 <x-navs.nav-link href="{{ route('dashboard') }}" :active="Str::contains(request()->url(), 'dashboard')">
-                    <svg class="shrink-0 w-6 h-6 transition duration-75  group-hover:text-purple-600 dark:group-hover:text-purple-500"
+                    <svg class="shrink-0 w-6 h-6 transition duration-75  group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -35,7 +35,7 @@
             </li>
             <li>
                 <x-navs.nav-link href="{{ route('tasks.index') }}" :active="Str::contains(request()->url(), 'tasks')">
-                    <svg class="shrink-0 w-6 h-6 transition duration-75  group-hover:text-purple-600 dark:group-hover:text-purple-500"
+                    <svg class="shrink-0 w-6 h-6 transition duration-75  group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -47,7 +47,7 @@
             </li>
             <li>
                 <x-navs.nav-link href="{{ route('timesheet.index') }}" :active="Str::contains(request()->url(), 'timesheet')">
-                    <svg class="w-6 h-6 transition duration-75  group-hover:text-purple-600 dark:group-hover:text-purple-500"
+                    <svg class="w-6 h-6 transition duration-75  group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
