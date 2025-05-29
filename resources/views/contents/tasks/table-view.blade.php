@@ -34,9 +34,9 @@
                                     <input type="checkbox"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </td>
-                                <td class="px-6 py-4" x-text="data.title"></td>
-                                <td class="px-2 py-2 whitespace-normal text-sm flex items-center">
-                                    <div class="w-64 md:w-full lg:max-w-2xl" x-text="data.details"></div>
+                                <td class="px-6 py-4 break-words" x-text="data.title"></td>
+                                <td class="px-2 py-2 whitespace-normal text-sm">
+                                    <div class="w-80" x-text="data.details"></div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <template x-if="data.priority === 'high'">

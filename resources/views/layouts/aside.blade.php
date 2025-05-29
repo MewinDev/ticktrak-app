@@ -38,6 +38,7 @@
 
         <div class="h-full overflow-scroll no-scrollbar">
             <ul class="space-y-2 font-medium mt-5 pt-2 border-t border-gray-200 dark:border-gray-700">
+                <h5 class="text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Menu</h5>
                 <li>
                     <x-navs.nav-link href="{{ route('dashboard') }}" :active="Str::contains(request()->url(), 'dashboard')">
                         <svg class="shrink-0 w-6 h-6 transition duration-75  group-hover:text-blue-600 dark:group-hover:text-blue-500"
@@ -111,6 +112,7 @@
                 </li>
             </ul>
             <ul class="space-y-2 font-medium mt-5 pt-2 border-t border-gray-200 dark:border-gray-700">
+                <h5 class="text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Others</h5>
                 <li>
                     <x-navs.nav-link href="{{ route('setting.edit') }}" :active="Str::contains(request()->url(), 'setting')">
                         <svg class="shrink-0 w-6 h-6 transition duration-75  group-hover:text-blue-600 dark:group-hover:text-blue-500"

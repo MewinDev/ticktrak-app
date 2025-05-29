@@ -6,4 +6,7 @@
             <li>{{ $message }}</li>
         @endforeach
     </ul>
+@else
+    <p {{ $attributes->merge(['class' => 'text-red-500 text-sm dark:text-red-500']) }}>
+    </p>
 @endif

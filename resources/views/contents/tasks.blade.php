@@ -76,11 +76,12 @@
                     details: ''
                 },
                 errors: {},
-                touched: {}, // ✅ Track touched fields
+                success: {},
                 loading: false,
 
                 async submit() {
                     this.errors = {};
+                    this.success = {};
                     this.loading = true;
 
                     try {
@@ -98,31 +99,22 @@
                         if (!response.ok) {
                             if (response.status === 422) {
                                 this.errors = data.errors;
+                                console.log('Response Error:', this.errors);
                             }
-                            this.loading = false;
                             return;
                         }
-                        console.log(data);
-
-                        // ✅ Correct: Dispatch on document
                         document.dispatchEvent(new CustomEvent('task-created'));
-
-                        this.resetForm();
-                        this.loading = false;
-
                         Alpine.store('taskEvents').reload = true;
 
+                        console.log('Response Success:', data.success);
+                        this.resetForm();
+                        this.loading = false;
                         this.$dispatch('close');
                     } catch (error) {
                         console.error('Fetch Error:', error);
-                        // alert('Request failed. Please try again.');
-                        this.loading = false;
                     }
                 },
 
-                validateField(field) {
-                    this.touched[field] = true;
-                },
 
                 resetForm() {
                     this.form = {
@@ -132,7 +124,6 @@
                         details: ''
                     };
                     this.errors = {};
-                    this.touched = {};
                 },
             };
         }
