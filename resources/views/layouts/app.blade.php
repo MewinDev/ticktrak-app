@@ -27,7 +27,7 @@
 
 <body class="font-sans antialiased font-abz bg-white">
     <div x-data="" class="min-h-screen dark:bg-gray-900">
-        <header x-data="{ open: false }">
+        <header x-data="{ open: false }" @click.outside="open = false">
             @include('layouts.navigation')
             @include('layouts.aside')
         </header>

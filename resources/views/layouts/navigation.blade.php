@@ -1,6 +1,6 @@
 <nav class="fixed top-0 z-40 lg:pl-64 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-    <div class="flex items-center justify-between py-3 px-5 lg:px-10 w-full">
-        <div class="flex items-center lg:hidden">
+    <div class="flex items-center justify-between gap-5 n py-3 px-5 lg:px-10 w-full">
+        <div class="flex items-center gap-5 lg:hidden">
             <button @click="open =!open"
                 class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 dark:focus:ring-gray-900 rounded-lg text-sm p-1.5">
                 <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -9,13 +9,9 @@
                         d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
                 </svg>
             </button>
-
-            <a href="/"
-                class="ml-2 self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Ticktrak
-                App</a>
         </div>
 
-        <div class="relative flex-grow max-w-lg hidden lg:block">
+        <div class="relative flex-grow max-w-lg hidden md:block">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -24,9 +20,8 @@
                 </svg>
             </div>
             <x-forms.text-input color="gray" type="search" id="search" placeholder="Seach here..."
-                extraClass="block p-3 pl-10 w-full focus:border-gray-50" required></x-forms.text-input>
+                extraClass="block pl-10 w-full focus:border-gray-50" required></x-forms.text-input>
         </div>
-
 
         <div class="flex items-center gap-2 md:gap-6">
             <div class="flex items-center md:gap-1">

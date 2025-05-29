@@ -44,20 +44,16 @@
                 <form x-data="taskForm()" @submit.prevent="submit" class="space-y-4">
                     <!-- Title -->
                     <div>
-                        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Task Title
-                        </label>
+                        <x-forms.input-label for="title" value="{{ __('Title') }}" />
                         <x-forms.text-input color="blue" type="text" name="title" id="title"
-                            x-model="form.title" placeholder="Title..."
-                            extraClass="focus:border-blue-500"></x-forms.text-input>
+                            x-model="form.title" placeholder="Title..." extraClass="focus:border-blue-500"
+                            :extraClass="'{ \'border-red-500\': errors.title, \'border-green-500\': touched.title && !errors.title }'"></x-forms.text-input>
                     </div>
 
                     <div class="flex items-center gap-4 w-full">
                         <!-- Priority -->
                         <div class="w-full">
-                            <label for="priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                Priority
-                            </label>
+                            <x-forms.input-label for="priority" value="{{ __('Priority') }}" />
                             <x-forms.select-input color="blue" name="priority" id="priority" x-model="form.priority"
                                 extraClass="focus:border-blue-500">
                                 <option value="">Priority</option>
@@ -69,9 +65,7 @@
 
                         <!-- Due Date -->
                         <div class="w-full">
-                            <label for="due_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                Due Date (optional)
-                            </label>
+                            <x-forms.input-label for="due_date" value="{{ __('Due Date (optional)') }}" />
                             <x-forms.text-input color="blue" type="date" name="due_date" x-model="form.due_date"
                                 id="due_date" extraClass="focus:border-blue-500"></x-forms.text-input>
                         </div>
@@ -79,9 +73,7 @@
 
                     <!-- Details -->
                     <div>
-                        <label for="details" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Details
-                        </label>
+                        <x-forms.input-label for="details" value="{{ __('Details') }}" />
                         <x-forms.text-area color="blue" name="details" id="details" rows="4"
                             x-model="form.details" placeholder="Details..."
                             extraClass="focus:border-blue-500"></x-forms.text-area>

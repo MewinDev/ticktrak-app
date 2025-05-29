@@ -1,11 +1,19 @@
 <x-app-layout>
-    @include('contents.tasks-partials.header')
+    @include('contents.tasks.header')
     <main class="mt-5">
         <div class="bg-gray-50 dark:bg-gray-800 p-4 md:p-5 rounded-md border border-gray-200 dark:border-gray-600 mb-5">
-            @include('contents.tasks-partials.table-view')
-            @include('contents.tasks-partials.list-view')
+            @include('contents.tasks.table-view')
+            @include('contents.tasks.list-view')
         </div>
     </main>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('taskEvents', {
+                reload: false,
+            });
+        });
+    </script>
+
 
     <script>
         // Run toggleView as early as possible
@@ -40,8 +48,9 @@
             const tableButton = document.getElementById('table-btn');
             const listButton = document.getElementById('list-btn');
 
-            tableView.classList.toggle('hidden', !istable);
-            listView.classList.toggle('hidden', istable);
+            // Use display block/none instead of hidden class
+            tableView.style.display = istable ? 'block' : 'none';
+            listView.style.display = istable ? 'none' : 'block';
 
             updateButtonStyle(tableButton, istable);
             updateButtonStyle(listButton, !istable);
@@ -59,6 +68,77 @@
 
     <script>
         function taskForm() {
+            return {
+                form: {
+                    title: '',
+                    priority: '',
+                    due_date: '',
+                    details: ''
+                },
+                errors: {},
+                touched: {}, // ✅ Track touched fields
+                loading: false,
+
+                async submit() {
+                    this.errors = {};
+                    this.loading = true;
+
+                    try {
+                        const response = await fetch('/api/tasks', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Accept: 'application/json',
+                            },
+                            body: JSON.stringify(this.form),
+                        });
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            if (response.status === 422) {
+                                this.errors = data.errors;
+                            }
+                            this.loading = false;
+                            return;
+                        }
+                        console.log(data);
+
+                        // ✅ Correct: Dispatch on document
+                        document.dispatchEvent(new CustomEvent('task-created'));
+
+                        this.resetForm();
+                        this.loading = false;
+
+                        Alpine.store('taskEvents').reload = true;
+
+                        this.$dispatch('close');
+                    } catch (error) {
+                        console.error('Fetch Error:', error);
+                        // alert('Request failed. Please try again.');
+                        this.loading = false;
+                    }
+                },
+
+                validateField(field) {
+                    this.touched[field] = true;
+                },
+
+                resetForm() {
+                    this.form = {
+                        title: '',
+                        priority: '',
+                        due_date: '',
+                        details: ''
+                    };
+                    this.errors = {};
+                    this.touched = {};
+                },
+            };
+        }
+
+
+        function editTaskForm() {
             return {
                 form: {
                     title: '',
@@ -99,7 +179,7 @@
                         // ✅ Correct: Dispatch on document
                         document.dispatchEvent(new CustomEvent('task-created'));
 
-                        this.resetForm();
+                        this.resetTaskForm();
                         this.loading = false;
 
                         Alpine.store('taskEvents').reload = true;
@@ -112,7 +192,7 @@
                     }
                 },
 
-                resetForm() {
+                resetTaskForm() {
                     this.form = {
                         title: '',
                         priority: '',
@@ -170,10 +250,9 @@
                 tasks: [],
                 loading: true,
                 search: '',
+                status: '',
                 priority: '',
                 perPage: 10,
-                sortBy: 'created_at',
-                sortDir: 'desc',
                 perPageOptions: [10, 25, 50, 100, 250, 500, 'All'],
                 pagination: {
                     current_page: 1,
@@ -189,6 +268,7 @@
                         page: page,
                         per_page: this.perPage === 'All' ? this.pagination.total : this.perPage,
                         search: this.search,
+                        status: this.status,
                         priority: this.priority,
                     });
 
@@ -220,6 +300,17 @@
                         month: 'long',
                         day: '2-digit'
                     });
+                },
+
+                from() {
+                    if (this.pagination.total === 0) return 0;
+                    return (this.pagination.current_page - 1) * this.pagination.per_page + 1;
+                },
+
+                to() {
+                    if (this.pagination.total === 0) return 0;
+                    const end = this.pagination.current_page * this.pagination.per_page;
+                    return Math.min(end, this.pagination.total);
                 },
 
                 goToPage(page) {

@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    @include('contents.timesheet-partials.header')
+    @include('contents.timesheet.header')
 
     <hr class="h-px my-5 bg-gray-200 border-0 dark:bg-gray-700">
 
@@ -22,9 +22,9 @@
             </div>
         </section>
 
-        @include('contents.timesheet-partials.list-view')
+        @include('contents.timesheet.list-view')
 
-        @include('contents.timesheet-partials.grid-view')
+        @include('contents.timesheet.grid-view')
 
     </main>
 

@@ -5,37 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskApiRequest;
 use App\Models\Task;
+use App\Services\TaskApiServices;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TaskApiController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, TaskApiServices $taskApiServices)
     {
-        $search = $request->query('search');
-        $priority = $request->query('priority');
         $perPage = $request->query('per_page');
 
-        $query = Task::query();
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                ->orWhere('details', 'like', "%{$search}%")
-                ->orWhere('priority', 'like', "%{$search}%")
-                ->orWhereRaw("DATE_FORMAT(due_date, '%M %e, %Y') like ?", ["%{$search}%"]);
-            });
-        }
-
-        if ($priority) {
-            $query->where('priority', 'like', "%{$priority}%");
-        }
-
-        // Clone query before pagination to reuse for all_tasks
-        $allTasksQuery = clone $query;
-
         if ($perPage === 'All' || $perPage == 0) {
-            $paginated_tasks = $query->get();
+            $paginated_tasks = $taskApiServices->getAllTasks($request);
 
             return response()->json([
                 'paginated_tasks' => [
@@ -49,8 +30,8 @@ class TaskApiController extends Controller
             ]);
         }
 
-        $paginated_tasks = $query->paginate((int) $perPage);
-        $allTasks = $allTasksQuery->get(); // Use cloned query
+        $paginated_tasks = $taskApiServices->getPaginatedTasks($request, $perPage);
+        $allTasks = $taskApiServices->getAllTasks($request);
 
         return response()->json([
             'paginated_tasks' => $paginated_tasks,
