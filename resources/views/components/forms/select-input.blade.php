@@ -6,7 +6,7 @@
     'value' => '',
     'label' => 'Here',
     'width' => 'full',
-    'name' => null,
+    'fieldName' => null,
 ])
 
 @php
@@ -17,14 +17,12 @@
     $finalClasses = "$baseClasses $focusClasses $placeholderColor $extraClass";
 
     $bindClass = "{
-        'border border-red-500 dark:border-red-500': errors.{$name}
+        'border border-red-500 dark:border-red-500': errors.{$fieldName}
     }";
 
 @endphp
 
-<select {{ $attributes }}
-    @if ($disabled) disabled @endif
-    class="{{ $finalClasses }}"
+<select {{ $attributes }} @if ($disabled) disabled @endif class="{{ $finalClasses }}"
     :class="{!! $bindClass !!}">
     {{ $slot }}
 </select>

@@ -2,7 +2,7 @@
     'color' => 'blue',
     'disabled' => false,
     'extraClass' => '',
-    'name' => null,
+    'fieldName' => null,
 ])
 
 @php
@@ -14,13 +14,10 @@
     $finalClasses = "$baseClasses $focusClasses $placeholderColor $extraClass";
 
     $bindClass = "{
-        'border border-red-500 dark:border-red-500': errors.{$name}
+        'border border-red-500 dark:border-red-500': errors.{$fieldName}
     }";
 
 @endphp
 
-<textarea {{ $attributes }}
-    @if ($disabled) disabled
-    @endif class="{{ $finalClasses }}"
-    :class="{!! $bindClass !!}"
-    autocomplete="off"></textarea>
+<textarea {{ $attributes }} @if ($disabled) disabled @endif class="{{ $finalClasses }}"
+    :class="{!! $bindClass !!}" autocomplete="off"></textarea>

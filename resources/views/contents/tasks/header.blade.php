@@ -46,47 +46,50 @@
                     <div>
                         <x-forms.input-label for="title" value="{{ __('Title') }}" />
                         <x-forms.text-input color="blue" type="text" name="title" id="title"
-                            x-model="form.title" placeholder="Title..." extraClass="focus:border-blue-500"></x-forms.text-input>
-                        <x-forms.input-error :messages="$errors->get('title')" x-text="errors.title[0]" class="mt-2" />
+                            fieldName="title" x-model="form.title" placeholder="Title..."
+                            extraClass="focus:border-blue-500"></x-forms.text-input>
+                        <x-forms.input-error :messages="$errors->get('title')" x-text="errors?.title?.[0]" class="mt-2" />
                     </div>
 
                     <div class="flex items-center gap-4 w-full">
                         <!-- Priority -->
                         <div class="w-full">
                             <x-forms.input-label for="priority" value="{{ __('Priority') }}" />
-                            <x-forms.select-input color="blue" name="priority" id="priority" x-model="form.priority"
-                                extraClass="focus:border-blue-500">
+                            <x-forms.select-input color="blue" name="priority" id="priority" fieldName="priority"
+                                x-model="form.priority" extraClass="focus:border-blue-500">
                                 <option value="">Priority</option>
                                 <option value="low">Low Priority</option>
                                 <option value="medium">Medium Priority</option>
                                 <option value="high">High Priority</option>
                             </x-forms.select-input>
-                            <x-forms.input-error :messages="$errors->get('priority')" x-text="errors.priority[0]" class="mt-2" />
+                            <x-forms.input-error :messages="$errors->get('priority')" x-text="errors?.priority?.[0]" class="mt-2" />
                         </div>
 
                         <!-- Due Date -->
                         <div class="w-full">
                             <x-forms.input-label for="due_date" value="{{ __('Due Date (optional)') }}" />
-                            <x-forms.text-input color="blue" type="date" name="due_date" x-model="form.due_date"
-                                id="due_date" extraClass="focus:border-blue-500"></x-forms.text-input>
-                            <x-forms.input-error :messages="$errors->get('due_date')" x-text="errors.due_date[0]" class="mt-2" />
+                            <x-forms.text-input color="blue" type="date" name="due_date" fieldName="due_date"
+                                x-model="form.due_date" id="due_date"
+                                extraClass="focus:border-blue-500"></x-forms.text-input>
+                            <x-forms.input-error :messages="$errors->get('due_date')" x-text="errors?.due_date?.[0]" class="mt-2" />
                         </div>
                     </div>
 
                     <!-- Details -->
                     <div>
                         <x-forms.input-label for="details" value="{{ __('Details') }}" />
-                        <x-forms.text-area color="blue" name="details" id="details" rows="4"
-                            x-model="form.details" placeholder="Details..."
+                        <x-forms.text-area color="blue" name="details" id="details" fieldName="details"
+                            rows="4" x-model="form.details" placeholder="Details..."
                             extraClass="focus:border-blue-500"></x-forms.text-area>
-                        <x-forms.input-error :messages="$errors->get('details')" x-text="errors.details[0]" class="mt-2" />
+                        <x-forms.input-error :messages="$errors->get('details')" x-text="errors?.details?.[0]" class="mt-2" />
                     </div>
 
 
 
                     <!-- Actions -->
                     <div class="flex justify-end space-x-3 pt-4">
-                        <x-forms.button color="gray" type="button" @click="$dispatch('close')">Close</x-forms.button>
+                        <x-forms.button color="gray" type="button"
+                            @click="$dispatch('close')">Close</x-forms.button>
                         <x-forms.button color="blue" type="submit" name="add-tasks">Add Task</x-forms.button>
                     </div>
                 </form>

@@ -48,4 +48,16 @@ class TaskApiController extends Controller
             'task' => $task,
         ], 201);
     }
+
+    public function update(TaskApiRequest $request, $taskId): JsonResponse
+    {
+
+        $task = Task::findOrFail($taskId);
+        $task->update($request->validated());
+
+        return response()->json([
+            'message' => 'Task Updated Successfully',
+            'task' => $task,
+        ], 200);
+    }
 }

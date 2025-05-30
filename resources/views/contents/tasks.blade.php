@@ -76,12 +76,10 @@
                     details: ''
                 },
                 errors: {},
-                success: {},
                 loading: false,
 
                 async submit() {
                     this.errors = {};
-                    this.success = {};
                     this.loading = true;
 
                     try {
@@ -106,7 +104,6 @@
                         document.dispatchEvent(new CustomEvent('task-created'));
                         Alpine.store('taskEvents').reload = true;
 
-                        console.log('Response Success:', data.success);
                         this.resetForm();
                         this.loading = false;
                         this.$dispatch('close');
@@ -128,7 +125,6 @@
             };
         }
 
-
         function editTaskForm() {
             return {
                 form: {
@@ -141,12 +137,16 @@
                 loading: false,
 
                 async submit() {
+                    const taskId = this.editForm.id; // or use a real task ID
+                    console.log(this.form);
+
                     this.errors = {};
+
                     this.loading = true;
 
                     try {
-                        const response = await fetch('/api/tasks', {
-                            method: 'POST',
+                        const response = await fetch(`/api/tasks/${taskId}`, {
+                            method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',
                                 Accept: 'application/json',
@@ -159,37 +159,20 @@
                         if (!response.ok) {
                             if (response.status === 422) {
                                 this.errors = data.errors;
-                            } else {
-                                // alert(data.message || 'Something went wrong.');
                             }
                             this.loading = false;
                             return;
                         }
-                        console.log(data);
 
                         // ✅ Correct: Dispatch on document
                         document.dispatchEvent(new CustomEvent('task-created'));
-
-                        this.resetTaskForm();
-                        this.loading = false;
-
                         Alpine.store('taskEvents').reload = true;
-
                         this.$dispatch('close');
                     } catch (error) {
                         console.error('Fetch Error:', error);
                         // alert('Request failed. Please try again.');
                         this.loading = false;
                     }
-                },
-
-                resetTaskForm() {
-                    this.form = {
-                        title: '',
-                        priority: '',
-                        due_date: '',
-                        details: ''
-                    };
                 },
             };
         }
@@ -240,6 +223,8 @@
             return {
                 tasks: [],
                 loading: true,
+                openSubId: null,
+                editForm: {},
                 search: '',
                 status: '',
                 priority: '',
@@ -266,7 +251,6 @@
                     fetch(`/api/tasks?${params.toString()}`)
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
 
                             const paginated = data.paginated_tasks;
 

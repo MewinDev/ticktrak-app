@@ -1,6 +1,6 @@
 <!-- Table Skeleton -->
 <section>
-    <div class="relative overflow-x-auto">
+    <div class="relative overflow-x-auto sm:rounded-t-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead
                 class="text-sm text-gray-700 uppercase bg-blue-200 dark:bg-blue-200 dark:bg-opacity-50 dark:text-white">

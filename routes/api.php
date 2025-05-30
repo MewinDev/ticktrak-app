@@ -23,5 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('tasks')->controller(TaskApiController::class)->name('api.tasks.')->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('/', 'store')->name('store');
+    Route::put('/{taskId}', 'update')->name('update');
 });
 
