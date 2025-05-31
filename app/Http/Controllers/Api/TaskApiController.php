@@ -62,7 +62,7 @@ class TaskApiController extends Controller
     }
 
 
-    public function destroy(TaskApiRequest $request, $taskId): JsonResponse
+    public function destroy($taskId): JsonResponse
     {
 
         $task = Task::findOrFail($taskId);
