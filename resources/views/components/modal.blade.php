@@ -1,5 +1,6 @@
 @props([
     'name',
+    'header' => true,
     'title' => '',
     'show' => false,
     'maxWidth' => '2xl',
@@ -63,7 +64,7 @@
         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
         <!-- Modal Header -->
-        <div class="flex items-center justify-between px-4 py-3 border-b border-gray-300 dark:border-gray-700">
+        <div class="@if (!$header) hidden @endif items-center justify-between px-4 py-3 border-b border-gray-300 dark:border-gray-700">
             <h3 id="modal-title-{{ $name }}" class="text-lg font-bold text-gray-900 dark:text-white uppercase">
                 {{ $title }}
             </h3>
