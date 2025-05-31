@@ -32,6 +32,16 @@ class TaskApiServices
             $query->where('priority', 'like', "%{$priority}%");
         }
 
+        $query->orderByRaw("CASE WHEN due_date IS NOT NULL THEN 0 ELSE 1 END")
+        ->orderByRaw("CASE priority
+                        WHEN 'high' THEN 0
+                        WHEN 'medium' THEN 1
+                        WHEN 'low' THEN 2
+                        ELSE 3
+                    END
+                ")
+        ->orderBy('due_date', 'asc');
+
         return $query;
     }
 

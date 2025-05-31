@@ -23,6 +23,6 @@
 @endphp
 
 <select {{ $attributes }} @if ($disabled) disabled @endif class="{{ $finalClasses }}"
-    :class="{!! $bindClass !!}">
+    @if ($disabled) :class="{!! $bindClass !!}" @endif>
     {{ $slot }}
 </select>

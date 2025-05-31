@@ -1,7 +1,7 @@
 <x-app-layout>
     @include('contents.tasks.header')
-    <main class="mt-5">
-        <div class="bg-gray-50 dark:bg-gray-800 p-4 md:p-5 rounded-md border border-gray-200 dark:border-gray-600 mb-5">
+    <main class="mt-5 pb-8">
+        <div class="bg-gray-50 dark:bg-gray-800 p-4 md:p-5 rounded-md border border-gray-200 dark:border-gray-600">
             @include('contents.tasks.table-view')
             @include('contents.tasks.list-view')
         </div>
@@ -67,115 +67,86 @@
     </script>
 
     <script>
-        function taskForm() {
+        function taskForm(mode, selectedTask) {
             return {
+                mode,
+                errors: {},
+                loading: true,
                 form: {
+                    id: '',
                     title: '',
                     priority: '',
-                    due_date: '',
+                    due_date:'',
                     details: ''
                 },
-                errors: {},
-                loading: false,
 
                 async submit() {
                     this.errors = {};
                     this.loading = true;
+                    const taskId = this.selectedTask?.id;
+                    if (this.mode === 'update' || this.mode === 'delete') {
+                        this.form.id = taskId;
+                    }
+                    if (this.mode === 'update') {
+                        this.form.title = this.selectedTask.title;
+                        this.form.priority = this.selectedTask.priority;
+                        this.form.due_date = this.selectedTask.due_date;
+                        this.form.details = this.selectedTask.details;
+                    }
+                    if (this.mode === 'delete') {
+                        this.form.title = this.selectedTask.title;
+                    }
+
+                    const url = this.mode === 'update' || this.mode === 'delete'
+                        ? `/api/tasks/${taskId}`
+                        : '/api/tasks';
+
+                    const method = this.mode === 'update' ? 'PUT' : this.mode === 'delete' ? 'DELETE' : 'POST';
 
                     try {
-                        const response = await fetch('/api/tasks', {
-                            method: 'POST',
+                        const response = await fetch(url, {
+                            method,
                             headers: {
                                 'Content-Type': 'application/json',
                                 Accept: 'application/json',
                             },
                             body: JSON.stringify(this.form),
                         });
-
                         const data = await response.json();
 
                         if (!response.ok) {
                             if (response.status === 422) {
                                 this.errors = data.errors;
-                                console.log('Response Error:', this.errors);
                             }
                             return;
                         }
-                        document.dispatchEvent(new CustomEvent('task-created'));
-                        Alpine.store('taskEvents').reload = true;
 
+                        document.dispatchEvent(new CustomEvent('task-created'));
+                        Alpine.store('taskEvents').reload = Date.now();
                         this.resetForm();
-                        this.loading = false;
                         this.$dispatch('close');
                     } catch (error) {
-                        console.error('Fetch Error:', error);
+                        console.error('Submit Error:', error);
+                    } finally {
+                            setTimeout(() => {
+                                this.loading = false;
+                            }, 2000);
                     }
                 },
 
-
                 resetForm() {
                     this.form = {
+                        id: null,
                         title: '',
                         priority: '',
                         due_date: '',
                         details: ''
                     };
                     this.errors = {};
-                },
+                }
             };
         }
 
-        function editTaskForm() {
-            return {
-                form: {
-                    title: '',
-                    priority: '',
-                    due_date: '',
-                    details: ''
-                },
-                errors: {},
-                loading: false,
-
-                async submit() {
-                    const taskId = this.editForm.id; // or use a real task ID
-                    console.log(this.form);
-
-                    this.errors = {};
-
-                    this.loading = true;
-
-                    try {
-                        const response = await fetch(`/api/tasks/${taskId}`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                Accept: 'application/json',
-                            },
-                            body: JSON.stringify(this.form),
-                        });
-
-                        const data = await response.json();
-
-                        if (!response.ok) {
-                            if (response.status === 422) {
-                                this.errors = data.errors;
-                            }
-                            this.loading = false;
-                            return;
-                        }
-
-                        // ✅ Correct: Dispatch on document
-                        document.dispatchEvent(new CustomEvent('task-created'));
-                        Alpine.store('taskEvents').reload = true;
-                        this.$dispatch('close');
-                    } catch (error) {
-                        console.error('Fetch Error:', error);
-                        // alert('Request failed. Please try again.');
-                        this.loading = false;
-                    }
-                },
-            };
-        }
 
         function taskList() {
             return {
@@ -200,7 +171,7 @@
                             this.tasks = all;
                             setTimeout(() => {
                                 this.loading = false;
-                            }, 100);
+                            }, 200);
                         })
                         .catch(() => {
                             this.loading = false;
@@ -222,9 +193,8 @@
         function taskTable() {
             return {
                 tasks: [],
-                loading: true,
-                openSubId: null,
-                editForm: {},
+                selectedTask: {},
+                loading: false,
                 search: '',
                 status: '',
                 priority: '',
@@ -238,7 +208,7 @@
                 },
 
                 loadTasks(page = 1) {
-                    this.loading = true;
+                    // this.loading = true;
 
                     const params = new URLSearchParams({
                         page: page,
@@ -259,9 +229,6 @@
                             this.pagination.last_page = paginated.last_page;
                             this.pagination.per_page = paginated.per_page;
                             this.pagination.total = paginated.total;
-                            setTimeout(() => {
-                                this.loading = false;
-                            }, 100);
                         })
                         .catch(() => {
                             this.loading = false;

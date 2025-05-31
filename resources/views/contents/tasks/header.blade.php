@@ -41,7 +41,7 @@
             </x-forms.button>
 
             <x-modal title="Add Task" name="add-tasks-modal">
-                <form x-data="taskForm()" @submit.prevent="submit" class="space-y-4">
+                <form x-data="taskForm('create')" @submit.prevent="submit" class="space-y-4">
                     <!-- Title -->
                     <div>
                         <x-forms.input-label for="title" value="{{ __('Title') }}" />
@@ -94,7 +94,6 @@
                     </div>
                 </form>
             </x-modal>
-
         </div>
     </section>
 </header>

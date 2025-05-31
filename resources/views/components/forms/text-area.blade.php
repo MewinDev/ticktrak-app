@@ -20,4 +20,4 @@
 @endphp
 
 <textarea {{ $attributes }} @if ($disabled) disabled @endif class="{{ $finalClasses }}"
-    :class="{!! $bindClass !!}" autocomplete="off"></textarea>
+    @if ($disabled) :class="{!! $bindClass !!}" @endif autocomplete="off"></textarea>

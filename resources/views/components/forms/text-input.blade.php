@@ -19,4 +19,4 @@
 @endphp
 
 <input {{ $attributes }} @if ($disabled) disabled @endif class="{{ $finalClasses }}"
-    :class="{!! $bindClass !!}" autocomplete="off" />
+    @if ($disabled) :class="{!! $bindClass !!}" @endif autocomplete="off" />
