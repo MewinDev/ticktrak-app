@@ -24,6 +24,6 @@ Route::prefix('tasks')->controller(TaskApiController::class)->name('api.tasks.')
     Route::get('/', 'index')->name('index');
     Route::post('/', 'store')->name('store');
     Route::put('/{taskId}', 'update')->name('update');
-    Route::delete('/{taskId}', 'delete')->name('delete');
+    Route::delete('/{taskId}', 'destroy')->name('destroy');
 });
 
