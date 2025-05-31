@@ -4,7 +4,7 @@
             <x-forms.select-input x-model="status" @change="loadTasks(1)" color="blue" label="Status" width="32"
                 extraClass="focus:border-blue-500">
                 <option value="pending">Pending</option>
-                <option value="done">Done</option>
+                <option value="completed">Compeleted</option>
             </x-forms.select-input>
             <x-forms.select-input x-model="priority" @change="loadTasks(1)" color="blue" label="Priority"
                 width="32" extraClass="focus:border-blue-500">
