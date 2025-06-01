@@ -80,9 +80,15 @@
                         <td class="px-6 py-3">
                             <div class="flex items-center">
                                 <button type="button" @click.prevent="selectedTask = JSON.parse(JSON.stringify(task)); $dispatch('open-modal', 'update-tasks-modal')" class="text-gray-500 group-hover:text-blue-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-2.5 rounded-lg hover:animate-wiggle">
+                                    <svg class="size-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 9.5V13.5L14.5 15M12 5C7.30558 5 3.5 8.80558 3.5 13.5C3.5 18.1944 7.30558 22 12 22C16.6944 22 20.5 18.1944 20.5 13.5C20.5 8.80558 16.6944 5 12 5ZM12 5V2M10 2H14M20.329 5.59204L18.829 4.09204L19.579 4.84204M3.67102 5.59204L5.17102 4.09204L4.42102 4.84204" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+
+                                <button type="button" @click.prevent="selectedTask = JSON.parse(JSON.stringify(task)); $dispatch('open-modal', 'update-tasks-modal')" class="text-gray-500 group-hover:text-yellow-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-2.5 rounded-lg hover:animate-wiggle">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                                </svg>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                    </svg>
                                 </button>
 
                                 <button type="button" @click="selectedTask = JSON.parse(JSON.stringify(task)); $dispatch('open-modal', 'delete-tasks-modal')" class="text-gray-500 group-hover:text-red-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-2.5 rounded-lg hover:animate-wiggle">
@@ -104,5 +110,22 @@
                 </tr>
             </tbody>
         </table>
+        <section class="hidden flex items-center border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+            <div class="w-full">
+                <!-- Start coding here -->
+                <div class="relative overflow-hidden bg-white rounded-b-lg shadow-md dark:bg-gray-800">
+                    <nav class="flex flex-row items-center justify-between px-5 py-2"
+                        aria-label="Table navigation">
+                        <button type="button" class="flex items-center justify-center px-4 py-2 text-xs font-medium text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        View full report
+                        </button>
+                        <p class="text-sm">
+                        <span class="font-normal text-gray-500 dark:text-gray-400">Total users:</span>
+                        <span class="font-semibold text-gray-900 dark:text-white">1867</span>
+                        </p>
+                    </nav>
+                </div>
+            </div>
+        </section>
     </div>
 </template>

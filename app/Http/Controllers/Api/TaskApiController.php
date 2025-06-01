@@ -23,7 +23,7 @@ class TaskApiController extends Controller
                     'data' => $paginated_tasks,
                     'current_page' => 1,
                     'last_page' => 1,
-                    'per_page' => count($paginated_tasks),
+                    'per_page' => 5,
                     'total' => count($paginated_tasks),
                 ],
                 'all_tasks' => $paginated_tasks,

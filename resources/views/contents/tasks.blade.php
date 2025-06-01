@@ -90,7 +90,7 @@
             </div>
         </x-modal>
     </main>
-    
+
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('taskEvents', {
@@ -287,12 +287,12 @@
                 search: '',
                 status: '',
                 priority: '',
-                perPage: 10,
-                perPageOptions: [10, 25, 50, 100, 250, 500, 'All'],
+                perPage: 5,
+                perPageOptions: [5, 10, 25, 50, 100, 250, 500, 'All'],
                 pagination: {
                     current_page: 1,
                     last_page: 1,
-                    per_page: 10,
+                    per_page: 5,
                     total: 0,
                 },
 
