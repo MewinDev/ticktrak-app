@@ -110,5 +110,13 @@
                 </div>
             </div>
         </template>
+
+        <!-- Show if no tasks -->
+        <div x-show="tasks.length === 0"
+            class="col-span-4 text-center whitespace-nowrap my-10">
+            <span colspan="100%" class="px-6 py-4 text-red-500 dark:text-red-500 text-xl">
+                No tasks available.
+            </span>
+        </div>
     </div>
 </template>
