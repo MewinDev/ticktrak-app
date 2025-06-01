@@ -29,7 +29,7 @@
 
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-50 dark:bg-gray-900">
         <nav x-data="{ open: false }" class="absolute top-0 right-0 mt-4 mr-4">
-            <!-- Primary Navigation Menu -->
+            <!-- blue Navigation Menu -->
             <div class="flex items-center">
                 <!-- dark-light-theme -->
                 <button id="theme-toggle" type="button"
