@@ -23,9 +23,17 @@ export default {
                     "75%": { transform: "rotate(-3deg)" },
                     "90%": { transform: "rotate(3deg)" },
                 },
+                swing: {
+                    "0%": { transform: "rotate(1deg)" },
+                    "100%": { transform: "rotate(-1deg)" },
+                },
+            },
+            transformOrigin: {
+                "center--20px": "center -20px",
             },
             animation: {
                 wiggle: "wiggle 0.4s ease-in-out",
+                swing: "swing 1s ease-in-out alternate infinite",
             },
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],

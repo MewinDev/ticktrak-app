@@ -6,7 +6,7 @@
     <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         <template x-for="(task, index) in tasks" :key="task.id">
             <div
-                class="relative bg-blue-50 dark:bg-blue-300 dark:bg-opacity-20 rounded-lg shadow-md p-3 border dark:border-gray-700">
+                class="relative bg-blue-50 dark:bg-blue-300 dark:bg-opacity-20 rounded-lg shadow-md p-3 border dark:border-gray-700 animate-swing origin-[center_-20px]">
                 <div class="flex justify-between items-center">
                     <div class="flex md:flex-col lg:flex-row items-start gap-2">
                         <!-- Priority -->
