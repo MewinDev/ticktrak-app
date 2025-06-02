@@ -81,9 +81,8 @@
                             <div class="flex items-center">
                                 <x-templates.tooltip>
                                     <x-slot name="trigger">
-                                        <button type="button"
-                                            @click.prevent="selectedTask = JSON.parse(JSON.stringify(task)); $dispatch('open-modal', 'update-tasks-modal')"
-                                            class="text-gray-500 group-hover:text-blue-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-2.5 rounded-lg hover:animate-wiggle">
+                                        <a :href="`{{ url('/tasks') }}/${task.id}`"
+                                            class="flex text-gray-500 group-hover:text-blue-500 hover:bg-gray-200 dark:hover:bg-gray-800 px-3 p-2.5 rounded-lg hover:animate-wiggle">
                                             <svg class="size-6" viewBox="0 0 24 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -91,7 +90,7 @@
                                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                     stroke-linejoin="round" />
                                             </svg>
-                                        </button>
+                                        </a>
                                     </x-slot>
                                     Logs
                                 </x-templates.tooltip>
@@ -108,7 +107,7 @@
                                             </svg>
                                         </button>
                                     </x-slot>
-                                    Edit
+                                    Update
                                 </x-templates.tooltip>
 
                                 <x-templates.tooltip>

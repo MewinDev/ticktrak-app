@@ -11,6 +11,13 @@ class TaskController extends Controller
      * Display a listing of the resource.
      */
     public function index(){
-        return view('contents.tasks');
+        $tasks = Task::all();
+        return view('contents.tasks', compact('tasks'));
+    }
+
+    public function show(string $taskId) {
+
+        $task = Task::findOrFail($taskId);
+        return view('contents.tasks.logs', ['task' => $task->id]);
     }
 }
