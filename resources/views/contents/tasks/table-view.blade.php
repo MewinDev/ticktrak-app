@@ -45,7 +45,7 @@
                         <td class="px-6 py-3 whitespace-normal text-sm">
                             <div x-data="{ expanded: false }" @click.outside="expanded = false" class="relative">
                                 <p @click="expanded = true"
-                                    class="w-52 xl:w-full overflow-hidden transition-all duration-300 ease-in-out"
+                                    class="cursor-pointer w-52 xl:w-full overflow-hidden transition-all duration-300 ease-in-out"
                                     :class="expanded ? 'max-h-[1000px]' : 'line-clamp-3'" x-text="task.details">
                                 </p>
                             </div>
