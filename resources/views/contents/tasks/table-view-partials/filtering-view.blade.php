@@ -10,22 +10,6 @@
             </x-forms.select-input>
             entries
         </div>
-
-        <div x-data="{ status: 'pending' }" x-init="loadTasks(1)" class="flex items-center gap-3">
-            <x-forms.select-input x-model="status" @change="loadTasks(1)" color="blue" label="Priority" width="32"
-                extraClass="focus:border-blue-500">
-                <option value="pending">Pending</option>
-                <option value="completed">Completed</option>
-            </x-forms.select-input>
-
-            <x-forms.select-input x-model="priority" @change="loadTasks(1)" color="blue" label="Priority"
-                width="32" extraClass="focus:border-blue-500">
-                <option value="">All Priority</option>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </x-forms.select-input>
-        </div>
     </div>
 
     <div class="flex-grow max-w-md w-full">

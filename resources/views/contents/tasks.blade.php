@@ -161,7 +161,7 @@
                     id: '',
                     title: '',
                     priority: '',
-                    due_date:'',
+                    due_date: '',
                     details: ''
                 },
 
@@ -182,9 +182,9 @@
                         this.form.title = this.selectedTask.title;
                     }
 
-                    const url = this.mode === 'update' || this.mode === 'delete'
-                        ? `/api/tasks/${taskId}`
-                        : '/api/tasks';
+                    const url = this.mode === 'update' || this.mode === 'delete' ?
+                        `/api/tasks/${taskId}` :
+                        '/api/tasks';
 
                     const method = this.mode === 'update' ? 'PUT' : this.mode === 'delete' ? 'DELETE' : 'POST';
 
@@ -239,16 +239,12 @@
                 selectedTask: {},
                 loading: false,
                 search: '',
-                status: '',
-                priority: '',
                 loading: false,
 
                 loadTasks() {
 
                     const params = new URLSearchParams({
                         search: this.search,
-                        status: this.status,
-                        priority: this.priority,
                     });
 
                     this.loading = true,
@@ -285,8 +281,6 @@
                 selectedTask: {},
                 loading: false,
                 search: '',
-                status: '',
-                priority: '',
                 perPage: 5,
                 perPageOptions: [5, 10, 25, 50, 100, 250, 500, 'All'],
                 pagination: {
@@ -303,8 +297,6 @@
                         page: page,
                         per_page: this.perPage === 'All' ? this.pagination.total : this.perPage,
                         search: this.search,
-                        status: this.status,
-                        priority: this.priority,
                     });
 
                     fetch(`/api/tasks?${params.toString()}`)
