@@ -96,6 +96,18 @@
             Alpine.store('taskEvents', {
                 reload: false,
             });
+            Alpine.store('toast', {
+                show: false,
+                message: '',
+                type: 'success',
+                trigger(message, type = 'success') {
+                    console.log('Toast triggered:', message, type);
+                    this.message = message;
+                    this.type = type;
+                    this.show = true;
+                    setTimeout(() => this.show = false, 3000);
+                }
+            });
         });
     </script>
 
@@ -206,16 +218,24 @@
                             return;
                         }
 
-                        document.dispatchEvent(new CustomEvent('task-created'));
+                        this.message = data.message;
+                        this.type = 'success';
+                        this.show = true;
+                        // ✅ Success: Trigger the toast
+                        Alpine.store('toast').trigger(data.message, 'success');
                         Alpine.store('taskEvents').reload = Date.now();
                         this.resetForm();
                         this.$dispatch('close');
                     } catch (error) {
                         console.error('Submit Error:', error);
+                        Alpine.store('toast').trigger('Something went wrong', 'error');
+                        this.message = 'Something went wrong';
+                        this.type = 'error';
+                        this.show = true;
                     } finally {
-                            setTimeout(() => {
-                                this.loading = false;
-                            }, 2000);
+                        setTimeout(() => {
+                            this.loading = false;
+                        }, 2000);
                     }
                 },
 
