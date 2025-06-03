@@ -4,30 +4,98 @@
     </div>
 
     <main>
-        <div class="mt-10 grid grid-cols-1 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-4 gap-6">
+        <div class="mt-10 grid grid-cols-1 xl:grid-cols-4 gap-6">
 
-            <!-- Left: Progress/Details -->
-            <section class="sm:col-span-2 md:col-span-2 lg:col-span-2 xl:col-span-1">
+            <!-- Left: Progress/Details (should be first on all screens) -->
+            <section class="flex flex-col lg:flex-row xl:flex-col gap-6 w-full xl:col-span-1 order-1">
                 <div
-                    class="bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5 h-full flex flex-col">
-                    <h1 class="text-base xl:text-xl font-bold leading-none text-gray-900 dark:text-white">
+                    class="w-full bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5">
+                    <h1 class="text-base text-center font-bold leading-none text-gray-900 dark:text-white">
                         Task progress
                     </h1>
                     <!-- Task Chart -->
-                    <div class="text-white dark:text-white" id="task-chart"></div>
+                    <div class="text-white dark:text-white 2xl:-mt-5" id="task-chart"></div>
+                    <div
+                        class="flex items-center justify-between gap-3 pt-3 border-t border-gray-300 dark:border-gray-700">
+                        <div class="flex flex-col items-start">
+                            <h2 class="mb-2 text-sm font-bold text-gray-900 dark:text-white">
+                                @if ($task->priority === 'high')
+                                    <span
+                                        class="font-normal bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300 px-2 py-1 rounded capitalize">
+                                        {{ $task->priority }} Priority
+                                    </span>
+                                @elseif($task->priority === 'medium')
+                                    <span
+                                        class="font-normal bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-2 py-1 rounded capitalize">
+                                        {{ $task->priority }} Priority
+                                    </span>
+                                @elseif($task->priority === 'low')
+                                    <span
+                                        class="font-normal bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 px-2 py-1 rounded capitalize">
+                                        {{ $task->priority }} Priority
+                                    </span>
+                                @else
+                                    <span
+                                        class="font-normal bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300 px-2 py-1 rounded capitalize">
+                                        {{ $task->priority }} Priority
+                                    </span>
+                                @endif
+                            </h2>
+                            <p class="text-sm ml-2">Priority:</p>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <h2 class="mb-2 text-sm font-bold text-gray-900 dark:text-white">
+                                <span class="font-normal">{{ date('F d, Y', strtotime($task->due_date)) }}</span>
+                            </h2>
+                            <p class="text-sm">Deadline:</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="w-full h-full bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5">
+                    <h1 class="text-base font-bold leading-none text-gray-900 dark:text-white uppercase">
+                        Add Milestones
+                    </h1>
+                    <form @submit.prevent="submit" class="space-y-4 mt-3">
+                        <!-- Description -->
+                        <div>
+                            <x-forms.text-area color="blue" name="description" id="description"
+                                fieldName="description" rows="4" placeholder="Description..."
+                                extraClass="focus:border-blue-500"></x-forms.text-area>
+                            <x-forms.input-error :messages="$errors->get('description')" class="mt-2" />
+                        </div>
+
+                        <!-- Due Date -->
+                        <div class="w-full">
+                            <x-forms.input-label for="due_date" value="{{ __('Due Date (optional)') }}" />
+                            <x-forms.text-input color="blue" type="date" name="due_date" fieldName="due_date"
+                                x-model="selectedTask.due_date" id="due_date"
+                                extraClass="focus:border-blue-500"></x-forms.text-input>
+                            <x-forms.input-error :messages="$errors->get('due_date')" class="mt-2" />
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex justify-start space-x-3">
+                            <x-forms.button color="green" type="submit" name="update-tasks">Add
+                                Milestones</x-forms.button>
+                        </div>
+                    </form>
                 </div>
             </section>
 
-            <!-- Right: Table (wider) -->
-            <section class="sm:col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-3">
+            <!-- Right: Table (should be second on all screens) -->
+            <section class="xl:col-span-3 order-2">
                 <div
                     class="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 relative shadow-sm sm:rounded-t-lg">
-                    <table class="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+                    <h2 class="text-base font-bold text-gray-900 dark:text-white mb-2">{{ $task->title }}</h2>
+                    <p class="text-sm font-medium text-gray-700 dark:text-white">{{ $task->details }}</p>
+                    <table class="mt-5 table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
                         <thead
                             class="sticky top-0 text-sm text-gray-700 uppercase bg-blue-200 dark:bg-blue-200 dark:bg-opacity-50 dark:text-white whitespace-nowrap">
                             <tr>
                                 <th class="px-6 py-3 w-1">#</th>
-                                <th class="px-6 py-3">Details</th>
+                                <th class="px-6 py-3">Description</th>
                                 <th class="px-6 py-3"></th>
                             </tr>
                         </thead>
@@ -93,7 +161,7 @@
                 'dark');
             return {
                 series: [95], // Progress value (hardcoded, replace with dynamic value if needed)
-                colors: [isDark ? "#2563eb" : "#1C64F2"], // Chart color based on mode
+                colors: ["#0E9F6E"], // Chart color based on mode
                 chart: {
                     type: "radialBar",
                     sparkline: {
@@ -116,7 +184,7 @@
                         },
                         hollow: {
                             margin: 0,
-                            size: "60%",
+                            size: "50%",
                             background: isDark ? '#1f2937' : '#fff' // Hollow center color
                         }
                     },
