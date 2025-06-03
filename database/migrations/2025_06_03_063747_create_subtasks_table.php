@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('subtasks', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('details');
-            $table->enum('priority', ['low', 'medium', 'high'])->nullable()->default('low');
-            $table->enum('status', ['pending', 'completed'])->default('pending');
+            $table->text('description');
+            $table->boolean('is_complete')->nullable()->default(false);
             $table->date('due_date')->nullable();
             $table->timestamps();
         });
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('subtasks');
     }
 };
