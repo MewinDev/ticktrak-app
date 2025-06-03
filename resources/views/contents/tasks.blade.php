@@ -100,10 +100,11 @@
             Alpine.store('taskEvents', {
                 reload: false,
             });
+
             Alpine.store('toast', {
                 show: false,
                 message: '',
-                type: 'success',
+                type: '', // Set as empty to avoid undefined
                 trigger(message, type = 'success') {
                     console.log('Toast triggered:', message, type);
                     this.message = message;
@@ -114,7 +115,6 @@
             });
         });
     </script>
-
 
     <script>
         // Run toggleView as early as possible

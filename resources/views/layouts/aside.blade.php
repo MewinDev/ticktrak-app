@@ -12,19 +12,6 @@
                 <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Ticktrak
                     App</span>
             </a>
-            <div class="translate-x-12" :class="{
-                'hidden': !open
-            }">
-                <button type="button" x-on:click="open =!open" class="fill-blue-500 mt-1">
-                    <span class="sr-only">Open sidebar</span>
-                    <svg class="w-8 h-8 rotate-90 fill-gray-50 text-gray-100 " viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M2.39019 18.0983L10.6151 3.89171C11.0696 3.10655 11.2969 2.71396 11.5935 2.58211C11.8521 2.4671 12.1474 2.4671 12.4061 2.58211C12.7026 2.71396 12.9299 3.10654 13.3844 3.89171L21.6093 18.0983C22.0655 18.8863 22.2936 19.2803 22.2599 19.6037C22.2305 19.8857 22.0827 20.142 21.8534 20.3088C21.5904 20.5 21.1352 20.5 20.2246 20.5H3.77487C2.86435 20.5 2.40908 20.5 2.14613 20.3088C1.91677 20.142 1.769 19.8857 1.73959 19.6037C1.70588 19.2803 1.93398 18.8863 2.39019 18.0983Z"
-                            stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-            </div>
         </div>
 
         <div class="relative flex-grow mt-3 max-w-lg md:hidden">
