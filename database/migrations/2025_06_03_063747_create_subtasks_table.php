@@ -17,7 +17,7 @@ return new class extends Migration
             $table->boolean('is_complete')->nullable()->default(false);
             $table->date('due_date')->nullable();
             $table->timestamps();
-            $table->foreignId('user_id')->nullable()->contrained('tasks')->onDelete('set null');
+            $table->foreignId('task_id')->nullable()->contrained('tasks')->onDelete('set null');
         });
     }
 
