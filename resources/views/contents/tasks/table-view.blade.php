@@ -92,7 +92,7 @@
                                             </svg>
                                         </a>
                                     </x-slot>
-                                    Logs
+                                    Milestone
                                 </x-templates.tooltip>
 
                                 <x-templates.tooltip>
@@ -139,8 +139,7 @@
                 </tr>
             </tbody>
         </table>
-        <section
-            class="hidden flex items-center border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+        <section class="hidden items-center border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
             <div class="w-full">
                 <!-- Start coding here -->
                 <div class="relative overflow-hidden bg-white rounded-b-lg shadow-md dark:bg-gray-800">
