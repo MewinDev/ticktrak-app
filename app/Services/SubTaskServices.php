@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SubTaskServices
 {
-    public function queryBuilder(Request $request) {
+    public function queryBuilder(Request $request, $taskId) {
 
         $search = $request->query('search');
 
@@ -26,7 +26,7 @@ class SubTaskServices
         return $query;
     }
 
-    public function getAllSubTasks($request) {
+    public function getAllSubTasks(Request $request, $taskId) {
         return $this->queryBuilder($request)->get();
     }
 }
