@@ -7,14 +7,14 @@
         <div class="mt-10 grid grid-cols-1 xl:grid-cols-4 gap-6">
 
             <!-- Left: Progress/Details (should be first on all screens) -->
-            <section class="flex flex-col lg:flex-row xl:flex-col gap-6 w-full xl:col-span-1 order-1">
+            <section class="flex flex-col sm:flex-row xl:flex-col gap-6 w-full xl:col-span-1 order-1">
                 <div
-                    class="w-full bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5">
+                    class="flex-grow w-full bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5">
                     <h1 class="text-base text-center font-bold leading-none text-gray-900 dark:text-white">
                         Task progress
                     </h1>
                     <!-- Task Chart -->
-                    <div class="text-white dark:text-white 2xl:-mt-5" id="task-chart"></div>
+                    <div class="text-white dark:text-white 2xl:-mt-2" id="task-chart"></div>
                     <div
                         class="flex items-center justify-between gap-3 pt-3 border-t border-gray-300 dark:border-gray-700">
                         <div class="flex flex-col items-start">
@@ -41,13 +41,13 @@
                                     </span>
                                 @endif
                             </h2>
-                            <p class="text-sm ml-2">Priority:</p>
+                            <p class="text-sm text-gray-700 dark:text-gray-400 ml-2">Priority:</p>
                         </div>
                         <div class="flex flex-col items-end">
                             <h2 class="mb-2 text-sm font-bold text-gray-900 dark:text-white">
                                 <span class="font-normal">{{ date('F d, Y', strtotime($task->due_date)) }}</span>
                             </h2>
-                            <p class="text-sm">Deadline:</p>
+                            <p class="text-sm text-gray-700 dark:text-gray-400">Deadline:</p>
                         </div>
                     </div>
                 </div>
@@ -57,11 +57,11 @@
                     <h1 class="text-base font-bold leading-none text-gray-900 dark:text-white uppercase">
                         Add Milestones
                     </h1>
-                    <form @submit.prevent="submit" class="space-y-4 mt-3">
+                    <form method="POST" action="" class="space-y-4 mt-3">
                         <!-- Description -->
                         <div>
                             <x-forms.text-area color="blue" name="description" id="description"
-                                fieldName="description" rows="4" placeholder="Description..."
+                                fieldName="description" rows="4" placeholder="Description..." required
                                 extraClass="focus:border-blue-500"></x-forms.text-area>
                             <x-forms.input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>
@@ -87,10 +87,30 @@
             <!-- Right: Table (should be second on all screens) -->
             <section class="xl:col-span-3 order-2">
                 <div
-                    class="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 relative shadow-sm sm:rounded-t-lg">
-                    <h2 class="text-base font-bold text-gray-900 dark:text-white mb-2">{{ $task->title }}</h2>
-                    <p class="text-sm font-medium text-gray-700 dark:text-white">{{ $task->details }}</p>
-                    <table class="mt-5 table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+                    class="space-y-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 relative rounded-lg">
+                    <header>
+                        <h2 class="text-base font-bold text-gray-900 dark:text-white mb-1">{{ $task->title }}</h2>
+                        <p class="text-sm font-medium text-gray-700 dark:text-gray-400">{{ $task->details }}</p>
+                    </header>
+
+                    <section class="flex items-center justify-end">
+                        <div class="flex-grow max-w-xs w-full">
+                            <label for="table-search" class="sr-only">Search</label>
+                            <div class="relative mt-1">
+                                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                    </svg>
+                                </div>
+                                <x-forms.text-input color="blue" type="search"
+                                    id="search-task-table" placeholder="Search Task..."
+                                    extraClass="pl-10 focus:border-blue-500"></x-forms.text-input>
+                            </div>
+                        </div>
+                    </section>
+                    <table class="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead
                             class="sticky top-0 text-sm text-gray-700 uppercase bg-blue-200 dark:bg-blue-200 dark:bg-opacity-50 dark:text-white whitespace-nowrap">
                             <tr>
@@ -139,20 +159,20 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="text-gray-600 dark:text-gray-200">
+                        Showing
+                        <span></span>
+                        to
+                        <span></span>
+                        of
+                        <span></span> Entries
+                    </div>
                 </div>
             </section>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-    <!--
-        task Chart Script
-        - Renders a task progress chart using ApexCharts.
-        - Dynamically adapts to Tailwind dark mode.
-        - Observes dark mode changes and updates chart colors accordingly.
-        - Destroys previous chart instance before re-rendering to prevent memory leaks.
-        - Chart progress (series) is currently hardcoded to 95 (DONE).
-    -->
     <script>
         // Returns ApexCharts options, adapting to dark mode
         const getChartOptions = () => {
