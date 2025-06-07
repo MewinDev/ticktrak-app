@@ -57,30 +57,7 @@
                     <h1 class="text-base font-bold leading-none text-gray-900 dark:text-white uppercase">
                         Add Milestones
                     </h1>
-                    <form method="POST" action="" class="space-y-4 mt-3">
-                        <!-- Description -->
-                        <div>
-                            <x-forms.text-area color="blue" name="description" id="description"
-                                fieldName="description" rows="4" placeholder="Description..." required
-                                extraClass="focus:border-blue-500"></x-forms.text-area>
-                            <x-forms.input-error :messages="$errors->get('description')" class="mt-2" />
-                        </div>
-
-                        <!-- Due Date -->
-                        <div class="w-full">
-                            <x-forms.input-label for="due_date" value="{{ __('Due Date (optional)') }}" />
-                            <x-forms.text-input color="blue" type="date" name="due_date" fieldName="due_date"
-                                x-model="selectedTask.due_date" id="due_date"
-                                extraClass="focus:border-blue-500"></x-forms.text-input>
-                            <x-forms.input-error :messages="$errors->get('due_date')" class="mt-2" />
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="flex justify-start space-x-3">
-                            <x-forms.button color="green" type="submit" name="update-tasks">Add
-                                Milestones</x-forms.button>
-                        </div>
-                    </form>
+                    <livewire:subtasks-form :task_id="$task->id" />
                 </div>
             </section>
 
@@ -97,15 +74,16 @@
                         <div class="flex-grow max-w-xs w-full">
                             <label for="table-search" class="sr-only">Search</label>
                             <div class="relative mt-1">
-                                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <div
+                                    class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                     </svg>
                                 </div>
-                                <x-forms.text-input color="blue" type="search"
-                                    id="search-task-table" placeholder="Search Task..."
+                                <x-forms.text-input color="blue" type="search" id="search-task-table"
+                                    placeholder="Search Task..."
                                     extraClass="pl-10 focus:border-blue-500"></x-forms.text-input>
                             </div>
                         </div>

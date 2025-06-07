@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subtasks', function (Blueprint $table) {
+        Schema::create('sub_tasks', function (Blueprint $table) {
             $table->id();
             $table->text('description');
             $table->boolean('is_complete')->nullable()->default(false);
             $table->date('due_date')->nullable();
             $table->timestamps();
-            $table->foreignId('task_id')->nullable()->contrained('tasks')->onDelete('set null');
+            $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subtasks');
+        Schema::dropIfExists('sub_tasks');
     }
 };

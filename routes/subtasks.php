@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\SubTaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::middleware(['auth', 'throttle:1000,1'])->prefix('tasks')->controller(TaskController::class)->name('tasks.')->group(function () {
-    Route::get('/', 'index')->name('index');
-    Route::get('/{taskId}', 'show')->name('show');
+Route::middleware(['auth', 'throttle:100,1'])->prefix('tasks')->controller(SubTaskController::class)->name('subtasks.')->group(function () {
+    Route::post('/{taskId}', 'store')->name('store');
 });
-
-require __DIR__.'/subtasks.php';

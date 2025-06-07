@@ -10,7 +10,7 @@ class SubTask extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['description', 'is_complete', 'due_date', 'task_id'];
+    protected $fillable = ['description', 'due_date', 'task_id'];
 
     /**
      * Get the task that owns the SubTask

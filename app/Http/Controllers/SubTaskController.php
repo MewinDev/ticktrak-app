@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\SubTaskRequest;
+use App\Models\SubTask;
 
 class SubTaskController extends Controller
 {
-    public function store(Request $request, SubTaskServices $subTaskServices, $taskId)
+    public function store(SubTaskRequest $request, $taskId)
     {
-        $allSubTasks = $subTaskServices->getAllSubTasks($request, $taskId);
-
-        return redirect()->route('tasks.show')->with('success', "Create Milestones Successfully!");
+        $validated = $request->validated();
+        $validated['task_id'] = $taskId;
+        
+        SubTask::create($validated);
+        
+        return redirect()->route('tasks.show', $taskId)->with('success', "Create Milestones Successfully!");
     }
 }

@@ -11,7 +11,13 @@
     {{-- Favicon --}}
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon">
 
-    <!-- Scripts -->
+    {{-- Livewire Styles --}}
+    @livewireStyles
+
+    {{-- Vite CSS & JS --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- Dark mode toggle --}}
     <script>
         if (
             localStorage.getItem('color-theme') === 'dark' ||
@@ -22,11 +28,10 @@
             document.documentElement.classList.remove('dark');
         }
     </script>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased font-abz bg-white">
-    <div x-data="" class="min-h-screen dark:bg-gray-900">
+    <div x-data class="min-h-screen dark:bg-gray-900">
         <header x-data="{ open: false }" @click.outside="open = false">
             @include('layouts.navigation')
             @include('layouts.aside')
@@ -40,18 +45,17 @@
         </main>
     </div>
 
-    <x-templates.alert-message></x-templates.alert-message>
+    {{-- Alert Message Component --}}
+    <x-templates.alert-message />
 
-    @stack('scripts')
-
+    {{-- Flowbite (optional UI library) --}}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 
-</body>
+    {{-- Livewire Scripts --}}
+    @livewireScripts
 
-{{-- <footer
-    class="z-20 p-4 sm:ml-64 bg-white border-t border-gray-200 shadow-sm md:flex md:items-center md:justify-center dark:bg-gray-800 dark:border-gray-600 uppercase">
-    <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {{ now()->year }} <a href="/"
-            class="hover:underline">blog</a>. All Rights Reserved.</span>
-</footer> --}}
+    {{-- Additional Scripts --}}
+    @stack('scripts')
+</body>
 
 </html>
