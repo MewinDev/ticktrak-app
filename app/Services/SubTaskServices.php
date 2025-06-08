@@ -15,10 +15,7 @@ class SubTaskServices
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                ->orWhere('details', 'like', "%{$search}%")
-                ->orWhere('status', 'like', "%{$search}%")
-                ->orWhere('priority', 'like', "%{$search}%")
+                $q->where('description', 'like', "%{$search}%")
                 ->orWhereRaw("DATE_FORMAT(due_date, '%M %e, %Y') like ?", ["%{$search}%"]);
             });
         }
@@ -26,7 +23,7 @@ class SubTaskServices
         return $query;
     }
 
-    public function getAllSubTasksByTaskId(Request $request, $taskId) {
+    public function getAllSubTasksByTaskId($request, $taskId) {
         return $this->queryBuilder($request, $taskId)->get();
     }
 }
