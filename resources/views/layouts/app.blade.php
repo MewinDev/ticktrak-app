@@ -11,13 +11,7 @@
     {{-- Favicon --}}
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon">
 
-    {{-- Livewire Styles --}}
-    @livewireStyles
-
-    {{-- Vite CSS & JS --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- Dark mode toggle --}}
+    <!-- Scripts -->
     <script>
         if (
             localStorage.getItem('color-theme') === 'dark' ||
@@ -45,17 +39,38 @@
         </main>
     </div>
 
-    {{-- Alert Message Component --}}
-    <x-templates.alert-message />
+    <x-templates.alert-message></x-templates.alert-message>
+    
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('taskEvents', {
+                reload: false,
+            });
 
-    {{-- Flowbite (optional UI library) --}}
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+            Alpine.store('toast', {
+                show: false, // Default to false
+                message: '', // Default message
+                type: '', // Set as empty to avoid undefined
+                trigger(message, type = 'success') {
+                    console.log('Toast triggered:', message, type);
+                    this.message = message;
+                    this.type = type;
+                    this.show = true;
+                    setTimeout(() => this.show = false, 3000);
+                }
+            });
+        });
+    </script>
 
-    {{-- Livewire Scripts --}}
-    @livewireScripts
-
-    {{-- Additional Scripts --}}
     @stack('scripts')
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
+
+<footer
+    class="z-20 p-4 sm:ml-64 bg-white border-t border-gray-200 shadow-sm md:flex md:items-center md:justify-center dark:bg-gray-800 dark:border-gray-600 uppercase">
+    <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {{ now()->year }} <a href="/"
+            class="hover:underline">blog</a>. All Rights Reserved.</span>
+</footer>
 
 </html>
