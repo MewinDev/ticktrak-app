@@ -23,7 +23,7 @@ class SubTaskRequest extends FormRequest
     {
         return [
             'description' => ['required', 'string', 'max:1000'],
-            'is_complete' => ['required', 'boolean'],
+            'is_complete' => ['nullable', 'boolean'],
             'due_date' => ['date', 'nullable']
         ];
     }
