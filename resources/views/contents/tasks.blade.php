@@ -147,9 +147,9 @@
     </script>
 
     <script>
-        function taskForm(mode, selectedTask) {
+        function taskForm(action, selectedTask) {
             return {
-                mode,
+                action,
                 errors: {},
                 loading: true,
                 form: {
@@ -164,24 +164,24 @@
                     this.errors = {};
                     this.loading = true;
                     const taskId = this.selectedTask?.id;
-                    if (this.mode === 'update' || this.mode === 'delete') {
+                    if (this.action === 'update' || this.action === 'delete') {
                         this.form.id = taskId;
                     }
-                    if (this.mode === 'update') {
+                    if (this.action === 'update') {
                         this.form.title = this.selectedTask.title;
                         this.form.priority = this.selectedTask.priority;
                         this.form.due_date = this.selectedTask.due_date;
                         this.form.details = this.selectedTask.details;
                     }
-                    if (this.mode === 'delete') {
+                    if (this.action === 'delete') {
                         this.form.title = this.selectedTask.title;
                     }
 
-                    const url = this.mode === 'update' || this.mode === 'delete' ?
+                    const url = this.action === 'update' || this.action === 'delete' ?
                         `/api/tasks/${taskId}` :
                         '/api/tasks';
 
-                    const method = this.mode === 'update' ? 'PUT' : this.mode === 'delete' ? 'DELETE' : 'POST';
+                    const method = this.action === 'update' ? 'PUT' : this.action === 'delete' ? 'DELETE' : 'POST';
 
                     try {
                         const response = await fetch(url, {
