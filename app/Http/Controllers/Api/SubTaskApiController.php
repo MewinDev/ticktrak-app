@@ -16,10 +16,10 @@ class SubTaskApiController extends Controller
      */
     public function index(Request $request, SubTaskServices $subTaskServices, string $taskId)
     {
-        $allSubTasks = $subTaskServices->getAllSubTasksByTaskId($request, $taskId);
+        $all_subtasks = $subTaskServices->getAllSubTasksByTaskId($request, $taskId);
 
         return response()->json([
-            'allSubTasks' => $allSubTasks
+            'all_subtasks' => $all_subtasks
         ]);
     }
 
