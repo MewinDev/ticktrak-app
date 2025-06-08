@@ -96,27 +96,6 @@
     </main>
 
     <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.store('taskEvents', {
-                reload: false,
-            });
-
-            Alpine.store('toast', {
-                show: false,
-                message: '',
-                type: '', // Set as empty to avoid undefined
-                trigger(message, type = 'success') {
-                    console.log('Toast triggered:', message, type);
-                    this.message = message;
-                    this.type = type;
-                    this.show = true;
-                    setTimeout(() => this.show = false, 3000);
-                }
-            });
-        });
-    </script>
-
-    <script>
         // Run toggleView as early as possible
         const savedView = localStorage.getItem('table-view') || 'table';
 

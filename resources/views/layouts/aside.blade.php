@@ -22,7 +22,7 @@
                         d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                 </svg>
             </div>
-            <x-forms.text-input color="gray" type="search" id="search" placeholder="Seach here..."
+            <x-forms.text-input color="gray" type="search" id="search-2" placeholder="Seach here..."
                 extraClass="block pl-10 w-full focus:border-gray-50" required></x-forms.text-input>
         </div>
 

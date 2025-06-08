@@ -22,10 +22,12 @@
             document.documentElement.classList.remove('dark');
         }
     </script>
+    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased font-abz bg-white">
-    <div x-data class="min-h-screen dark:bg-gray-900">
+    <div x-data="" class="min-h-screen dark:bg-gray-900">
         <header x-data="{ open: false }" @click.outside="open = false">
             @include('layouts.navigation')
             @include('layouts.aside')

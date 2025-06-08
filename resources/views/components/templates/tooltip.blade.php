@@ -12,7 +12,7 @@
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 translate-y-1"
         class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 z-50 px-5 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg "
-        style="white-space: nowrap;">
+        style="white-space: nowrap; display: none;">
 
         {{ $slot }}
 
