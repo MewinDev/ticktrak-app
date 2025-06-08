@@ -42,7 +42,7 @@ class SubTaskApiController extends Controller
     public function updateStatus(Request $request, $taskId, $subTaskId): JsonResponse
     {
         $subTasks = SubTask::findOrFail($subTaskId);
-        $subTasks->is_complete = $request->boolean('is_complete', true);
+        $subTasks->is_complete = $request->boolean('is_complete');
         $subTasks->save();
 
         return response()->json([
