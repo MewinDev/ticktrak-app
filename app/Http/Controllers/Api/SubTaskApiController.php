@@ -43,7 +43,7 @@ class SubTaskApiController extends Controller
     {
         $subTasks = SubTask::findOrFail($subTaskId);
         $subTasks->is_complete = $request->boolean('is_complete', true);
-        $subTask->save();
+        $subTasks->save();
 
         return response()->json([
             'message' => 'Mark as Complete Successfully',
