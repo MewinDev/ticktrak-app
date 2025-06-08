@@ -11,7 +11,7 @@ class SubTaskServices
 
         $search = $request->query('search');
 
-        $query = SubTask::query();
+        $query = SubTask::query()->where('task_id', $taskId);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -26,7 +26,7 @@ class SubTaskServices
         return $query;
     }
 
-    public function getAllSubTasks(Request $request, $taskId) {
-        return $this->queryBuilder($request)->get();
+    public function getAllSubTasksByTaskId(Request $request, $taskId) {
+        return $this->queryBuilder($request, $taskId)->get();
     }
 }

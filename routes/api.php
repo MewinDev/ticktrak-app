@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\TaskApiController;
+use App\Http\Controllers\Api\SubTaskApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +26,12 @@ Route::prefix('tasks')->controller(TaskApiController::class)->name('api.tasks.')
     Route::post('/', 'store')->name('store');
     Route::put('/{taskId}', 'update')->name('update');
     Route::delete('/{taskId}', 'destroy')->name('destroy');
+});
+
+Route::prefix('tasks/{taskId}/subtasks')->controller(SubTaskApiController::class)->name('api.subtasks.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/', 'store')->name('store');
+    Route::put('/{subtaskId}', 'update')->name('update');
+    Route::delete('/{subtaskId}', 'destroy')->name('destroy');
 });
 
