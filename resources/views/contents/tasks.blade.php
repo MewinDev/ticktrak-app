@@ -96,10 +96,10 @@
     </main>
 
     <script>
-        // Run toggleView as early as possible
+        // Load saved view early
         const savedView = localStorage.getItem('table-view') || 'table';
 
-        // This function applies the correct styles to a button
+        // Apply styles to buttons
         function updateButtonStyle(button, isActive) {
             const activeClasses = [
                 'bg-white', 'text-black', 'border-gray-300',
@@ -110,16 +110,14 @@
                 'dark:hover:bg-gray-700', 'dark:text-white', 'dark:hover:border-gray-600'
             ];
 
-            if (isActive) {
-                button.classList.remove(...inactiveClasses);
-                button.classList.add(...activeClasses);
-            } else {
-                button.classList.remove(...activeClasses);
-                button.classList.add(...inactiveClasses);
-            }
+            const addClasses = isActive ? activeClasses : inactiveClasses;
+            const removeClasses = isActive ? inactiveClasses : activeClasses;
+
+            button.classList.remove(...removeClasses);
+            button.classList.add(...addClasses);
         }
 
-        // This function switches between table and list views
+        // Switch between table and list view
         function toggleView(viewType) {
             const istable = viewType === 'table';
 
@@ -128,21 +126,24 @@
             const tableButton = document.getElementById('table-btn');
             const listButton = document.getElementById('list-btn');
 
-            // Use display block/none instead of hidden class
-            tableView.style.display = istable ? 'block' : 'none';
-            listView.style.display = istable ? 'none' : 'block';
+            // Batch style updates inside requestAnimationFrame
+            requestAnimationFrame(() => {
+                tableView.style.display = istable ? 'block' : 'none';
+                listView.style.display = istable ? 'none' : 'block';
 
-            updateButtonStyle(tableButton, istable);
-            updateButtonStyle(listButton, !istable);
+                updateButtonStyle(tableButton, istable);
+                updateButtonStyle(listButton, !istable);
+            });
 
             localStorage.setItem('table-view', viewType);
         }
 
-        // Ensure DOM content is fully loaded before selecting and toggling
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleView(savedView);
-            // Make it available globally
-            window.toggleView = toggleView;
+        // Wait for full DOM before running toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            requestAnimationFrame(() => {
+                toggleView(savedView);
+                window.toggleView = toggleView;
+            });
         });
     </script>
 
