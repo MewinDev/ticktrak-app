@@ -258,12 +258,11 @@
                 loading: false,
 
                 async loadSubTasks() {
+                    // this.loading = true;
 
                     const param = new URLSearchParams({
                         search: this.search,
                     });
-
-                    this.loading = true;
 
                     const url = `/api/tasks/${this.taskId}/subtasks?${param.toString()}`;
 
@@ -284,7 +283,16 @@
                         this.loading = false;
                     }
                     
-                }
+                },
+
+                formatDate(date) {
+                    if (!date) return '';
+                    return new Date(date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: '2-digit'
+                    });
+                },
             }
         }
     </script>

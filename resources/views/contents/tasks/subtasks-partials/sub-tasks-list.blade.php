@@ -11,7 +11,7 @@
                             stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
-                <x-forms.text-input color="blue" type="search" id="search-sub-task-table"
+                <x-forms.text-input x-model="search" @input.debounce.500ms="loadSubTasks()" color="blue" type="search" id="search-sub-task-table"
                     placeholder="Search Task..."
                     extraClass="pl-10 focus:border-blue-500"></x-forms.text-input>
             </div>
@@ -39,8 +39,8 @@
                             <td class="px-6 py-3">
                                 <span x-text="subTask.description"></span>
                             </td>
-                            <td class="px-6 py-3 w-1">
-                                <span></span>
+                            <td class="px-6 py-3">
+                                <span x-text="formatDate(subTask.due_date)"></span>
                             </td>
                             <td class="px-6 py-3 w-1">
                                 <div class="flex items-center">
@@ -66,11 +66,13 @@
                     </template>
                     
 
+                    <template x-if="subTasks.length === 0">
                         <tr class="text-center bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
                             <td colspan="100%" class="px-6 py-4 text-red-500 dark:text-red-500 text-sm">
                                 No sub-tasks available.
                             </td>
                         </tr>
+                    </template>
                     
                 </tbody>
             </table>
@@ -79,7 +81,7 @@
 
     <div class="text-gray-600 dark:text-gray-200">
         Showing
-        <span></span>
+        <span x-text="subTasks.length"></span>
         Entries
     </div>
 </main>
