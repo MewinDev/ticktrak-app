@@ -34,9 +34,9 @@ class SubTaskApiController extends Controller
         $subTasks = SubTask::create($validate);
         
         return response()->json([
-            'message' => 'SubTask Created Successfully',
+            'message' => 'Sub-task Created Successfully',
             'subTasks' => $subTasks,
-        ]);
+        ], 201);
     }
 
     public function updateStatus(Request $request, $taskId, $subTaskId): JsonResponse
@@ -47,7 +47,17 @@ class SubTaskApiController extends Controller
 
         return response()->json([
             'message' => 'Mark as Complete Successfully',
-        ]);
+        ], 200);
+    }
+
+    public function destroy(Request $request, $taskId, $subTaskId): JsonResponse
+    {
+        $subTasks = SubTask::findOrFail($subTaskId);
+        $subTasks->delete();
+
+        return response()->json([
+            'message' => "Sub-task Delete Successfully",
+        ], 200);
     }
 
 }
