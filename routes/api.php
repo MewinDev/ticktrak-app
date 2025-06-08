@@ -32,6 +32,6 @@ Route::prefix('tasks/{taskId}/subtasks')->controller(SubTaskApiController::class
     Route::get('/', 'index')->name('index');
     Route::post('/', 'store')->name('store');
     Route::put('/{subtaskId}', 'update')->name('update');
+    Route::patch('/{subtaskId}', 'updateStatus')->name('updateStatus');
     Route::delete('/{subtaskId}', 'destroy')->name('destroy');
 });
-
