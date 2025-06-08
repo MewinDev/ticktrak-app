@@ -18,12 +18,12 @@
         </div>
     </section>
     <template x-if="!loading">
-        <div class="overflow-x-auto relative rounded-t-lg">
+        <div class="overflow-auto h-[28rem] relative rounded-t-lg">
             <table class="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead
-                    class="sticky top-0 text-sm text-gray-700 uppercase bg-green-200 dark:bg-green-200 dark:bg-opacity-50 dark:text-white whitespace-nowrap">
+                    class="sticky top-0 text-sm z-30 text-gray-700 uppercase bg-green-200 dark:bg-green-300 dark:text-gray-900 whitespace-nowrap">
                     <tr>
-                        <th class="px-6 py-3 w-1">#</th>
+                        <th class="px-6 py-3 w-1"></th>
                         <th class="px-6 py-3">Description</th>
                         <th class="px-6 py-3">Deadline</th>
                         <th class="px-6 py-3"></th>
@@ -33,12 +33,16 @@
                     <template x-for="(subTask, index) in subTasks" :key="subTask.id">
                         <tr
                             class="group bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 whitespace-nowrap">
-                            <td class="px-6 py-3 w-1 text-gray-900 dark:text-white">
-                                <input type="checkbox" :checked="subTask.is_complete" @change="subTask.is_complete = !subTask.is_complete; updateChart()">
-                                <span x-text="index + 1"></span>
+                            <td class="px-6 py-3 w-1">
+                                <input type="checkbox"  :checked="subTask.is_complete" @change="updateStatus(subTask.id, subTask.is_complete)" class="cursor-pointer w-4 h-4 text-green-600 group-hover:border-green-500 bg-gray-100 border-gray-300 rounded-sm focus:ring-green-500 dark:text-green-600 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2" :class="{'dark:bg-gray-700 dark:border-gray-600' : subTask.is_complete === 0 }">
                             </td>
                             <td class="px-6 py-3">
-                                <span x-text="subTask.description"></span>
+                                <div x-data="{ expanded: false }" @click.outside="expanded = false" class="relative">
+                                <p @click="expanded = true"
+                                    class="cursor-pointer w-52 xl:w-full overflow-hidden transition-all duration-300 ease-in-out"
+                                    :class="expanded ? 'max-h-[1000px]' : 'line-clamp-3'" x-text="subTask.description">
+                                </p>
+                            </div>
                             </td>
                             <td class="px-6 py-3">
                                 <span x-text="formatDate(subTask.due_date)"></span>
@@ -48,7 +52,7 @@
 
                                     <x-templates.tooltip>
                                         <x-slot name="trigger">
-                                            <button type="button"
+                                            <button type="button" @click="selectedSubTask = JSON.parse(JSON.stringify(subTask)); $dispatch('open-modal', 'delete-subtasks-modal')"
                                                 class="text-gray-500 group-hover:text-red-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-2.5 rounded-lg hover:animate-wiggle">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -85,4 +89,26 @@
         <span x-text="subTasks.length"></span>
         Entries
     </div>
+
+    <x-modal :header="false" maxWidth="lg" title="Delete Task" name="delete-subtasks-modal">
+        <div class="my-2" x-data="subTaskForm('delete','{{ $task->id }}', selectedSubTask)">
+            <form @submit.prevent="submit" class="space-y-4 ">
+                <div class="flex flex-col items-center justify-center space-y-5">
+                    <svg class='text-red-500 dark:text-red-500 w-14 h-14' viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 8V12M12 16H12.01M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <p class="mb-5 text-center text-gray-500 dark:text-gray-300">Are you sure you want to delete
+                        this item?</p>
+                </div>
+                <div class="flex justify-center items-center space-x-4">
+                    <x-forms.button color="gray" type="button"
+                        @click="$dispatch('close')">Cancel</x-forms.button>
+                    <x-forms.button color="red" type="submit" name="delete-tasks">Yes, I'm sure</x-forms.button>
+                </div>
+            </form>
+        </div>
+    </x-modal>
 </main>

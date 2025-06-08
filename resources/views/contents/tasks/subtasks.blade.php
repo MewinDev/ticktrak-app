@@ -44,9 +44,9 @@
                                 </h2>
                                 <p class="text-sm text-gray-700 dark:text-gray-400 ml-2">Priority:</p>
                             </div>
-                            <div class="flex flex-col items-end">
+                            <div class="flex flex-col items-end ">
                                 <h2 class="mb-2 text-sm font-bold text-gray-900 dark:text-white">
-                                    <span class="font-normal">{{ date('F d, Y', strtotime($task->due_date)) }}</span>
+                                    <span class="font-normal">{{ !empty($task->due_date) ? date('F d, Y', strtotime($task->due_date)) : 'Unknown' }}</span>
                                 </h2>
                                 <p class="text-sm text-gray-700 dark:text-gray-400">Deadline:</p>
                             </div>
@@ -79,10 +79,9 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
-        function subTaskForm(action, taskId, selectedSubTask = null) {
+        function subTaskForm(action, taskId, selectedSubTask) {
             return {
                 action,
-                selectedSubTask,
                 errors: {},
                 loading: false,
                 form: {
@@ -93,6 +92,7 @@
                 async submit() {
                     this.errors = {};
                     this.loading = true;
+                    
                     const subTaskId = this.selectedSubTask?.id;
 
                     const url = this.action === 'update' || this.action === 'delete'
@@ -113,8 +113,6 @@
                         });
 
                         const data = await response.json();
-                        console.log('Response Data:', data);
-                        
                         if(!response.ok) {
                             if(response.status === 422) {
                                 this.errors = data.errors
@@ -128,6 +126,7 @@
                         this.resetForm();
                         Alpine.store('toast').trigger(this.message, this.type);
                         Alpine.store('taskEvents').reload = Date.now();
+                        this.$dispatch('close');
                     }
                     catch(error) {
                         console.log('Error:', error);
@@ -158,7 +157,7 @@
             return {
                 taskId,
                 subTasks: [],
-                selectedSubTasks: {},
+                selectedSubTask: {},
                 search: '',
                 loading: false,
 
@@ -178,8 +177,6 @@
                         }
 
                         const data = await response.json();
-                        console.log(data.all_subtasks);
-                        
                         this.subTasks = data.all_subtasks;
 
                         this.updateChart();
@@ -190,6 +187,30 @@
                         this.loading = false;
                     }
                     
+                },
+
+                async updateStatus(subTaskId, status) {
+                    const url = `/api/tasks/${this.taskId}/subtasks/${subTaskId}`;
+
+                    try {
+                        const response = await fetch(url, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Accept: 'application/json',
+                            },
+                            body: JSON.stringify({is_complete: !status}),
+                        });
+
+                        if(!response.ok) {
+                            throw new Error('Failed to update status to completed');
+                        }
+
+                        await this.loadSubTasks();
+                    } catch (error) {
+                        console.log('Update Error', error);
+                        Alpine.store('toast').trigger('Failed to update status', 'error');
+                    }
                 },
 
                 formatDate(date) {
@@ -204,7 +225,6 @@
                 getProgress(){
                     if(this.subTasks.length === 0) return 0;
                     const completed = this.subTasks.filter(st => st.is_complete).length;
-                    console.log(completed);
                     
                     return Math.round((completed / this.subTasks.length) * 100);
                 },
@@ -252,7 +272,7 @@
                         },
                         hollow: {
                             margin: 0,
-                            size: "50%",
+                            size: "60%",
                             background: isDark ? '#1f2937' : '#fff' // Hollow center color
                         }
                     },
