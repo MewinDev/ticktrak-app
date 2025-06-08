@@ -248,6 +248,45 @@
                 }
             }
         }
+
+        function subTaskTable(taskId) {
+            return {
+                taskId,
+                subTasks: [],
+                selectedSubTasks: {},
+                search: '',
+                loading: false,
+
+                async loadSubTasks() {
+
+                    const param = new URLSearchParams({
+                        search: this.search,
+                    });
+
+                    this.loading = true;
+
+                    const url = `/api/tasks/${this.taskId}/subtasks?${param.toString()}`;
+
+                    try {
+                        const response = await fetch(url);
+                        if(!response.ok) {
+                            throw new Error('Failed to fetch subTasks');
+                        }
+
+                        const data = await response.json();
+                        console.log(data.all_subtasks);
+                        
+                        this.subTasks = data.all_subtasks;
+                    } catch (error) {
+                        console.log('Error loading subTasks:', error);
+                        Alpine.store('toast').trigger('Failed to load sub-tasks.', 'error');
+                    } finally {
+                        this.loading = false;
+                    }
+                    
+                }
+            }
+        }
     </script>
 
 </x-app-layout>

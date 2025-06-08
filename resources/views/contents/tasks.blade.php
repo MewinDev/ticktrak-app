@@ -243,28 +243,33 @@
                 selectedTask: {},
                 loading: false,
                 search: '',
-                loading: false,
 
-                loadTasks() {
+                async loadTasks() {
 
                     const params = new URLSearchParams({
                         search: this.search,
                     });
 
-                    this.loading = true,
-                        fetch(`/api/tasks?${params.toString()}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const all = data.all_tasks;
+                    this.loading = true;
 
-                            this.tasks = all;
-                            setTimeout(() => {
-                                this.loading = false;
-                            }, 200);
-                        })
-                        .catch(() => {
-                            this.loading = false;
-                        })
+                    const url = `/api/tasks?${param.toString()}`;
+
+                    try {
+                        const response = await fetch(url);
+
+                        if(!response.ok) {
+                            throw new Error('Failed to fetch tasks list');
+                        }
+
+                        const data = await response.json();
+                        this.tasks = data.all_tasks;
+                    } catch (error) {
+                        console.log('Error Response:', error);
+                        Alpine.store('toast').trigger('Failed to load tasks.', 'error');
+                        
+                    } finally {
+                        this.loading = false;
+                    }
 
                 },
 
@@ -294,7 +299,7 @@
                     total: 0,
                 },
 
-                loadTasks(page = 1) {
+                async loadTasks(page = 1) {
                     // this.loading = true;
 
                     const params = new URLSearchParams({
@@ -303,21 +308,31 @@
                         search: this.search,
                     });
 
-                    fetch(`/api/tasks?${params.toString()}`)
-                        .then(response => response.json())
-                        .then(data => {
+                    const url = `/api/tasks?${params.toString()}`;
 
-                            const paginated = data.paginated_tasks;
+                    try {
+                        const response = await fetch(url);
 
-                            this.tasks = paginated.data;
-                            this.pagination.current_page = paginated.current_page;
-                            this.pagination.last_page = paginated.last_page;
-                            this.pagination.per_page = paginated.per_page;
-                            this.pagination.total = paginated.total;
-                        })
-                        .catch(() => {
-                            this.loading = false;
-                        });
+                        if(!response.ok) {
+                            throw new Error('Failed to fetch task table');
+                        }
+
+                        const data = await response.json();
+
+                        const paginated = data.paginated_tasks;
+
+                        this.tasks = paginated.data;
+                        this.pagination.current_page = paginated.current_page;
+                        this.pagination.last_page = paginated.last_page;
+                        this.pagination.per_page = paginated.per_page;
+                        this.pagination.total = paginated.total;
+
+                    } catch (error) {
+                        console.log('Error Response:', error);
+                        Alpine.store('toast').trigger('Failed to load tasks.', 'error');
+                    } finally {
+                        this.loading = false;
+                    }
                 },
 
                 formatDate(date) {
