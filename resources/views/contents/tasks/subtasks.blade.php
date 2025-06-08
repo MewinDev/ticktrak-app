@@ -79,101 +79,6 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
-        // Returns ApexCharts options, adapting to dark mode
-        const getChartOptions = () => {
-            // Detect dark mode using Tailwind's dark class on html or body
-            const isDark = document.documentElement.classList.contains('dark') || document.body.classList.contains(
-                'dark');
-            return {
-                series: [95], // Progress value (hardcoded, replace with dynamic value if needed)
-                colors: ["#0E9F6E"], // Chart color based on mode
-                chart: {
-                    type: "radialBar",
-                    sparkline: {
-                        enabled: true
-                    },
-                },
-                plotOptions: {
-                    radialBar: {
-                        track: {
-                            background: isDark ? '#374151' : '#E5E7EB', // Track color
-                        },
-                        dataLabels: {
-                            show: true,
-                            name: {
-                                color: isDark ? '#fff' : '#111827'
-                            }, // Label color
-                            value: {
-                                color: isDark ? '#fff' : '#111827'
-                            } // Value color
-                        },
-                        hollow: {
-                            margin: 0,
-                            size: "50%",
-                            background: isDark ? '#1f2937' : '#fff' // Hollow center color
-                        }
-                    },
-                },
-                grid: {
-                    show: true,
-                    strokeDashArray: 1
-                },
-                labels: ["Completed"], // Chart label
-                legend: {
-                    show: false,
-                    position: "left",
-                    labels: {
-                        colors: isDark ? '#fff' : '#111827'
-                    }
-                },
-                tooltip: {
-                    enabled: false,
-                    theme: isDark ? 'dark' : 'light',
-                    x: {
-                        show: false
-                    },
-                },
-                yaxis: {
-                    show: false,
-                    labels: {
-                        formatter: function(value) {
-                            return value + '%';
-                        },
-                        style: {
-                            colors: isDark ? '#fff' : '#111827'
-                        }
-                    }
-                }
-            }
-        }
-
-        // Renders the radial chart, destroying previous instance if exists
-        function renderTaskChart() {
-            if (document.getElementById("task-chart") && typeof ApexCharts !== 'undefined') {
-                // Destroy previous chart if exists
-                if (window.taskChartInstance) {
-                    window.taskChartInstance.destroy();
-                }
-                window.taskChartInstance = new ApexCharts(document.querySelector("#task-chart"), getChartOptions());
-                window.taskChartInstance.render();
-            }
-        }
-
-        // Initial render on page load
-        renderTaskChart();
-
-        // Listen for dark mode changes (Tailwind dark mode toggling)
-        // Re-render chart when dark mode class changes
-        const observer = new MutationObserver(() => {
-            renderTaskChart();
-        });
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['class']
-        });
-    </script>
-
-    <script>
         function subTaskForm(action, taskId, selectedSubTask = null) {
             return {
                 action,
@@ -276,6 +181,8 @@
                         console.log(data.all_subtasks);
                         
                         this.subTasks = data.all_subtasks;
+
+                        this.updateChart();
                     } catch (error) {
                         console.log('Error loading subTasks:', error);
                         Alpine.store('toast').trigger('Failed to load sub-tasks.', 'error');
@@ -293,8 +200,121 @@
                         day: '2-digit'
                     });
                 },
+
+                getProgress(){
+                    if(this.subTasks.length === 0) return 0;
+                    const completed = this.subTasks.filter(st => st.is_complete).length;
+                    console.log(completed);
+                    
+                    return Math.round((completed / this.subTasks.length) * 100);
+                },
+
+                updateChart() {
+                    const progress = this.getProgress();
+                    window.currentProgress = progress;
+                    if (window.taskChartInstance) {
+                        window.taskChartInstance.updateSeries([this.getProgress()]);
+                    }
+                }
             }
         }
     </script>
+
+    <script>
+        // Returns ApexCharts options, adapting to dark mode
+        const getChartOptions = () => {
+            // Detect dark mode using Tailwind's dark class on html or body
+            const isDark = document.documentElement.classList.contains('dark') || document.body.classList.contains(
+                'dark');
+            const progress = window.currentProgress || 0;
+            return {
+                series: [progress],
+                colors: ["#0E9F6E"], // Chart color based on mode
+                chart: {
+                    type: "radialBar",
+                    sparkline: {
+                        enabled: true
+                    },
+                },
+                plotOptions: {
+                    radialBar: {
+                        track: {
+                            background: isDark ? '#374151' : '#E5E7EB', // Track color
+                        },
+                        dataLabels: {
+                            show: true,
+                            name: {
+                                color: isDark ? '#fff' : '#111827'
+                            }, // Label color
+                            value: {
+                                color: isDark ? '#fff' : '#111827'
+                            } // Value color
+                        },
+                        hollow: {
+                            margin: 0,
+                            size: "50%",
+                            background: isDark ? '#1f2937' : '#fff' // Hollow center color
+                        }
+                    },
+                },
+                grid: {
+                    show: true,
+                    strokeDashArray: 1
+                },
+                labels: ["Completed"], // Chart label
+                legend: {
+                    show: false,
+                    position: "left",
+                    labels: {
+                        colors: isDark ? '#fff' : '#111827'
+                    }
+                },
+                tooltip: {
+                    enabled: false,
+                    theme: isDark ? 'dark' : 'light',
+                    x: {
+                        show: false
+                    },
+                },
+                yaxis: {
+                    show: false,
+                    labels: {
+                        formatter: function(value) {
+                            return value + '%';
+                        },
+                        style: {
+                            colors: isDark ? '#fff' : '#111827'
+                        }
+                    }
+                }
+            }
+        }
+
+        // Renders the radial chart, destroying previous instance if exists
+        function renderTaskChart() {
+            if (document.getElementById("task-chart") && typeof ApexCharts !== 'undefined') {
+                // Destroy previous chart if exists
+                if (window.taskChartInstance) {
+                    window.taskChartInstance.destroy();
+                }
+                window.taskChartInstance = new ApexCharts(document.querySelector("#task-chart"), getChartOptions());
+                window.taskChartInstance.render();
+            }
+        }
+
+        // Initial render on page load
+        renderTaskChart();
+
+        // Listen for dark mode changes (Tailwind dark mode toggling)
+        // Re-render chart when dark mode class changes
+        const observer = new MutationObserver(() => {
+            renderTaskChart();
+        });
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    </script>
+
 
 </x-app-layout>

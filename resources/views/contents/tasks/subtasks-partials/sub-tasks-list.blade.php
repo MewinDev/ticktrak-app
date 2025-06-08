@@ -34,6 +34,7 @@
                         <tr
                             class="group bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 whitespace-nowrap">
                             <td class="px-6 py-3 w-1 text-gray-900 dark:text-white">
+                                <input type="checkbox" :checked="subTask.is_complete" @change="subTask.is_complete = !subTask.is_complete; updateChart()">
                                 <span x-text="index + 1"></span>
                             </td>
                             <td class="px-6 py-3">
