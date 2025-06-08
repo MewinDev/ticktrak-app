@@ -17,6 +17,7 @@ class TaskController extends Controller
     public function show(string $taskId) {
 
         $task = Task::findOrFail($taskId);
-        return view('contents.tasks.subtasks', ['task' => $task]);
+        $subTasks = $task->subTasks;
+        return view('contents.tasks.subtasks', compact('task', 'subTasks'));
     }
 }

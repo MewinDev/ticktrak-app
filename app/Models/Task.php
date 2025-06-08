@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\SubTask;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\SubTask;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Task extends Model
 {
@@ -13,12 +14,12 @@ class Task extends Model
     protected $fillable = ['title', 'details', 'priority', 'status', 'due_date'];
 
     /**
-     * The subtask that belong to the Task
+     * Get all of the subTasks for the Task
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function subTask(): BelongsToMany
+    public function subTasks(): HasMany
     {
-        return $this->belongsToMany(SubTask::class);
+        return $this->hasMany(SubTask::class);
     }
 }
