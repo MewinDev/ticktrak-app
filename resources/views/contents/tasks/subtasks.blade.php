@@ -11,8 +11,8 @@
                 <div class="flex flex-col sm:flex-row xl:flex-col gap-6 w-full xl:col-span-1 order-1">
                     <div
                         class="flex-grow w-full bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5">
-                        <h1 class="text-base text-center font-bold leading-none text-gray-900 dark:text-white">
-                            Task progress
+                        <h1 class="text-base text-center font-bold leading-none text-gray-900 dark:text-white uppercase">
+                            Milestones progress
                         </h1>
                         <!-- Task Chart -->
                         <div class="text-white dark:text-white 2xl:-mt-2" id="task-chart"></div>
@@ -72,7 +72,14 @@
                         <h2 class="text-base font-bold text-gray-900 dark:text-white mb-1">{{ $task->title }}</h2>
                         <p class="text-sm font-medium text-gray-700 dark:text-gray-400">{{ $task->details }}</p>
                     </header>
-                    @include('contents.tasks.subtasks-partials.sub-tasks-list')
+                    <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                    <div>
+                        <p class="text-blue-500 dark:text-blue-300 text-sm md:text-base mb-2">
+                            <strong>Note:</strong>
+                            Please check the box after completing a task.
+                        </p>
+                        @include('contents.tasks.subtasks-partials.sub-tasks-list')
+                    </div>
                 </div>
             </section>
         </div>
