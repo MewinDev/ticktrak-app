@@ -20,6 +20,8 @@ class SubTaskServices
             });
         }
 
+        $query->orderByRaw('CASE WHEN due_date IS NOT NULL THEN 0 ELSE 1 END')->orderBy('due_date', 'asc');
+
         return $query;
     }
 
