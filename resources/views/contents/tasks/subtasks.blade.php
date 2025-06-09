@@ -46,7 +46,8 @@
                             </div>
                             <div class="flex flex-col items-end ">
                                 <h2 class="mb-2 text-sm font-bold text-gray-900 dark:text-white">
-                                    <span class="font-normal">{{ !empty($task->due_date) ? date('F d, Y', strtotime($task->due_date)) : 'Unknown' }}</span>
+                                    <span
+                                        class="font-normal">{{ !empty($task->due_date) ? date('F d, Y', strtotime($task->due_date)) : 'No Set Date' }}</span>
                                 </h2>
                                 <p class="text-sm text-gray-700 dark:text-gray-400">Deadline:</p>
                             </div>
@@ -92,12 +93,12 @@
                 async submit() {
                     this.errors = {};
                     this.loading = true;
-                    
+
                     const subTaskId = this.selectedSubTask?.id;
 
-                    const url = this.action === 'update' || this.action === 'delete'
-                        ? `/api/tasks/${taskId}/subtasks/${subTaskId}`
-                        : `/api/tasks/${taskId}/subtasks`;
+                    const url = this.action === 'update' || this.action === 'delete' ?
+                        `/api/tasks/${taskId}/subtasks/${subTaskId}` :
+                        `/api/tasks/${taskId}/subtasks`;
 
                     const method = this.action === 'update' ? 'PUT' : this.action === 'delete' ? 'DELETE' : 'POST';
 
@@ -107,14 +108,15 @@
                             headers: {
                                 'Content-Type': 'application/json',
                                 Accept: 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
                             },
                             body: JSON.stringify(this.form),
                         });
 
                         const data = await response.json();
-                        if(!response.ok) {
-                            if(response.status === 422) {
+                        if (!response.ok) {
+                            if (response.status === 422) {
                                 this.errors = data.errors
                             }
                             return;
@@ -127,15 +129,13 @@
                         Alpine.store('toast').trigger(this.message, this.type);
                         Alpine.store('taskEvents').reload = Date.now();
                         this.$dispatch('close');
-                    }
-                    catch(error) {
+                    } catch (error) {
                         console.log('Error:', error);
                         Alpine.store('toast').trigger('An error occurred while processing your request.', 'error');
                         this.message = 'An error occurred while processing your request.';
                         this.type = 'error';
                         this.show = true;
-                    }
-                    finally {
+                    } finally {
                         setTimeout(() => {
                             this.loading = false;
                         }, 2000);
@@ -172,7 +172,7 @@
 
                     try {
                         const response = await fetch(url);
-                        if(!response.ok) {
+                        if (!response.ok) {
                             throw new Error('Failed to fetch subTasks');
                         }
 
@@ -186,7 +186,7 @@
                     } finally {
                         this.loading = false;
                     }
-                    
+
                 },
 
                 async updateStatus(subTaskId, status) {
@@ -199,10 +199,12 @@
                                 'Content-Type': 'application/json',
                                 Accept: 'application/json',
                             },
-                            body: JSON.stringify({is_complete: !status}),
+                            body: JSON.stringify({
+                                is_complete: !status
+                            }),
                         });
 
-                        if(!response.ok) {
+                        if (!response.ok) {
                             throw new Error('Failed to update status to completed');
                         }
 
@@ -222,10 +224,10 @@
                     });
                 },
 
-                getProgress(){
-                    if(this.subTasks.length === 0) return 0;
+                getProgress() {
+                    if (this.subTasks.length === 0) return 0;
                     const completed = this.subTasks.filter(st => st.is_complete).length;
-                    
+
                     return Math.round((completed / this.subTasks.length) * 100);
                 },
 
