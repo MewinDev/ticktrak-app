@@ -190,8 +190,11 @@
                             headers: {
                                 'Content-Type': 'application/json',
                                 Accept: 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
                             },
                             body: JSON.stringify(this.form),
+                            credentials: 'include',
                         });
                         const data = await response.json();
 
@@ -257,7 +260,7 @@
                     try {
                         const response = await fetch(url);
 
-                        if(!response.ok) {
+                        if (!response.ok) {
                             throw new Error('Failed to fetch tasks list');
                         }
 
@@ -266,7 +269,7 @@
                     } catch (error) {
                         console.log('Error Response:', error);
                         Alpine.store('toast').trigger('Failed to load tasks.', 'error');
-                        
+
                     } finally {
                         this.loading = false;
                     }
@@ -313,7 +316,7 @@
                     try {
                         const response = await fetch(url);
 
-                        if(!response.ok) {
+                        if (!response.ok) {
                             throw new Error('Failed to fetch task table');
                         }
 

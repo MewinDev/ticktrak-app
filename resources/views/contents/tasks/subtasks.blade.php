@@ -204,11 +204,14 @@
                             method: 'PATCH',
                             headers: {
                                 'Content-Type': 'application/json',
-                                Accept: 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
                             },
                             body: JSON.stringify({
                                 is_complete: !status
                             }),
+                            credentials: 'include',
                         });
 
                         if (!response.ok) {
