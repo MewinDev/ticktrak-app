@@ -1,4 +1,4 @@
-<main x-data="subTaskTable({{ $task->id }})" x-init="loadSubTasks()" x-effect="$store.taskEvents.reload && loadSubTasks()" class="space-y-3">
+<main class="space-y-3">
     <section class="flex items-center justify-end">
         <div class="flex-grow max-w-xs w-full">
             <label for="search-sub-task-table" class="sr-only">Search</label>
@@ -69,7 +69,7 @@
                             </td>
                         </tr>
                     </template>
-                    
+
 
                     <template x-if="subTasks.length === 0">
                         <tr class="text-center bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
@@ -78,7 +78,7 @@
                             </td>
                         </tr>
                     </template>
-                    
+
                 </tbody>
             </table>
         </div>

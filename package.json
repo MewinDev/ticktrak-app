@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "apexcharts": "^3.46.0",
+        "canvas-confetti": "^1.9.3",
         "flowbite": "^3.1.2"
     }
 }

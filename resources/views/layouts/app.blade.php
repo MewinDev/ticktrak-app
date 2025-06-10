@@ -22,7 +22,7 @@
             document.documentElement.classList.remove('dark');
         }
     </script>
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -42,7 +42,7 @@
     </div>
 
     <x-templates.alert-message></x-templates.alert-message>
-    
+
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('taskEvents', {
@@ -67,6 +67,7 @@
     @stack('scripts')
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
 </body>
 
 <footer

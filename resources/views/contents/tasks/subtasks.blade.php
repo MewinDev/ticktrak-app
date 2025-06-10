@@ -3,15 +3,41 @@
         <x-templates.breadcrumb :breadcrumb="[['name' => 'Back', 'link' => route('tasks.index')], ['name' => 'Task Details']]" />
     </div>
 
-    <main class="pb-10">
-        <div class="mt-5 grid grid-cols-1 xl:grid-cols-4 gap-6">
+    <main x-data="subTaskTable({{ $task->id }})" x-init="loadSubTasks()" x-effect="$store.taskEvents.reload && loadSubTasks()"
+        class="pb-10">
+        <!-- Your alert -->
+        <div id="alert-complete" x-show="showCompleteAlert" x-transition:enter="transition ease-out duration-500"
+            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="flex items-center p-4 mt-4 text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400"
+            role="alert">
+            <svg class="shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M9 11L12 14L22 4M16 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V12"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="ms-3 text-sm -mb-1 font-medium">
+                Great! You've hit 100%. Mark this task as
+                <a href="#" class="font-semibold underline hover:no-underline">complete</a>
+                to make it official.
+            </div>
+        </div>
+
+
+        <div class="mt-4 grid grid-cols-1 xl:grid-cols-4 gap-6">
 
             <!-- Left: Progress/Details (should be first on all screens) -->
             <section>
                 <div class="flex flex-col sm:flex-row xl:flex-col gap-6 w-full xl:col-span-1 order-1">
                     <div
-                        class="flex-grow w-full bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5">
-                        <h1 class="text-base text-center font-bold leading-none text-gray-900 dark:text-white uppercase">
+                        class="relative flex-grow w-full bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5">
+
+                        <!-- Full-size Canvas -->
+                        <canvas class="absolute inset-0 w-full h-full z-0" id="my-canvas"></canvas>
+                        <h1
+                            class="text-base text-center font-bold leading-none text-gray-900 dark:text-white uppercase">
                             Milestones progress
                         </h1>
                         <!-- Task Chart -->
@@ -167,6 +193,7 @@
                 selectedSubTask: {},
                 search: '',
                 loading: false,
+                showCompleteAlert: false,
 
                 async loadSubTasks() {
                     // this.loading = true;
@@ -244,9 +271,39 @@
                 updateChart() {
                     const progress = this.getProgress();
                     window.currentProgress = progress;
+
                     if (window.taskChartInstance) {
-                        window.taskChartInstance.updateSeries([this.getProgress()]);
+                        window.taskChartInstance.updateSeries([progress]);
                     }
+
+                    this.showCompleteAlert = (progress === 100);
+
+                    if (progress === 100) {
+                        this.triggerConfetti(); // Corrected
+                    }
+                },
+
+                triggerConfetti() {
+                    const canvas = document.getElementById('my-canvas');
+                    if (!canvas) return;
+
+                    // Initialize confetti on the canvas only once
+                    if (!canvas.confetti) {
+                        canvas.confetti = confetti.create(canvas, {
+                            resize: false
+                        });
+                    }
+
+                    confetti({
+                        particleCount: 300,
+                        spread: 100,
+                        angle: 1, // shoots toward bottom-right
+                        origin: {
+                            x: -0.1,
+                            y: 0
+                        },
+                        startVelocity: 70
+                    });
                 }
             }
         }
@@ -347,6 +404,4 @@
             attributeFilter: ['class']
         });
     </script>
-
-
 </x-app-layout>
