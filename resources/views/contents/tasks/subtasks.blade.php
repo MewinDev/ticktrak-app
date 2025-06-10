@@ -33,9 +33,6 @@
                 <div class="flex flex-col sm:flex-row xl:flex-col gap-6 w-full xl:col-span-1 order-1">
                     <div
                         class="relative flex-grow w-full bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5">
-
-                        <!-- Full-size Canvas -->
-                        <canvas class="absolute inset-0 w-full h-full z-0" id="my-canvas"></canvas>
                         <h1
                             class="text-base text-center font-bold leading-none text-gray-900 dark:text-white uppercase">
                             Milestones progress

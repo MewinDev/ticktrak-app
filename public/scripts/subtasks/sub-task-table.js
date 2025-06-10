@@ -91,31 +91,17 @@ function subTaskTable(taskId) {
             this.showCompleteAlert = (progress === 100);
 
             if (progress === 100) {
-                this.triggerConfetti(); // Corrected
-            }
-        },
-
-        triggerConfetti() {
-            const canvas = document.getElementById('my-canvas');
-            if (!canvas) return;
-
-            // Initialize confetti on the canvas only once
-            if (!canvas.confetti) {
-                canvas.confetti = confetti.create(canvas, {
-                    resize: false
+                confetti({
+                    particleCount: 300,
+                    spread: 100,
+                    angle: 1, // shoots toward bottom-right
+                    origin: {
+                        x: -0.1,
+                        y: 0
+                    },
+                    startVelocity: 70
                 });
             }
-
-            confetti({
-                particleCount: 300,
-                spread: 100,
-                angle: 1, // shoots toward bottom-right
-                origin: {
-                    x: -0.1,
-                    y: 0
-                },
-                startVelocity: 70
-            });
-        }
+        },
     }
 }
