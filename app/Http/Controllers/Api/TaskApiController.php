@@ -61,6 +61,22 @@ class TaskApiController extends Controller
         ], 200);
     }
 
+    public function updateStatus(Request $request, $taskId): JsonResponse
+    {
+        $task = Task::findOrFail($taskId);
+        // Validate and update status from the request body
+        $validated = $request->validate([
+            'status' => 'required|string', // Adjust validation rules as needed
+        ]);
+
+        $task->status = $validated['status'];
+        $task->save();
+
+        return response()->json([
+            'message' => 'Task completed Successfully',
+        ], 200);
+    }
+
 
     public function destroy($taskId): JsonResponse
     {

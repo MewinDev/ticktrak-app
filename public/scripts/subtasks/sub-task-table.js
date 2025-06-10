@@ -3,7 +3,7 @@ function subTaskTable(taskId) {
         taskId,
         subTasks: [],
         selectedSubTask: {},
-        search: '',
+        search: "",
         loading: false,
         showCompleteAlert: false,
 
@@ -14,12 +14,14 @@ function subTaskTable(taskId) {
                 search: this.search,
             });
 
-            const url = `/api/tasks/${this.taskId}/subtasks?${param.toString()}`;
+            const url = `/api/tasks/${
+                this.taskId
+            }/subtasks?${param.toString()}`;
 
             try {
                 const response = await fetch(url);
                 if (!response.ok) {
-                    throw new Error('Failed to fetch subTasks');
+                    throw new Error("Failed to fetch subTasks");
                 }
 
                 const data = await response.json();
@@ -27,12 +29,14 @@ function subTaskTable(taskId) {
 
                 this.updateChart();
             } catch (error) {
-                console.log('Error loading subTasks:', error);
-                Alpine.store('toast').trigger('Failed to load sub-tasks.', 'error');
+                console.log("Error loading subTasks:", error);
+                Alpine.store("toast").trigger(
+                    "Failed to load sub-tasks.",
+                    "error"
+                );
             } finally {
                 this.loading = false;
             }
-
         },
 
         async updateAsComplete(subTaskId, status) {
@@ -40,72 +44,83 @@ function subTaskTable(taskId) {
 
             try {
                 const response = await fetch(url, {
-                    method: 'PATCH',
+                    method: "PATCH",
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content'),
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute("content"),
                     },
                     body: JSON.stringify({
-                        is_complete: !status
+                        is_complete: !status,
                     }),
-                    credentials: 'include',
+                    credentials: "include",
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to update status to completed');
+                    throw new Error("Failed to update status to completed");
                 }
 
                 await this.loadSubTasks();
             } catch (error) {
-                console.log('Update Error', error);
-                Alpine.store('toast').trigger('Failed to update status', 'error');
+                console.log("Update Error", error);
+                Alpine.store("toast").trigger(
+                    "Failed to update status",
+                    "error"
+                );
             }
         },
-
 
         async updateTaskStatus(status) {
             const url = `/api/tasks/${this.taskId}`;
 
             try {
                 const response = await fetch(url, {
-                    method: 'PATCH',
+                    method: "PATCH",
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content'),
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute("content"),
                     },
-                    body: JSON.stringify({
-                        is_complete: !status
-                    }),
-                    credentials: 'include',
+                    body: JSON.stringify({ status }),
+                    credentials: "include",
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to update status to completed');
+                    throw new Error("Failed to update status to completed");
                 }
 
-                await this.loadSubTasks();
+                this.message = data.message || "Task completed successfully";
+                this.type = "success";
+                this.show = true;
+                Alpine.store("toast").trigger(this.message, this.type);
+                this.$dispatch("close");
             } catch (error) {
-                console.log('Update Error', error);
-                Alpine.store('toast').trigger('Failed to update status', 'error');
+                console.log("Update Error", error);
+                Alpine.store("toast").trigger(
+                    "Failed to update status",
+                    "error"
+                );
             }
         },
 
         formatDate(date) {
-            if (!date) return '';
-            return new Date(date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: '2-digit'
+            if (!date) return "";
+            return new Date(date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "2-digit",
             });
         },
 
         getProgress() {
             if (this.subTasks.length === 0) return 0;
-            const completed = this.subTasks.filter(st => st.is_complete).length;
+            const completed = this.subTasks.filter(
+                (st) => st.is_complete
+            ).length;
 
             return Math.round((completed / this.subTasks.length) * 100);
         },
@@ -118,7 +133,7 @@ function subTaskTable(taskId) {
                 window.taskChartInstance.updateSeries([progress]);
             }
 
-            this.showCompleteAlert = (progress === 100);
+            this.showCompleteAlert = progress === 100;
 
             if (progress === 100) {
                 confetti({
@@ -127,11 +142,11 @@ function subTaskTable(taskId) {
                     angle: 1, // shoots toward bottom-right
                     origin: {
                         x: -0.1,
-                        y: 0
+                        y: 0,
                     },
-                    startVelocity: 70
+                    startVelocity: 70,
                 });
             }
         },
-    }
+    };
 }
