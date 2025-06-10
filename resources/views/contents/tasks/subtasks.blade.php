@@ -3,6 +3,10 @@
         <x-templates.breadcrumb :breadcrumb="[['name' => 'Back', 'link' => route('tasks.index')], ['name' => 'Task Details']]" />
     </div>
 
+    @php
+        $isComplete = $task->status === 'completed';
+    @endphp
+
     <main x-data="subTaskTable({{ $task->id }})" x-init="loadSubTasks()" x-effect="$store.taskEvents.reload && loadSubTasks()"
         class="pb-10">
         <!-- Your alert -->
@@ -10,7 +14,7 @@
             x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
             x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95"
-            class="flex items-center p-4 mt-4 text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400"
+            class="{{ $isComplete ? 'hidden' : 'flex'; }} items-center p-4 mt-4 text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400"
             role="alert">
             <svg class="shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path

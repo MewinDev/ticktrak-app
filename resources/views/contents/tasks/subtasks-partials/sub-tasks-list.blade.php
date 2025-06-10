@@ -33,9 +33,9 @@
                         <tr
                             class="group bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 whitespace-nowrap">
                             <td class="px-6 py-3 w-1">
-                                <input type="checkbox" :checked="subTask.is_complete"
+                                <input type="checkbox" {{ $isComplete ? 'disabled' : ''; }} :checked="subTask.is_complete"
                                     @change="updateAsComplete(subTask.id, subTask.is_complete)"
-                                    class="cursor-pointer w-4 h-4 text-green-600 group-hover:border-green-500 bg-gray-100 border-gray-300 rounded-sm focus:ring-green-500 dark:text-green-600 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2"
+                                    class="disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer w-4 h-4 text-green-600 group-hover:border-green-500 bg-gray-100 border-gray-300 rounded-sm focus:ring-green-500 dark:text-green-600 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2"
                                     :class="{ 'dark:bg-gray-700 dark:border-gray-600': subTask.is_complete === 0 }">
                             </td>
                             <td class="px-6 py-3">
@@ -55,9 +55,9 @@
 
                                     <x-templates.tooltip>
                                         <x-slot name="trigger">
-                                            <button type="button"
+                                            <button type="button" {{ $isComplete ? 'disabled' : ''; }}
                                                 @click="selectedSubTask = JSON.parse(JSON.stringify(subTask)); $dispatch('open-modal', 'delete-subtasks-modal')"
-                                                class="text-gray-500 group-hover:text-red-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-2.5 rounded-lg hover:animate-wiggle">
+                                                class="disabled:opacity-50 disabled:cursor-not-allowed text-gray-500 group-hover:text-red-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-2.5 rounded-lg hover:animate-wiggle">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                     class="size-6">

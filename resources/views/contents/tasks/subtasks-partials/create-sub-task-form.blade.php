@@ -16,7 +16,7 @@
 
         <!-- Actions -->
         <div class="pt-2">
-            <x-forms.button color="green" type="submit">Add Milestones</x-forms.button>
+            <x-forms.button color="green" type="submit" :disabled="$isComplete" >Add Milestones</x-forms.button>
 
         </div>
     </main>
