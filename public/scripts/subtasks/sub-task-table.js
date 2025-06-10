@@ -92,6 +92,7 @@ function subTaskTable(taskId) {
                 if (!response.ok) {
                     throw new Error("Failed to update status to completed");
                 }
+                const data = await response.json();
 
                 this.message = data.message || "Task completed successfully";
                 this.type = "success";
