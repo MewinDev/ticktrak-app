@@ -3,7 +3,7 @@ const getChartOptions = () => {
     // Detect dark mode using Tailwind's dark class on html or body
     const isDark = document.documentElement.classList.contains('dark') || document.body.classList.contains(
         'dark');
-    const progress = window.currentProgress || 0;
+     const progress = typeof window.currentProgress === 'number' ? window.currentProgress : 0;
     return {
         series: [progress],
         colors: ["#0E9F6E"], // Chart color based on mode
@@ -79,8 +79,9 @@ function renderTaskChart() {
     }
 }
 
-// Initial render on page load
-renderTaskChart();
+document.addEventListener("DOMContentLoaded", () => {
+    renderTaskChart();
+});
 
 // Listen for dark mode changes (Tailwind dark mode toggling)
 // Re-render chart when dark mode class changes

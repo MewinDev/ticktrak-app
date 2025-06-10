@@ -16,7 +16,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "apexcharts": "^3.46.0",
+        "apexcharts": "^3.54.1",
         "canvas-confetti": "^1.9.3",
         "flowbite": "^3.1.2"
     }
