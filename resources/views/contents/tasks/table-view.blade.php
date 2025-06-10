@@ -8,9 +8,10 @@
             <thead
                 class="sticky top-0 text-sm text-gray-700 uppercase bg-blue-200 dark:bg-blue-200 dark:bg-opacity-50 dark:text-white whitespace-nowrap">
                 <tr>
-                    <th class="px-6 py-3 w-1">#</th>
+                    <th class="px-6 py-3">#</th>
                     <th class="px-6 py-3">Title</th>
-                    <th class="px-6 py-3">Details</th>
+                    <th class="px-6 py-3">Users</th>
+                    <th class="px-6 py-3">Progress</th>
                     <th class="px-6 py-3">Priority</th>
                     <th class="px-6 py-3">Due Date</th>
                     <th class="px-6 py-3"></th>
@@ -20,34 +21,29 @@
                 <template x-for="(task, index) in tasks" :key="task.id">
                     <tr
                         class="group bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 whitespace-nowrap">
-                        <td class="px-6 py-3 w-1 text-gray-900 dark:text-white">
+                        <td class="px-6 py-3 text-gray-900 dark:text-white">
                             <span x-text="index + 1"></span>
                         </td>
-                        <td class="px-6 py-3 break-words">
+                        <td class="px-6 py-3">
                             <div>
                                 <div class="text-sm text-gray-500 dark:text-gray-300">
                                     <span x-text="task.title"></span>
                                 </div>
-                                <div class="font-normal text-gray-500 mt-1">
-                                    <template x-if="task.status === 'pending'">
-                                        <span
-                                            class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300"
-                                            x-text="task.status"></span>
-                                    </template>
-                                    <template x-if="task.status === 'completed'">
-                                        <span
-                                            class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300"
-                                            x-text="task.status"></span>
-                                    </template>
-                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-3 whitespace-normal text-sm">
-                            <div x-data="{ expanded: false }" @click.outside="expanded = false" class="relative">
-                                <p @click="expanded = true"
-                                    class="cursor-pointer w-52 xl:w-full overflow-hidden transition-all duration-300 ease-in-out"
-                                    :class="expanded ? 'max-h-[1000px]' : 'line-clamp-3'" x-text="task.details">
-                                </p>
+                            <div class="flex -space-x-4 rtl:space-x-reverse">
+                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="">
+                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png" alt="">
+                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="">
+                            </div>
+                        </td>
+                        <td class="px-6 py-3 whitespace-normal text-sm w-1/2">
+                            <div class="flex justify-end mb-1">
+                                <span class="text-xs text-blue-700 dark:text-white">45%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700 mb-1">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 45%"></div>
                             </div>
                         </td>
                         <td class="px-6 py-3">
@@ -77,12 +73,12 @@
                             </template>
                         </td>
                         <td class="px-6 py-3" x-text="formatDate(task.due_date)"></td>
-                        <td class="px-6 py-3 w-3">
+                        <td class="px-6 py-3 w-1">
                             <div class="flex items-center">
                                 <x-templates.tooltip>
                                     <x-slot name="trigger">
                                         <a :href="`{{ url('/tasks') }}/${task.id}`"
-                                            class="flex text-gray-500 group-hover:text-blue-500 hover:bg-gray-200 dark:hover:bg-gray-800 px-3 p-2.5 rounded-lg hover:animate-wiggle">
+                                            class="flex text-gray-500 group-hover:text-blue-500 hover:bg-gray-200 dark:hover:bg-gray-800 px-3 p-1.5 rounded-lg hover:animate-wiggle">
                                             <svg class="size-6" viewBox="0 0 24 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -99,7 +95,7 @@
                                     <x-slot name="trigger">
                                         <button type="button"
                                             @click.prevent="selectedTask = JSON.parse(JSON.stringify(task)); $dispatch('open-modal', 'update-tasks-modal')"
-                                            class="text-gray-500 group-hover:text-yellow-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-2.5 rounded-lg hover:animate-wiggle">
+                                            class="text-gray-500 group-hover:text-yellow-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-1.5 rounded-lg hover:animate-wiggle">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-6">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -114,7 +110,7 @@
                                     <x-slot name="trigger">
                                         <button type="button"
                                             @click="selectedTask = JSON.parse(JSON.stringify(task)); $dispatch('open-modal', 'delete-tasks-modal')"
-                                            class="text-gray-500 group-hover:text-red-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-2.5 rounded-lg hover:animate-wiggle">
+                                            class="text-gray-500 group-hover:text-red-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-1.5 rounded-lg hover:animate-wiggle">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-6">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
