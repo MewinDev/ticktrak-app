@@ -3,16 +3,15 @@
         <div class="flex-grow max-w-xs w-full">
             <label for="search-sub-task-table" class="sr-only">Search</label>
             <div class="relative mt-1">
-                <div
-                    class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
-                <x-forms.text-input x-model="search" @input.debounce.500ms="loadSubTasks()" color="blue" type="search" id="search-sub-task-table"
-                    placeholder="Search Task..."
+                <x-forms.text-input x-model="search" @input.debounce.500ms="loadSubTasks()" color="blue"
+                    type="search" id="search-sub-task-table" placeholder="Search Task..."
                     extraClass="pl-10 focus:border-blue-500"></x-forms.text-input>
             </div>
         </div>
@@ -34,15 +33,19 @@
                         <tr
                             class="group bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 whitespace-nowrap">
                             <td class="px-6 py-3 w-1">
-                                <input type="checkbox"  :checked="subTask.is_complete" @change="updateStatus(subTask.id, subTask.is_complete)" class="cursor-pointer w-4 h-4 text-green-600 group-hover:border-green-500 bg-gray-100 border-gray-300 rounded-sm focus:ring-green-500 dark:text-green-600 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2" :class="{'dark:bg-gray-700 dark:border-gray-600' : subTask.is_complete === 0 }">
+                                <input type="checkbox" :checked="subTask.is_complete"
+                                    @change="updateAsComplete(subTask.id, subTask.is_complete)"
+                                    class="cursor-pointer w-4 h-4 text-green-600 group-hover:border-green-500 bg-gray-100 border-gray-300 rounded-sm focus:ring-green-500 dark:text-green-600 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2"
+                                    :class="{ 'dark:bg-gray-700 dark:border-gray-600': subTask.is_complete === 0 }">
                             </td>
                             <td class="px-6 py-3">
                                 <div x-data="{ expanded: false }" @click.outside="expanded = false" class="relative">
-                                <p @click="expanded = true"
-                                    class="cursor-pointer w-52 xl:w-full overflow-hidden transition-all duration-300 ease-in-out"
-                                    :class="expanded ? 'max-h-[1000px]' : 'line-clamp-3'" x-text="subTask.description">
-                                </p>
-                            </div>
+                                    <p @click="expanded = true"
+                                        class="cursor-pointer w-52 xl:w-full overflow-hidden transition-all duration-300 ease-in-out"
+                                        :class="expanded ? 'max-h-[1000px]' : 'line-clamp-3'"
+                                        x-text="subTask.description">
+                                    </p>
+                                </div>
                             </td>
                             <td class="px-6 py-3">
                                 <span x-text="formatDate(subTask.due_date)"></span>
@@ -52,7 +55,8 @@
 
                                     <x-templates.tooltip>
                                         <x-slot name="trigger">
-                                            <button type="button" @click="selectedSubTask = JSON.parse(JSON.stringify(subTask)); $dispatch('open-modal', 'delete-subtasks-modal')"
+                                            <button type="button"
+                                                @click="selectedSubTask = JSON.parse(JSON.stringify(subTask)); $dispatch('open-modal', 'delete-subtasks-modal')"
                                                 class="text-gray-500 group-hover:text-red-500 hover:bg-gray-200 dark:hover:bg-gray-800 p-2.5 rounded-lg hover:animate-wiggle">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -72,7 +76,8 @@
 
 
                     <template x-if="subTasks.length === 0">
-                        <tr class="text-center bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
+                        <tr
+                            class="text-center bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
                             <td colspan="100%" class="px-6 py-4 text-red-500 dark:text-red-500 text-sm">
                                 No sub-tasks available.
                             </td>
@@ -91,7 +96,7 @@
     </div>
 
     <x-modal :header="false" maxWidth="lg" title="Delete Task" name="delete-subtasks-modal">
-        <div class="my-2" x-data="subTaskForm('delete','{{ $task->id }}', selectedSubTask)">
+        <div class="my-2" x-data="subTaskForm('delete', '{{ $task->id }}', selectedSubTask)">
             <form @submit.prevent="submit" class="space-y-4 ">
                 <div class="flex flex-col items-center justify-center space-y-5">
                     <svg class='text-red-500 dark:text-red-500 w-14 h-14' viewBox="0 0 24 24" fill="none"
@@ -104,8 +109,7 @@
                         this item?</p>
                 </div>
                 <div class="flex justify-center items-center space-x-4">
-                    <x-forms.button color="gray" type="button"
-                        @click="$dispatch('close')">Cancel</x-forms.button>
+                    <x-forms.button color="gray" type="button" @click="$dispatch('close')">Cancel</x-forms.button>
                     <x-forms.button color="red" type="submit" name="delete-tasks">Yes, I'm sure</x-forms.button>
                 </div>
             </form>

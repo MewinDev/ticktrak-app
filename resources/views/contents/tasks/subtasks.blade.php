@@ -20,7 +20,8 @@
             <span class="sr-only">Info</span>
             <div class="ms-3 text-sm -mb-1 font-medium">
                 Great! You've hit 100%. Mark this task as
-                <a href="#" class="font-semibold underline hover:no-underline">complete</a>
+                <button type="button" @click="$dispatch('open-modal', 'update-status-modal')"
+                    class="font-semibold underline hover:no-underline">complete</button>
                 to make it official.
             </div>
         </div>
@@ -107,6 +108,28 @@
             </section>
         </div>
     </main>
+
+    <x-modal :header="false" maxWidth="lg" title="Delete Task" name="update-status-modal">
+        <div class="my-2" x-data="subTaskTable({{ $task->id }})">
+            <form @submit.prevent="updateTaskStatus('completed')" class="space-y-4 ">
+                <div class="flex flex-col items-center justify-center space-y-5">
+                    <svg class='text-green-600 dark:text-green-600 w-14 h-14' viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M7.5 12L10.5 15L16.5 9M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <p class="mb-5 text-center text-gray-500 dark:text-gray-300">Are you sure you want to mark this task
+                        as completed?</p>
+
+                </div>
+                <div class="flex justify-center items-center space-x-4">
+                    <x-forms.button color="gray" type="button" @click="$dispatch('close')">Cancel</x-forms.button>
+                    <x-forms.button color="green" type="submit" name="delete-tasks">Yes, I'm sure</x-forms.button>
+                </div>
+            </form>
+        </div>
+    </x-modal>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="{{ asset('scripts/subtasks/sub-task-table.js') }}"></script>
     <script src="{{ asset('scripts/subtasks/sub-task-form.js') }}"></script>

@@ -32,14 +32,14 @@ class SubTaskApiController extends Controller
         $validate['task_id'] = $taskId;
 
         $subTasks = SubTask::create($validate);
-        
+
         return response()->json([
             'message' => 'Sub-task Created Successfully',
             'subTasks' => $subTasks,
         ], 201);
     }
 
-    public function updateStatus(Request $request, $taskId, $subTaskId): JsonResponse
+    public function updateMark(Request $request, $taskId, $subTaskId): JsonResponse
     {
         $subTasks = SubTask::findOrFail($subTaskId);
         $subTasks->is_complete = $request->boolean('is_complete');

@@ -26,6 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
         Route::put('/{taskId}', 'update')->name('update');
+        Route::patch('/{taskId}', 'updateStatus')->name('updateStatus');
         Route::delete('/{taskId}', 'destroy')->name('destroy');
     });
 
@@ -33,7 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
         Route::put('/{subtaskId}', 'update')->name('update');
-        Route::patch('/{subtaskId}', 'updateStatus')->name('updateStatus');
+        Route::patch('/{subtaskId}', 'updateMark')->name('updateMark');
         Route::delete('/{subtaskId}', 'destroy')->name('destroy');
     });
 });

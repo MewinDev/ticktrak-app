@@ -35,8 +35,38 @@ function subTaskTable(taskId) {
 
         },
 
-        async updateStatus(subTaskId, status) {
+        async updateAsComplete(subTaskId, status) {
             const url = `/api/tasks/${this.taskId}/subtasks/${subTaskId}`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content'),
+                    },
+                    body: JSON.stringify({
+                        is_complete: !status
+                    }),
+                    credentials: 'include',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update status to completed');
+                }
+
+                await this.loadSubTasks();
+            } catch (error) {
+                console.log('Update Error', error);
+                Alpine.store('toast').trigger('Failed to update status', 'error');
+            }
+        },
+
+
+        async updateTaskStatus(status) {
+            const url = `/api/tasks/${this.taskId}`;
 
             try {
                 const response = await fetch(url, {
