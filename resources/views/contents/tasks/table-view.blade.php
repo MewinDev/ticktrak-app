@@ -10,7 +10,6 @@
                 <tr>
                     <th class="px-6 py-3">#</th>
                     <th class="px-6 py-3">Title</th>
-                    <th class="px-6 py-3">Users</th>
                     <th class="px-6 py-3">Progress</th>
                     <th class="px-6 py-3">Priority</th>
                     <th class="px-6 py-3">Due Date</th>
@@ -18,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <template x-for="(task, index) in tasks"  :key="task.id + task.updated_at">
+                <template x-for="(task, index) in tasks" :key="task.id + task.updated_at">
                     <tr x-data="taskRow(task)" x-init="startProgress()"
                         class="group bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 whitespace-nowrap">
                         <td class="px-6 py-3 text-gray-900 dark:text-white">
@@ -31,19 +30,6 @@
                                     class="w-full overflow-hidden transition-all duration-300 ease-in-out"
                                     :class="expanded ? 'max-h-[1000px]' : 'line-clamp-3'" x-text="task.title">
                                 </p>
-                            </div>
-                        </td>
-                        <td class="px-6 py-3 whitespace-normal text-sm">
-                            <div class="flex -space-x-4 rtl:space-x-reverse">
-                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
-                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
-                                    alt="">
-                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
-                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png"
-                                    alt="">
-                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
-                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
-                                    alt="">
                             </div>
                         </td>
                         <td class="px-6 py-3 text-sm w-96">

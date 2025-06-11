@@ -4,7 +4,7 @@
 
 <template x-if="!loading">
     <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-        <template x-for="(task, index) in tasks" :key="task.id">
+        <template x-for="(task, index) in tasks" :key="task.id + task.updated_at">
             <div x-data="taskRow(task)" x-init="startProgress()"
                 class="relative bg-blue-50 dark:bg-blue-300 dark:bg-opacity-20 rounded-lg shadow-md p-3 border dark:border-gray-700 animate-swing origin-[center_-20px]">
                 <div class="flex justify-between items-center">
@@ -42,14 +42,12 @@
                                 <span
                                     class="text-xs font-medium px-2.5 py-1.5 rounded-md bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 capitalize">
                                     <span x-text="task.status"></span>
-                                    <span x-text="progress + '%'"></span>
                                 </span>
                             </template>
                             <template x-if="task.status === 'completed'">
                                 <span
                                     class="text-xs font-medium px-2.5 py-1.5 rounded-md bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 capitalize">
                                     <span x-text="task.status"></span>
-                                    <span x-text="progress + '%'"></span>
                                 </span>
                             </template>
                         </div>
@@ -106,16 +104,7 @@
 
                 <!-- Metatask -->
                 <div class="mt-4 flex items-end justify-between gap-3">
-                    <div class="flex -space-x-4 rtl:space-x-reverse">
-                        <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-700"
-                            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
-                            alt="">
-                        <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-700"
-                            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png"
-                            alt="">
-                        <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-700"
-                            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
-                            alt="">
+                    <div class="text-xs text-gray-600 dark:text-gray-300" x-text="'Progress: ' + progress + '%'">
                     </div>
                     <div class="text-xs text-gray-600 dark:text-gray-300" x-text="formatDate(task.due_date)">
                     </div>
