@@ -138,12 +138,12 @@ function subTaskTable(taskId) {
 
             if (progress === 100) {
                 confetti({
-                    particleCount: 300,
+                    particleCount: 400,
                     spread: 100,
-                    angle: 1, // shoots toward bottom-right
+                    angle: 90, // shoots toward bottom-right
                     origin: {
-                        x: -0.1,
-                        y: 0,
+                        x: 0.5,
+                        y: 0.8,
                     },
                     startVelocity: 70,
                 });
