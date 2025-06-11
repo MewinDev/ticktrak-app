@@ -1,4 +1,4 @@
-<div class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 p-5 rounded-md">
+<div class="bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 p-5 rounded-md">
     <header>
         <h2 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Change Password</h2>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Update your account password below.</p>
