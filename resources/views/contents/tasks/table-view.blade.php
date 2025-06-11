@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <template x-for="(task, index) in tasks" :key="task.id">
+                <template x-for="(task, index) in tasks"  :key="task.id + task.updated_at">
                     <tr x-data="taskRow(task)" x-init="startProgress()"
                         class="group bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 whitespace-nowrap">
                         <td class="px-6 py-3 text-gray-900 dark:text-white">
