@@ -19,31 +19,48 @@
             </thead>
             <tbody>
                 <template x-for="(task, index) in tasks" :key="task.id">
-                    <tr
+                    <tr x-data="taskRow(task)" x-init="startProgress()"
                         class="group bg-white border dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 whitespace-nowrap">
                         <td class="px-6 py-3 text-gray-900 dark:text-white">
                             <span x-text="index + 1"></span>
                         </td>
-                        <td class="px-6 py-3">
-                            <div>
-                                <div class="text-sm text-gray-500 dark:text-gray-300">
-                                    <span x-text="task.title"></span>
-                                </div>
+                        <td class="px-6 py-3 whitespace-normal text-sm">
+                            <div x-data="{ expanded: false }" @click.outside="expanded = false"
+                                class="relative cursor-pointer">
+                                <p @click="expanded = true"
+                                    class="w-full overflow-hidden transition-all duration-300 ease-in-out"
+                                    :class="expanded ? 'max-h-[1000px]' : 'line-clamp-3'" x-text="task.title">
+                                </p>
                             </div>
                         </td>
                         <td class="px-6 py-3 whitespace-normal text-sm">
                             <div class="flex -space-x-4 rtl:space-x-reverse">
-                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="">
-                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png" alt="">
-                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="">
+                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
+                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
+                                    alt="">
+                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
+                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png"
+                                    alt="">
+                                <img class="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
+                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
+                                    alt="">
                             </div>
                         </td>
-                        <td class="px-6 py-3 whitespace-normal text-sm w-1/2">
-                            <div class="flex justify-end mb-1">
-                                <span class="text-xs text-blue-700 dark:text-white">45%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700 mb-1">
-                                <div class="bg-blue-500 h-2 rounded-full" style="width: 45%"></div>
+                        <td class="px-6 py-3 text-sm w-96">
+                            <div>
+                                <!-- Progress Label -->
+                                <div class="flex justify-end mb-1">
+                                    <span class="text-xs text-blue-700 dark:text-white" x-text="progress + '%'"></span>
+                                </div>
+
+                                <!-- Progress Bar Background -->
+                                <div class="bg-gray-200 w-44 lg:w-full rounded-full h-2 dark:bg-gray-700 mb-1">
+                                    <!-- Progress Bar Fill -->
+                                    <div class="h-2 rounded-full transition-all duration-500"
+                                        :class="progress === 100 ? 'bg-green-500' : 'bg-blue-500'"
+                                        :style="{ width: progress + '%' }">
+                                    </div>
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-3">

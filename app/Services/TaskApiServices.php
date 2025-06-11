@@ -11,7 +11,7 @@ class TaskApiServices
 
         $search = $request->query('search');
 
-        $query = Task::query();
+        $query = Task::with('subTasks');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
