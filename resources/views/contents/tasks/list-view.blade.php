@@ -5,7 +5,7 @@
 <template x-if="!loading">
     <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         <template x-for="(task, index) in tasks" :key="task.id">
-            <div
+            <div x-data="taskRow(task)" x-init="startProgress()"
                 class="relative bg-blue-50 dark:bg-blue-300 dark:bg-opacity-20 rounded-lg shadow-md p-3 border dark:border-gray-700 animate-swing origin-[center_-20px]">
                 <div class="flex justify-between items-center">
                     <div class="flex md:flex-col lg:flex-row items-start gap-2">
@@ -42,12 +42,14 @@
                                 <span
                                     class="text-xs font-medium px-2.5 py-1.5 rounded-md bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 capitalize">
                                     <span x-text="task.status"></span>
+                                    <span x-text="progress + '%'"></span>
                                 </span>
                             </template>
                             <template x-if="task.status === 'completed'">
                                 <span
                                     class="text-xs font-medium px-2.5 py-1.5 rounded-md bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 capitalize">
                                     <span x-text="task.status"></span>
+                                    <span x-text="progress + '%'"></span>
                                 </span>
                             </template>
                         </div>
