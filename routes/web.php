@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,10 +23,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('setting')->middleware('auth')->name('setting.')->group(function () {
-    Route::get('/', [ProfileController::class, 'edit'])->name('edit');
-    Route::patch('/', [ProfileController::class, 'update'])->name('update');
-    Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
-    Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    Route::get('/', [SettingController::class, 'edit'])->name('edit');
+    Route::patch('/', [SettingController::class, 'update'])->name('update');
+    Route::delete('/', [SettingController::class, 'destroy'])->name('destroy');
+    Route::delete('/', [SettingController::class, 'destroy'])->name('destroy');
 });
 
 require __DIR__.'/auth.php';
