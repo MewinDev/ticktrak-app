@@ -15,6 +15,7 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $collaboratorRole = Role::firstOrCreate(['name' => 'collaborator']);
+        $editorRole = Role::firstOrCreate(['name' => 'editor']);
         $viewer = Role::firstOrCreate(['name' => 'viewer']);
     }
 }
