@@ -9,10 +9,30 @@
                 class="sticky top-0 text-sm text-gray-700 uppercase bg-blue-200 dark:bg-blue-200 dark:bg-opacity-50 dark:text-white whitespace-nowrap">
                 <tr>
                     <th class="px-6 py-3">#</th>
-                    <th class="px-6 py-3">Title</th>
-                    <th class="px-6 py-3">Progress</th>
-                    <th class="px-6 py-3">Priority</th>
-                    <th class="px-6 py-3">Due Date</th>
+                    <th class="px-6 py-3">
+                        <div class="flex items-center">
+                            Title
+                            <x-templates.sorting-arrow />
+                        </div>
+                    </th>
+                    <th class="px-6 py-3">
+                        <div class="flex items-center">
+                            Progress
+                            <x-templates.sorting-arrow />
+                        </div>
+                    </th>
+                    <th class="px-6 py-3">
+                        <div class="flex items-center">
+                            Priority
+                            <x-templates.sorting-arrow />
+                        </div>
+                    </th>
+                    <th class="px-6 py-3">
+                        <div class="flex items-center">
+                            Due Date
+                            <x-templates.sorting-arrow />
+                        </div>
+                    </th>
                     <th class="px-6 py-3"></th>
                 </tr>
             </thead>
