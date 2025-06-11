@@ -71,7 +71,7 @@
 </body>
 
 <footer
-    class="z-20 p-4 mt-10 sm:ml-64 bg-white border-t border-gray-200 shadow-sm md:flex md:items-center md:justify-center dark:bg-gray-800 dark:border-gray-600 uppercase">
+    class="z-20 p-4 sm:ml-64 bg-white border-t border-gray-200 shadow-sm md:flex md:items-center md:justify-center dark:bg-gray-800 dark:border-gray-600 uppercase">
     <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {{ now()->year }} <a href="/"
             class="hover:underline">Ticktrak App</a>. All Rights Reserved.</span>
 </footer>

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <main>
+    <main class="pb-10">
         <header>
             <h1 class="text-2xl py-2 font-bold tracking-wider text-gray-900 dark:text-white">User Information</h1>
         </header>
