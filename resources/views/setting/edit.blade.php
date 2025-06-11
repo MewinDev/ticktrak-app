@@ -1,29 +1,30 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Setting Information') }}
-        </h2>
-    </x-slot>
+    <main>
+        <header>
+            <h1 class="text-2xl py-2 font-bold tracking-wider text-gray-900 dark:text-white">User Information</h1>
+        </header>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow rounded-md">
-                <div class="max-w-xl">
-                    @include('setting.partials.update-profile-information-form')
+        <div class="grid sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 mt-3">
+            <!-- Left Section -->
+            <section class="col-span-1 sm:col-span-2 lg:col-span-2 xl:col-span-2 space-y-7">
+                <div>
+                    <div class="space-y-7">
+                        @include('setting.partials.profile')
+                        @include('setting.partials.language')
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow rounded-md">
-                <div class="max-w-xl">
-                    @include('setting.partials.update-password-form')
+            <!-- Right Section -->
+            <section class="col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-3 xl:col-span-4 space-y-7">
+                <div>
+                    <div class="space-y-7">
+                        @include('setting.partials.information')
+                        @include('setting.partials.password-change')
+                        @include('setting.partials.delete-account')
+                    </div>
                 </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow rounded-md">
-                <div class="max-w-xl">
-                    @include('setting.partials.delete-user-form')
-                </div>
-            </div>
+            </section>
         </div>
-    </div>
+    </main>
 </x-app-layout>
