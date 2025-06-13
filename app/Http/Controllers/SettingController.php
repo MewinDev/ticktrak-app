@@ -48,19 +48,7 @@ class SettingController extends Controller
         ]);
 
         $user = $request->user();
-
-        if ($request->hasFile('profile')) {
-            $file = $request->file('profile');
-            $path = $file->store('profiles', 'public');
-
-            // Optionally, delete old profile picture if stored
-            if ($user->profile && Storage::disk('public')->exists($user->profile)) {
-                \Storage::disk('public')->delete($user->profile);
-            }
-
-            $user->profile = $path;
-            $user->save();
-        }
+        ProfileServices::updateProfile($user, $request->file('picture'));
 
         return Redirect::route('setting.edit')->with('status', 'profile-updated');
     }
