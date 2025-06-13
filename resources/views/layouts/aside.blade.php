@@ -6,7 +6,7 @@
 <section class="flex">
     <!-- Mini Sidebar -->
     <aside
-        class="fixed top-0 left-0 z-50 w-16 h-screen transform transition-transform -translate-x-full
+        class="fixed top-0 left-0 z-50 w-16 h-screen transform transition-transform
                     bg-gray-50 border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
         :class="{ '-translate-x-full': !mini }" aria-label="Mini Sidebar">
         <div class="h-full px-3 pb-4 overflow-y-auto no-scrollbar">

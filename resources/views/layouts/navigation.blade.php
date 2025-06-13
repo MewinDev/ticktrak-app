@@ -1,4 +1,4 @@
-<nav class="fixed top-0 z-40 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+<nav class="fixed top-0 lg:pl-16 z-40 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     :class="{
         'lg:pl-64': full && !mini,
         'lg:pl-16': mini && !full

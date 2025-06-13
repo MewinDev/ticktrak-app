@@ -34,7 +34,7 @@
         </header>
 
         <!-- Page Content -->
-        <main class="w-full lg:pl-64"
+        <main class="w-full lg:pl-16"
             :class="{
                 'lg:pl-64': full && !mini,
                 'lg:pl-16': mini && !full
