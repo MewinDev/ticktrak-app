@@ -27,15 +27,19 @@
 </head>
 
 <body class="font-sans antialiased font-abz bg-white">
-    <div x-data="" class="min-h-screen dark:bg-gray-900">
-        <header x-data="{ open: false }" @click.outside="open = false">
+    <div x-data="{ mini: true, full: false }" class="min-h-screen dark:bg-gray-900">
+        <header @click.outside="full = false; mini = true">
             @include('layouts.navigation')
             @include('layouts.aside')
         </header>
 
         <!-- Page Content -->
-        <main class="px-5 lg:px-10 w-full lg:pl-64">
-            <div class="pt-20 sm:pt-24 lg:ml-10">
+        <main class="w-full lg:pl-64"
+            :class="{
+                'lg:pl-64': full && !mini,
+                'lg:pl-16': mini && !full
+            }">
+            <div class="pt-24 px-5 lg:px-10 ">
                 {{ $slot }}
             </div>
         </main>
@@ -71,7 +75,11 @@
 </body>
 
 <footer
-    class="z-20 p-4 sm:ml-64 bg-white border-t border-gray-200 shadow-sm md:flex md:items-center md:justify-center dark:bg-gray-800 dark:border-gray-600 uppercase">
+    class="z-20 p-4 bg-white border-t border-gray-200 shadow-sm md:flex md:items-center md:justify-center dark:bg-gray-800 dark:border-gray-600 uppercase"
+    :class="{
+        'sm:ml-64': full && !mini,
+        'sm:ml-16': mini && !full
+    }">
     <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {{ now()->year }} <a href="/"
             class="hover:underline">Ticktrak App</a>. All Rights Reserved.</span>
 </footer>
