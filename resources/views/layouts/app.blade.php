@@ -43,6 +43,53 @@
                 {{ $slot }}
             </div>
         </main>
+
+        <x-modal title="Create Team" name="create-team-project-modal" maxWidth="md">
+            <div x-data="taskForm('update', selectedTask)">
+                <form @submit.prevent="submit" class="space-y-4">
+
+                    <div class="flex flex-col md:flex-col lg:flex-row items-start gap-5 mt-3">
+                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
+                            alt="candidate-profile"
+                            class="w-28 h-28 object-cover rounded-md border border-gray-300 dark:border-gray-600" />
+                        <div class="w-full">
+                            <h2 class="text-lg text-gray-900 dark:text-white uppercase">Team
+                                Picture
+                            </h2>
+                            <x-forms.file-input color="gray" label="Profile" name="profile" id="profile"
+                                type="file" accept=".jpg,.jpeg,.png,.svg" placeholder="Profile" />
+                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-300">SVG, JPG or PNG. Max size of 800K.
+                            </p>
+                            <x-forms.input-error :messages="$errors->get('profile')" class="mt-2" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <x-forms.input-label for="name" value="{{ __('Name') }}" />
+                        <x-forms.text-input color="blue" type="name" name="name" id="name" fieldName="name"
+                            placeholder="Name..." extraClass="focus:border-blue-500"></x-forms.text-input>
+                        <x-forms.input-error :messages="$errors->get('name')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-forms.input-label for="description" value="{{ __('Description (Optional)') }}" />
+                        <x-forms.text-area color="blue" name="description" id="description" fieldName="description"
+                            rows="4" placeholder="Description..."
+                            extraClass="focus:border-blue-500"></x-forms.text-area>
+                        <x-forms.input-error :messages="$errors->get('description')" x-text="errors?.details?.[0]" class="mt-2" />
+                    </div>
+
+
+
+                    <!-- Actions -->
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <x-forms.button color="gray" type="button" @click="$dispatch('close')">Close</x-forms.button>
+                        <x-forms.button color="blue" type="submit" name="update-tasks">Create Team</x-forms.button>
+                    </div>
+                </form>
+            </div>
+        </x-modal>
+
     </div>
 
     <x-templates.alert-message></x-templates.alert-message>

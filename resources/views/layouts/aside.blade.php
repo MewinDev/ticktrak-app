@@ -89,7 +89,7 @@
                 <li>
                     <x-templates.tooltip location="right">
                         <x-slot name="trigger">
-                            <button type="button"
+                            <button type="button" @click="$dispatch('open-modal', 'create-team-project-modal')"
                                 class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 dark:focus:ring-gray-900 rounded-lg text-sm p-2 hover:animate-wiggle">
                                 <svg class="shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -296,7 +296,7 @@
                     <h5 class="text-xs uppercase font-semibold">Team / Group Projects</h5>
                     <x-templates.tooltip location="top">
                         <x-slot name="trigger">
-                            <button type="button"
+                            <button type="button" @click="$dispatch('open-modal', 'create-team-project-modal')"
                                 class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 dark:focus:ring-gray-900 rounded-lg text-sm p-1 hover:animate-wiggle">
                                 <svg class="shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
