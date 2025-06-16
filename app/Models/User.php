@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Team;
+use App\Models\TeamMember;
+use App\Models\TeamJoinRequest;
 
 class User extends Authenticatable
 {
@@ -43,4 +46,34 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get all of the team for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function team(): HasMany
+    {
+        return $this->hasMany(Team::class);
+    }
+
+    /**
+     * Get all of the member for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function member(): HasMany
+    {
+        return $this->hasMany(TeamMember::class);
+    }
+
+    /**
+     * Get all of the TeamJoinRequest for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function joinRequest(): HasMany
+    {
+        return $this->hasMany(TeamJoinRequest::class);
+    }
 }
