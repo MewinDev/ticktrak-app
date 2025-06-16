@@ -24,9 +24,10 @@ Route::get('/dashboard', function () {
 
 Route::prefix('setting')->middleware('auth')->name('setting.')->group(function () {
     Route::get('/', [SettingController::class, 'edit'])->name('edit');
+
     Route::patch('/', [SettingController::class, 'update'])->name('update');
     Route::patch('/updateProfile', [SettingController::class, 'updateProfile'])->name('updateProfile');
-    Route::delete('/', [SettingController::class, 'destroy'])->name('destroy');
+
     Route::delete('/', [SettingController::class, 'destroy'])->name('destroy');
 });
 
