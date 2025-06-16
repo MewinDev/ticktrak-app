@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ __('Blog') }}</title>
+    <title>{{ __('Ticktrak App') }}</title>
 
     {{-- Favicon --}}
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon">
@@ -50,8 +50,8 @@
         </nav>
 
         <div>
-            <a href="/" class="flex items-center justify-center gap-5 sm:mt-0 mt-10">
-                Blog Management
+            <a href="/">
+                <x-application-logo />
             </a>
         </div>
 

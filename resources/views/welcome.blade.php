@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ __('Blog') }}</title>
+    <title>{{ __('Ticktrak App') }}</title>
 
     {{-- Favicon --}}
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon">
@@ -49,12 +49,23 @@
         </nav>
 
         <section class="max-w-7xl mx-auto p-6 lg:p-8 mt-10">
+            <a href="/">
+                <x-application-logo />
+            </a>
             <div class="mt-5">
                 <div class="flex flex-col space-y-3">
                     @if (Route::has('login'))
                         @auth
+                            <form id="logoutForm" method="POST" action="{{ route('logout') }}">
+                                @csrf
+                            </form>
+
                             <x-forms.link href="{{ route('dashboard') }}" size="xl" color='gray'
                                 extraClass='uppercase'>Dashboard</x-forms.link>
+
+                            <x-forms.link href="{{ route('logout') }}"
+                                onclick="document.getElementById('logoutForm').submit(); return false;" size="xl"
+                                color='gray' extraClass='uppercase'>Logout</x-forms.link>
                         @else
                             <x-forms.link href="{{ route('login') }}" size="xl" color='gray'
                                 extraClass='uppercase'>Log In</x-forms.link>

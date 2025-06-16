@@ -13,8 +13,7 @@
         <div class="h-full px-3 pb-4 overflow-visible no-scrollbar">
             <div class="flex items-center justify-center mt-4 p-2">
                 <a href="/" class="flex">
-                    <span
-                        class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">T</span>
+                    <img src="{{ asset('images/logo.png') }}" alt="candidate-profile" class="w-14 h-auto" />
                 </a>
             </div>
 
@@ -215,11 +214,11 @@
         class="fixed top-0 z-40 w-64 h-screen whitespace-nowrap transition-all duration-300 ease-in-out bg-gray-50 border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
         style="display: none;" aria-label="Full Sidebar">
         <div class="h-full px-3 pb-4 overflow-visible no-scrollbar">
-            <div class="flex items-center justify-between mt-4 p-2">
-                <a href="/" class="flex">
+            <div class="flex items-center justify-between gap-3 mt-4 py-2">
+                <a href="/" class="flex gap-2 ml-3">
+                    <img src="{{ asset('images/logo.png') }}" alt="candidate-profile" class="w-8 h-auto" />
                     <span
-                        class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Ticktrak
-                        App</span>
+                        class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white uppercase">Ticktrak</span>
                 </a>
                 <button type="button" @click="full = false; mini = true"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ __('Blog') }}</title>
+    <title>{{ __('Ticktrak App') }}</title>
 
     {{-- Favicon --}}
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon">
@@ -49,18 +49,19 @@
                 <form @submit.prevent="submit" class="space-y-4">
 
                     <div class="flex flex-col md:flex-col lg:flex-row items-start gap-5 mt-3">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
-                            alt="candidate-profile"
+                        <img id="picturePreview"
+                            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
+                            alt="picture"
                             class="w-28 h-28 object-cover rounded-md border border-gray-300 dark:border-gray-600" />
                         <div class="w-full">
                             <h2 class="text-lg text-gray-900 dark:text-white uppercase">Team
                                 Picture
                             </h2>
-                            <x-forms.file-input color="gray" label="Profile" name="profile" id="profile"
-                                type="file" accept=".jpg,.jpeg,.png,.svg" placeholder="Profile" />
-                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-300">SVG, JPG or PNG. Max size of 800K.
+                            <x-forms.file-input color="gray" label="Picture" name="picture" id="picture"
+                                type="file" accept=".jpg,.jpeg,.png,.svg" placeholder="Picture" />
+                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-300">SVG, JPG or PNG. Max size of 2MB.
                             </p>
-                            <x-forms.input-error :messages="$errors->get('profile')" class="mt-2" />
+                            <x-forms.input-error :messages="$errors->get('picture')" class="mt-2" />
                         </div>
                     </div>
 
@@ -112,6 +113,19 @@
                     setTimeout(() => this.show = false, 3000);
                 }
             });
+        });
+    </script>
+
+    <script>
+        document.getElementById('picture').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('picturePreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
         });
     </script>
 
