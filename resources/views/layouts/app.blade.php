@@ -49,9 +49,7 @@
                 <form @submit.prevent="submit" class="space-y-4">
 
                     <div class="flex flex-col md:flex-col lg:flex-row items-start gap-5 mt-3">
-                        <img id="picturePreview"
-                            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
-                            alt="picture"
+                        <img id="picturePreview" src="{{ asset('images/logo.png') }}" alt="picture"
                             class="w-28 h-28 object-cover rounded-md border border-gray-300 dark:border-gray-600" />
                         <div class="w-full">
                             <h2 class="text-lg text-gray-900 dark:text-white uppercase">Team

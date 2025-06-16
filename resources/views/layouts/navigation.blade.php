@@ -54,8 +54,8 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <img class="w-10 h-10 rounded-full"
-                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="user logo">
+                <img class="w-10 h-10 rounded-full" src="{{ asset('storage/' . Auth::user()->profile) }}"
+                    alt="user logo">
                 <div class="font-medium dark:text-white whitepsace-nowrap hidden sm:block">
                     <h1>Hi, {{ ucwords(Auth::user()->name) }}</h1>
                     <span class="text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</span>
