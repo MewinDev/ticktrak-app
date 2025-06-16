@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('picture');
             $table->text('description')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
-            $table->boolean('is_public')->default('true');
+            $table->boolean('is_public')->default(true);
             $table->timestamps();
         });
-    }   
+    }
 
     /**
      * Reverse the migrations.
