@@ -54,7 +54,7 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <img class="w-10 h-10 rounded-full" src="{{ asset('storage/' . Auth::user()->profile) }}"
+                <img class="w-10 h-10 rounded-full" src="{{ !empty(Auth::user()->profile) ? asset('storage/' . Auth::user()->profile) : asset('images/logo.png') }}"
                     alt="user logo">
                 <div class="font-medium dark:text-white whitepsace-nowrap hidden sm:block">
                     <h1>Hi, {{ ucwords(Auth::user()->name) }}</h1>
