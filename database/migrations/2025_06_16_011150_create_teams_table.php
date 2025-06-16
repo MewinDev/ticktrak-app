@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('color');
             $table->string('picture');
             $table->text('description')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
