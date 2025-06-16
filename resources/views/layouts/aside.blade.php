@@ -18,7 +18,7 @@
             </div>
 
             <!-- Menu -->
-            <ul class="space-y-2 font-medium mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+            <ul class="space-y-2 font-medium mt-4 pt-2 border-t border-gray-200 dark:border-gray-700">
                 <h5 class="mt-2 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Menu</h5>
                 <li>
                     <x-templates.tooltip location="right">
@@ -83,7 +83,7 @@
             </ul>
             <ul class="space-y-2 font-medium mt-5 pt-2 border-t border-gray-200 dark:border-gray-700">
                 <div class="mt-2 flex flex-col items-center justify-between gap-3 text-gray-500 dark:text-gray-400">
-                    <h5 class="text-xs uppercase font-semibold whitespace-nowrap">Teams</h5>
+                    <h5 class="text-xs uppercase font-semibold whitespace-nowrap">Team</h5>
                 </div>
                 <li>
                     <x-templates.tooltip location="right">

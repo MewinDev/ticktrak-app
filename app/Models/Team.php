@@ -12,7 +12,7 @@ class Team extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'picutre', 'description', 'is_public', 'created_by'];
+    protected $fillable = ['name', 'picture', 'description', 'is_public', 'created_by'];
 
     /**
      * Get the user that owns the Team
