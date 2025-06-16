@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use \Storage;
 use App\Http\Requests\SettingUpdateRequest;
+use App\Services\ProfileServices;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,15 +42,15 @@ class SettingController extends Controller
     /**
      * Update the user's profile picture.
      */
-    public function updateProfile(Request $request): RedirectResponse
+    public function updateProfile(Request $request, ProfileServices $profileServices): RedirectResponse
     {
         $request->validate([
-            'profile' => ['nullable', 'image', 'mimes:jpg,jpeg,png,svg', 'max:800'],
+            'profile' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2000'],
         ]);
 
-        $user = $request->user();
-        ProfileServices::updateProfile($user, $request->file('picture'));
 
+        $user = $request->user();
+        $profile = $profileServices->updateProfile($user, $request->file('profile'));
         return Redirect::route('setting.edit')->with('status', 'profile-updated');
     }
 
