@@ -8,9 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use App\Models\Team;
-use App\Models\TeamMember;
-use App\Models\TeamJoinRequest;
+use App\Models\Teams\Team;
+use App\Models\Teams\TeamMember;
+use App\Models\Teams\TeamJoinRequest;
 
 class User extends Authenticatable
 {
