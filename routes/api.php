@@ -37,4 +37,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::patch('/{subtaskId}', 'updateMark')->name('updateMark');
         Route::delete('/{subtaskId}', 'destroy')->name('destroy');
     });
+
+    Route::prefix('teams')->controller(TeamApiController::class)->name('api.teams')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{teamId}', 'show')->name('show');
+        Route::post('/', 'store')->name('store');
+        Route::delete('/{teamId}', 'destroy')->name('destroy');
+    });
+
+    Route::prefix('teams/{teamId}/')->controller(TeamMemberApiController::class)->name('api.teams')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/request/{userId}/accept', 'accept')->name('accept');
+        Route::get('/request/{userId}/reject', 'reject')->name('reject');
+        Route::get('/request/{userId}/join', 'join')->name('join');
+        Route::patch('/request/{userId}/visibility', 'updateVisibility')->name('updateVisibility');
+        Route::delete('/member/{userId}', 'destroy')->name('destroy');
+    });
 });
+
