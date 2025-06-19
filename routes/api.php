@@ -47,11 +47,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('teams/{teamId}/')->controller(TeamMemberApiController::class)->name('api.teams')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('/request/{userId}/accept', 'accept')->name('accept');
-        Route::get('/request/{userId}/reject', 'reject')->name('reject');
-        Route::get('/request/{userId}/join', 'join')->name('join');
-        Route::patch('/request/{userId}/visibility', 'updateVisibility')->name('updateVisibility');
+        Route::patch('/request/{userId}/access', 'updateAccess')->name('updateAccess');
         Route::delete('/member/{userId}', 'destroy')->name('destroy');
+    });
+
+    Route::prefix('teams/{teamId}/')->controller(TeamJoinRequestApiController::class)->name('api.teams')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/request/{userId}/join', 'join')->name('join');
+        Route::get('/request/{userId}/status', 'updateStatus')->name('updateStatus');
+        Route::patch('/request/{userId}/visibility', 'updateVisibility')->name('updateVisibility');
     });
 });
 
