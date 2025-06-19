@@ -1,7 +1,7 @@
 <nav class="fixed top-0 lg:pl-16 z-40 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     :class="{
-        'lg:pl-64': full && !mini,
-        'lg:pl-16': mini && !full
+        'lg:pl-64': full && !mini || isMobile,
+        'lg:pl-16': mini && !full || !isMobile
     }">
     <div class="flex items-center justify-between gap-5 n py-3 px-5 lg:px-10 w-full">
         <div class="flex items-center gap-5 lg:hidden">
@@ -54,7 +54,8 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <img class="w-10 h-10 rounded-full" src="{{ !empty(Auth::user()->profile) ? asset('storage/' . Auth::user()->profile) : asset('images/logo.png') }}"
+                <img class="w-10 h-10 rounded-full"
+                    src="{{ !empty(Auth::user()->profile) ? asset('storage/' . Auth::user()->profile) : asset('images/logo.png') }}"
                     alt="user logo">
                 <div class="font-medium dark:text-white whitepsace-nowrap hidden sm:block">
                     <h1>Hi, {{ ucwords(Auth::user()->name) }}</h1>

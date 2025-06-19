@@ -27,8 +27,10 @@
 </head>
 
 <body class="font-sans antialiased font-abz bg-white">
-    <div x-data="{ mini: true, full: false }" class="min-h-screen dark:bg-gray-900">
-        <header @click.outside="full = false; mini = true">
+    <div x-data="{ mini: true, full: false, isMobile: window.innerWidth < 1024 }" x-init="window.addEventListener('resize', () => {
+        isMobile = window.innerWidth < 1024;
+    });" class="min-h-screen dark:bg-gray-900">
+        <header>
             @include('layouts.navigation')
             @include('layouts.aside')
         </header>
@@ -36,8 +38,8 @@
         <!-- Page Content -->
         <main class="w-full lg:pl-16"
             :class="{
-                'lg:pl-64': full && !mini,
-                'lg:pl-16': mini && !full
+                'lg:pl-64': full && !mini || isMobile,
+                'lg:pl-16': mini && !full || !isMobile
             }">
             <div class="pt-24 px-5 lg:px-10 ">
                 {{ $slot }}
@@ -45,7 +47,7 @@
         </main>
 
         <x-modal title="Create Team" name="create-team-project-modal" maxWidth="md">
-            <div x-data="taskForm('update', selectedTask)">
+            <div>
                 <form @submit.prevent="submit" class="space-y-4">
 
                     <div class="flex flex-col md:flex-col lg:flex-row items-start gap-5 mt-3">
@@ -75,7 +77,7 @@
                         <x-forms.text-area color="blue" name="description" id="description" fieldName="description"
                             rows="4" placeholder="Description..."
                             extraClass="focus:border-blue-500"></x-forms.text-area>
-                        <x-forms.input-error :messages="$errors->get('description')" x-text="errors?.details?.[0]" class="mt-2" />
+                        <x-forms.input-error :messages="$errors->get('description')" class="mt-2" />
                     </div>
 
 

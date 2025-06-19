@@ -7,8 +7,11 @@
     <!-- Mini Sidebar -->
     <aside
         class="fixed top-0 left-0 z-50 w-16 h-screen transform transition-transform
-                    bg-gray-50 border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
-        :class="{ '-translate-x-full': !mini || !window.matchMedia('(min-width: 1024px)').matches }"
+                    bg-gray-50 border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 lg:block"
+        :class="{
+            '-translate-x-full': isMobile && !mini,
+            'translate-x-0': !isMobile || mini
+        }"
         aria-label="Mini Sidebar">
         <div class="h-full px-3 pb-4 overflow-visible no-scrollbar">
             <div class="flex items-center justify-center mt-4 p-2">
@@ -107,8 +110,9 @@
                     <x-templates.tooltip location="right">
                         <x-slot name="trigger">
                             <x-navs.nav-link href="#">
-                                <img class="w-6 h-6 rounded-lg" src="{{ !empty(Auth::user()->profile) ? asset('storage/' . Auth::user()->profile) : asset('images/logo.png') }}"
-                    alt="user logo">
+                                <img class="w-6 h-6 rounded-lg"
+                                    src="{{ !empty(Auth::user()->profile) ? asset('storage/' . Auth::user()->profile) : asset('images/logo.png') }}"
+                                    alt="user logo">
                             </x-navs.nav-link>
                         </x-slot>
 
