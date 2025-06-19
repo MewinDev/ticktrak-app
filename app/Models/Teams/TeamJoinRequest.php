@@ -14,7 +14,7 @@ class TeamJoinRequest extends Model
     protected $fillable = ['status', 'user_id', 'team_id'];
 
     /**
-     * Get the user that owns the teamJoinRequests
+     * Get the user that owns the TeamJoinRequest
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -24,12 +24,12 @@ class TeamJoinRequest extends Model
     }
 
     /**
-     * Get the team that owns the teamJoinRequests
+     * Get the team that owns the TeamJoinRequest
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function team(): BelongsTo
     {
-        return $this->belongsTo(Team::class);
+        return $this->belongsTo(User::class);
     }
 }

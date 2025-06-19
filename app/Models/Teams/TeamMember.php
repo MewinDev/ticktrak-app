@@ -15,7 +15,7 @@ class TeamMember extends Model
     protected $fillable = ['role', 'user_id', 'team_id'];
 
     /**
-     * Get the user that owns the teamMembers
+     * Get the user that owns the TeamMember
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -25,7 +25,7 @@ class TeamMember extends Model
     }
 
     /**
-     * Get the team that owns the teamMembers
+     * Get the team that owns the TeamMember
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

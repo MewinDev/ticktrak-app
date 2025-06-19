@@ -48,13 +48,13 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get all of the team for the User
+     * The team that belong to the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function team(): HasMany
+    public function team(): BelongsToMany
     {
-        return $this->hasMany(Team::class);
+        return $this->belongsToMany(Team::class, 'team_members')->withPivot('role')->withTimestamp();
     }
 
     /**

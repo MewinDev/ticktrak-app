@@ -13,12 +13,12 @@ class Team extends Model
     protected $fillable = ['team_name', 'team_code', 'visibility', 'user_id'];
 
     /**
-     * Get the user that owns the teams
+     * The user that belong to the Team
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function user(): BelongsTo
+    public function user(): BelongsToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'team_members')->withPivot('role')->withTimestamps();
     }
 }
