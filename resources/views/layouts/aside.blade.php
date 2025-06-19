@@ -7,10 +7,10 @@
     <!-- Mini Sidebar -->
     <aside
         class="fixed top-0 left-0 z-50 w-16 h-screen transform transition-transform
-                    bg-gray-50 border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 lg:block"
+                    bg-gray-50 border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
         :class="{
-            '-translate-x-full': isMobile && !mini,
-            'translate-x-0': !isMobile || mini
+            '-translate-x-full': (full && !mini) || isMobile,
+            'translate-x-0': (mini && !full)
         }"
         aria-label="Mini Sidebar">
         <div class="h-full px-3 pb-4 overflow-visible no-scrollbar">

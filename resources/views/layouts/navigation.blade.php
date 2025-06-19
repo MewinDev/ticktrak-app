@@ -1,11 +1,11 @@
 <nav class="fixed top-0 lg:pl-16 z-40 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     :class="{
-        'lg:pl-64': full && !mini || isMobile,
-        'lg:pl-16': mini && !full || !isMobile
+        'lg:pl-64': (full && !mini) || isMobile,
+        'lg:pl-16': (mini && !full) || !isMobile
     }">
     <div class="flex items-center justify-between gap-5 n py-3 px-5 lg:px-10 w-full">
         <div class="flex items-center gap-5 lg:hidden">
-            <button @click="mini = true"
+            <button @click="mini = true; full = false"
                 class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 dark:focus:ring-gray-900 rounded-lg text-sm p-1.5">
                 <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                     stroke="currentColor">
@@ -14,7 +14,7 @@
                 </svg>
             </button>
         </div>
-
+        
         <div class="relative flex-grow max-w-lg hidden md:block">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
