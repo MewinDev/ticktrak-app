@@ -8,6 +8,8 @@ use App\Models\Teams\Team;
 use App\Models\Teams\TeamJoinRequest;
 use App\Models\Teams\TeamMember;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -56,5 +58,45 @@ class User extends Authenticatable
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
+    }
+
+    /**
+     * Get all of the teams for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ownedTeams(): HasMany
+    {
+        return $this->hasMany(Team::class);
+    }
+
+    /**
+     * The joinedTeam that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function joinedTeams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class, 'team_members');
+    }
+
+    /**
+     * Get all of the teamMembers for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function teamMembers(): HasMany
+    {
+        return $this->hasMany(TeamMember::class);
+    }
+
+    /**
+     * Get all of the joinRequests for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function joinRequests(): HasMany
+    {
+        return $this->hasMany(TeamJoinRequest::class);
     }
 }
