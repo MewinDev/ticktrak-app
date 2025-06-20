@@ -3,14 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Task;
+use App\Models\Teams\Team;
+use App\Models\Teams\TeamJoinRequest;
+use App\Models\Teams\TeamMember;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use App\Models\Teams\Team;
-use App\Models\Teams\TeamMember;
-use App\Models\Teams\TeamJoinRequest;
 
 class User extends Authenticatable
 {
@@ -48,32 +49,12 @@ class User extends Authenticatable
     ];
 
     /**
-     * The team that belong to the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function team(): BelongsToMany
-    {
-        return $this->belongsToMany(Team::class, 'team_members')->withPivot('role')->withTimestamp();
-    }
-
-    /**
-     * Get all of the member for the User
+     * Get all of the tasks for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function member(): HasMany
+    public function tasks(): HasMany
     {
-        return $this->hasMany(TeamMember::class);
-    }
-
-    /**
-     * Get all of the TeamJoinRequest for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function joinRequest(): HasMany
-    {
-        return $this->hasMany(TeamJoinRequest::class);
+        return $this->hasMany(Task::class);
     }
 }
