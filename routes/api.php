@@ -46,13 +46,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{teamId}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('teams/{teamId}/')->controller(TeamMemberApiController::class)->name('api.teams')->group(function () {
+    Route::prefix('teams/{teamId}/')->controller(TeamMemberApiController::class)->name('api.team.members')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::patch('/request/{userId}/promote', 'promote')->name('promote');
         Route::delete('/member/{userId}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('teams/{teamId}/')->controller(TeamJoinRequestApiController::class)->name('api.teams')->group(function () {
+    Route::prefix('teams/{teamId}/')->controller(TeamJoinRequestApiController::class)->name('api.teams.join.requests')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::patch('/request/{userId}/join', 'join')->name('join');
         Route::patch('/request/{userId}/status', 'updateStatus')->name('updateStatus');
