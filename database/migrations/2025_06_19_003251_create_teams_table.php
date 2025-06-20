@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('team_name');
             $table->string('team_code')->unique();
             $table->enum('visibility', ['private', 'public', 'open'])->nullable()->default(['private']);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
