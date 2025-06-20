@@ -25,34 +25,34 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('tasks')->controller(TaskApiController::class)->name('api.tasks.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
-        Route::put('/{taskId}', 'update')->name('update');
-        Route::patch('/{taskId}', 'updateStatus')->name('updateStatus');
-        Route::delete('/{taskId}', 'destroy')->name('destroy');
+        Route::put('/{task}', 'update')->name('update');
+        Route::patch('/{task}', 'updateStatus')->name('updateStatus');
+        Route::delete('/{task}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('tasks/{taskId}/subtasks')->controller(SubTaskApiController::class)->name('api.subtasks.')->group(function () {
+    Route::prefix('tasks/{task}/subtasks')->controller(SubTaskApiController::class)->name('api.subtasks.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
-        Route::put('/{subtaskId}', 'update')->name('update');
-        Route::patch('/{subtaskId}', 'updateMark')->name('updateMark');
-        Route::delete('/{subtaskId}', 'destroy')->name('destroy');
+        Route::put('/{subtask}', 'update')->name('update');
+        Route::patch('/{subtask}', 'updateMark')->name('updateMark');
+        Route::delete('/{subtask}', 'destroy')->name('destroy');
     });
 
     Route::prefix('teams')->controller(TeamApiController::class)->name('api.teams')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('/{teamId}', 'show')->name('show');
+        Route::get('/{team}', 'show')->name('show');
         Route::post('/', 'store')->name('store');
-        Route::patch('/{teamId}/visibility', 'updateVisibility')->name('updateVisibility');
-        Route::delete('/{teamId}', 'destroy')->name('destroy');
+        Route::patch('/{team}/visibility', 'updateVisibility')->name('updateVisibility');
+        Route::delete('/{team}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('teams/{teamId}/')->controller(TeamMemberApiController::class)->name('api.team.members')->group(function () {
+    Route::prefix('teams/{team}/')->controller(TeamMemberApiController::class)->name('api.team.members')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::patch('/request/{userId}/promote', 'promote')->name('promote');
         Route::delete('/member/{userId}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('teams/{teamId}/')->controller(TeamJoinRequestApiController::class)->name('api.teams.join.requests')->group(function () {
+    Route::prefix('teams/{team}/')->controller(TeamJoinRequestApiController::class)->name('api.teams.join.requests')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::patch('/request/{userId}/join', 'join')->name('join');
         Route::patch('/request/{userId}/status', 'updateStatus')->name('updateStatus');

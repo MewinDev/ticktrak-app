@@ -49,15 +49,6 @@
         <x-modal title="Create Team" name="create-team-project-modal" maxWidth="md">
             <div>
                 <form @submit.prevent="submit" class="space-y-4">
-                    <div class="flex items-center p-2 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
-                        role="alert">
-                        <span class="sr-only">Info</span>
-                        <div>
-                            <strong>Notes:</strong> Creating this group will enable team
-                            collaboration
-                            and task sharing.
-                        </div>
-                    </div>
                     <div class="flex flex-col md:flex-col lg:flex-row items-start gap-5 mt-3">
                         <img id="picturePreview" src="{{ asset('images/logo.png') }}" alt="picture"
                             class="w-28 h-28 object-cover rounded-md border border-gray-300 dark:border-gray-600" />

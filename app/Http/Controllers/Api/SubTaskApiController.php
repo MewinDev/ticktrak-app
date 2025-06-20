@@ -14,9 +14,9 @@ class SubTaskApiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, SubTaskServices $subTaskServices, string $taskId)
+    public function index(Request $request, SubTaskServices $subTaskServices, Task $task)
     {
-        $all_subtasks = $subTaskServices->getAllSubTasksByTaskId($request, $taskId);
+        $all_subtasks = $subTaskServices->getAllSubTasksByTaskId($request, $task);
 
         return response()->json([
             'all_subtasks' => $all_subtasks
@@ -26,10 +26,10 @@ class SubTaskApiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SubTaskRequest $request, $taskId): JsonResponse
+    public function store(SubTaskRequest $request, Task $task): JsonResponse
     {
         $validate = $request->validated();
-        $validate['task_id'] = $taskId;
+        $validate['task_id'] = $task->id;
 
         $subTasks = SubTask::create($validate);
 
@@ -39,21 +39,19 @@ class SubTaskApiController extends Controller
         ], 201);
     }
 
-    public function updateMark(Request $request, $taskId, $subTaskId): JsonResponse
+    public function updateMark(Request $request, Task $task, SubTask $subtask): JsonResponse
     {
-        $subTasks = SubTask::findOrFail($subTaskId);
-        $subTasks->is_complete = $request->boolean('is_complete');
-        $subTasks->save();
+        $subtask->is_complete = $request->boolean('is_complete');
+        $subtask->save();
 
         return response()->json([
             'message' => 'Mark as Complete Successfully',
         ], 200);
     }
 
-    public function destroy(Request $request, $taskId, $subTaskId): JsonResponse
+    public function destroy(Request $request, Task $task, SubTask $subtask): JsonResponse
     {
-        $subTasks = SubTask::findOrFail($subTaskId);
-        $subTasks->delete();
+        $subtask->delete();
 
         return response()->json([
             'message' => "Sub-task Delete Successfully",

@@ -49,10 +49,9 @@ class TaskApiController extends Controller
         ], 201);
     }
 
-    public function update(TaskApiRequest $request, $taskId): JsonResponse
+    public function update(TaskApiRequest $request, Task $task): JsonResponse
     {
 
-        $task = Task::findOrFail($taskId);
         $task->update($request->validated());
 
         return response()->json([
@@ -61,10 +60,8 @@ class TaskApiController extends Controller
         ], 200);
     }
 
-    public function updateStatus(Request $request, $taskId): JsonResponse
+    public function updateStatus(Request $request, Task $task): JsonResponse
     {
-        $task = Task::findOrFail($taskId);
-        // Validate and update status from the request body
         $validated = $request->validate([
             'status' => 'required|string', // Adjust validation rules as needed
         ]);
@@ -78,10 +75,9 @@ class TaskApiController extends Controller
     }
 
 
-    public function destroy($taskId): JsonResponse
+    public function destroy(Task $task): JsonResponse
     {
 
-        $task = Task::findOrFail($taskId);
         $task->delete();
 
         return response()->json([
