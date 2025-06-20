@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('team_name');
-            $table->string('team_code')->unique();
+            $table->string('team_profile')->nullable();
+            $table->string('team_code', 10)->unique();
             $table->enum('visibility', ['private', 'public', 'open'])->nullable()->default(['private']);
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
