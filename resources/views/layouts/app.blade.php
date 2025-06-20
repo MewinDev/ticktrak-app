@@ -49,7 +49,15 @@
         <x-modal title="Create Team" name="create-team-project-modal" maxWidth="md">
             <div>
                 <form @submit.prevent="submit" class="space-y-4">
-
+                    <div class="flex items-center p-2 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
+                        role="alert">
+                        <span class="sr-only">Info</span>
+                        <div>
+                            <strong>Notes:</strong> Creating this group will enable team
+                            collaboration
+                            and task sharing.
+                        </div>
+                    </div>
                     <div class="flex flex-col md:flex-col lg:flex-row items-start gap-5 mt-3">
                         <img id="picturePreview" src="{{ asset('images/logo.png') }}" alt="picture"
                             class="w-28 h-28 object-cover rounded-md border border-gray-300 dark:border-gray-600" />
@@ -57,29 +65,21 @@
                             <h2 class="text-lg text-gray-900 dark:text-white uppercase">Team
                                 Picture
                             </h2>
-                            <x-forms.file-input color="gray" label="Picture" name="picture" id="picture"
-                                type="file" accept=".jpg,.jpeg,.png,.svg" placeholder="Picture" />
+                            <x-forms.file-input color="gray" name="team_picture" id="team_picture" type="file"
+                                accept=".jpg,.jpeg,.png,.svg" placeholder="Team Picture" />
                             <p class="mt-2 text-sm text-gray-500 dark:text-gray-300">SVG, JPG or PNG. Max size of 2MB.
                             </p>
-                            <x-forms.input-error :messages="$errors->get('picture')" class="mt-2" />
+                            <x-forms.input-error :messages="$errors->get('team_picture')" class="mt-2" />
                         </div>
                     </div>
 
                     <div>
-                        <x-forms.input-label for="name" value="{{ __('Name') }}" />
-                        <x-forms.text-input color="blue" type="name" name="name" id="name" fieldName="name"
-                            placeholder="Name..." extraClass="focus:border-blue-500"></x-forms.text-input>
-                        <x-forms.input-error :messages="$errors->get('name')" class="mt-2" />
+                        <x-forms.input-label for="team_name" value="{{ __('Team Name') }}" />
+                        <x-forms.text-input color="blue" type="text" name="team_name" id="team_name"
+                            fieldName="team_name" placeholder="Team Name..."
+                            extraClass="focus:border-blue-500"></x-forms.text-input>
+                        <x-forms.input-error :messages="$errors->get('team_name')" class="mt-2" />
                     </div>
-
-                    <div>
-                        <x-forms.input-label for="description" value="{{ __('Description (Optional)') }}" />
-                        <x-forms.text-area color="blue" name="description" id="description" fieldName="description"
-                            rows="4" placeholder="Description..."
-                            extraClass="focus:border-blue-500"></x-forms.text-area>
-                        <x-forms.input-error :messages="$errors->get('description')" class="mt-2" />
-                    </div>
-
 
 
                     <!-- Actions -->
