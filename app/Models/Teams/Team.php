@@ -14,7 +14,7 @@ class Team extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['team_name', 'team_code', 'visibility', 'owner_id'];
+    protected $fillable = ['team_name', 'team_profile', 'team_code', 'visibility', 'owner_id'];
 
     /**
      * Get the owner that owns the Team

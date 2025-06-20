@@ -48,43 +48,45 @@
 
         <x-modal title="Create Team" name="create-team-project-modal" maxWidth="md">
             <div>
-                <form @submit.prevent="submit" class="space-y-4">
+                <!-- Replace 'teams.store' with 'teams.update' if editing -->
+                <form x-data="useFormSubmit('{{ route('api.teams.store') }}', 'POST')" @submit.prevent="submit" class="space-y-4">
+                    <!-- Team Picture Upload -->
                     <div class="flex flex-col md:flex-col lg:flex-row items-start gap-5 mt-3">
                         <img id="picturePreview" src="{{ asset('images/logo.png') }}" alt="picture"
                             class="w-28 h-28 object-cover rounded-md border border-gray-300 dark:border-gray-600" />
                         <div class="w-full">
-                            <h2 class="text-lg text-gray-900 dark:text-white uppercase">Team
-                                Picture
-                            </h2>
+                            <h2 class="text-lg text-gray-900 dark:text-white uppercase">Team Picture</h2>
+
+                            <!-- File input (bind to preview via JS if needed) -->
                             <x-forms.file-input color="gray" name="team_picture" id="team_picture" type="file"
                                 accept=".jpg,.jpeg,.png,.svg" placeholder="Team Picture" />
+
                             <p class="mt-2 text-sm text-gray-500 dark:text-gray-300">SVG, JPG or PNG. Max size of 2MB.
                             </p>
                             <x-forms.input-error :messages="$errors->get('team_picture')" class="mt-2" />
                         </div>
                     </div>
 
+                    <!-- Team Name -->
                     <div>
                         <x-forms.input-label for="team_name" value="{{ __('Team Name') }}" />
                         <x-forms.text-input color="blue" type="text" name="team_name" id="team_name"
-                            fieldName="team_name" placeholder="Team Name..."
-                            extraClass="focus:border-blue-500"></x-forms.text-input>
+                            fieldName="team_name" placeholder="Team Name..." extraClass="focus:border-blue-500" />
                         <x-forms.input-error :messages="$errors->get('team_name')" class="mt-2" />
                     </div>
-
 
                     <!-- Actions -->
                     <div class="flex justify-end space-x-3 pt-4">
                         <x-forms.button color="gray" type="button" @click="$dispatch('close')">Close</x-forms.button>
-                        <x-forms.button color="blue" type="submit" name="update-tasks">Create Team</x-forms.button>
+                        <x-forms.button color="blue" type="submit">Create Team</x-forms.button>
                     </div>
                 </form>
             </div>
         </x-modal>
-
     </div>
 
     <x-templates.alert-message></x-templates.alert-message>
+    <script src="{{ asset('scripts/teams/team-form.js') }}"></script>
 
     <script>
         document.addEventListener('alpine:init', () => {
@@ -108,7 +110,7 @@
     </script>
 
     <script>
-        document.getElementById('picture').addEventListener('change', (event) => {
+        document.getElementById('team_picture').addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
