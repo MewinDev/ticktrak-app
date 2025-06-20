@@ -42,17 +42,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{team}', 'show')->name('show');
         Route::post('/', 'store')->name('store');
-        Route::patch('/{team}/visibility', 'updateVisibility')->name('updateVisibility');
-        Route::delete('/{team}', 'destroy')->name('destroy');
+        Route::patch('/{team}/visibility', 'updateVisibility')->middleware('hasTeamRole:team,owner,editor')->name('updateVisibility');
+        Route::delete('/{team}', 'destroy')->middleware('hasTeamRole:team,owner')->name('destroy');
     });
 
-    Route::prefix('teams/{team}/')->controller(TeamMemberApiController::class)->name('api.team.members')->group(function () {
+    Route::prefix('teams/{team}/')->middleware('hasTeamRole:team,owner')->controller(TeamMemberApiController::class)->name('api.team.members')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::patch('/request/{userId}/promote', 'promote')->name('promote');
         Route::delete('/member/{userId}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('teams/{team}/')->controller(TeamJoinRequestApiController::class)->name('api.teams.join.requests')->group(function () {
+    Route::prefix('teams/{team}/')->middleware('hasTeamRole:team,owner')->controller(TeamJoinRequestApiController::class)->name('api.teams.join.requests')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::patch('/request/{userId}/join', 'join')->name('join');
         Route::patch('/request/{userId}/status', 'updateStatus')->name('updateStatus');
