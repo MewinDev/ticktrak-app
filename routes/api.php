@@ -42,6 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{teamId}', 'show')->name('show');
         Route::post('/', 'store')->name('store');
+        Route::patch('/{teamId}/visibility', 'updateVisibility')->name('updateVisibility');
         Route::delete('/{teamId}', 'destroy')->name('destroy');
     });
 
@@ -55,7 +56,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', 'index')->name('index');
         Route::patch('/request/{userId}/join', 'join')->name('join');
         Route::patch('/request/{userId}/status', 'updateStatus')->name('updateStatus');
-        Route::patch('/request/{userId}/visibility', 'updateVisibility')->name('updateVisibility');
     });
 });
 
