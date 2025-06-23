@@ -27,19 +27,29 @@
 </head>
 
 <body class="font-sans antialiased font-abz bg-white">
-    <div x-data="{ mini: true, full: false, isMobile: window.innerWidth < 1024 }" x-init="window.addEventListener('resize', () => {
+    <div x-data="{
+        mini: false,
+        isGroup: JSON.parse(localStorage.getItem('isGroup')) ?? true,
+        isMobile: window.innerWidth < 1024,
+        toggleSidebar(state) {
+            this.isGroup = state;
+            this.mini = state;
+            localStorage.setItem('isGroup', JSON.stringify(state));
+        }
+    }" x-init="window.addEventListener('resize', () => {
         isMobile = window.innerWidth < 1024;
     });" class="min-h-screen dark:bg-gray-900">
+
         <header>
             @include('layouts.navigation')
             @include('layouts.aside')
         </header>
 
         <!-- Page Content -->
-        <main class="w-full lg:pl-16"
+        <main class="w-full -pl-16 lg:pl-16 transition-all duration-300 ease-in-out"
             :class="{
-                'lg:pl-64': full && !mini || isMobile,
-                'lg:pl-16': mini && !full || !isMobile
+                'lg:pl-80': isGroup,
+                'lg:pl-16': !isGroup
             }">
             <div class="pt-24 px-5 lg:px-10 ">
                 {{ $slot }}
