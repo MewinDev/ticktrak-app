@@ -28,17 +28,26 @@
 
 <body class="font-sans antialiased font-abz bg-white">
     <div x-data="{
-        mini: false,
-        isGroup: JSON.parse(localStorage.getItem('isGroup')) ?? true,
+        mini: window.innerWidth < 1024,
+        isGroup: window.innerWidth >= 1024 && window.location.pathname.includes('dashboard') ?
+            JSON.parse(localStorage.getItem('isGroup')) ?? true : false,
         isMobile: window.innerWidth < 1024,
+
         toggleSidebar(state) {
             this.isGroup = state;
-            this.mini = state;
+            this.mini = this.isMobile ? true : state;
             localStorage.setItem('isGroup', JSON.stringify(state));
         }
     }" x-init="window.addEventListener('resize', () => {
         isMobile = window.innerWidth < 1024;
-    });" class="min-h-screen dark:bg-gray-900">
+        if (!isMobile && window.location.pathname.includes('dashboard')) {
+            isGroup = JSON.parse(localStorage.getItem('isGroup')) ?? true;
+            mini = isGroup;
+        } else {
+            isGroup = false;
+            mini = true;
+        }
+    })" class="min-h-screen dark:bg-gray-900">
 
         <header>
             @include('layouts.navigation')

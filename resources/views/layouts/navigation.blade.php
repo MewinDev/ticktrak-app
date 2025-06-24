@@ -2,7 +2,7 @@
     :class="{ 'lg:pl-80': isGroup, 'lg:pl-16': !isGroup }">
     <div class="flex items-center justify-between gap-5 n py-3 px-5 lg:px-10 w-full">
         <div class="flex items-center gap-5 lg:hidden">
-            <button @click="toggleSidebar(true)"
+            <button @click="toggleSidebar(false)"
                 class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 dark:focus:ring-gray-900 rounded-lg text-sm p-1.5">
                 <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                     stroke="currentColor">

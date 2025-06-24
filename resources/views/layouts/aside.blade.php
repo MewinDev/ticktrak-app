@@ -183,7 +183,8 @@
             </ul>
         </div>
         <!-- Show this button ONLY when group sidebar is closed -->
-        <div x-show="!isGroup" class="fixed bottom-4 left-2 z-50" x-transition>
+        <div x-show="!isGroup && window.location.pathname.includes('dashboard')" class="fixed bottom-4 left-2 z-50"
+            x-transition>
             <x-templates.tooltip location="right">
                 <x-slot name="trigger">
                     <button
