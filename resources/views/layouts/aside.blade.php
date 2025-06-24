@@ -107,36 +107,21 @@
                         Create Team Project
                     </x-templates.tooltip>
                 </li>
-                <li>
-                    <x-templates.tooltip location="right">
-                        <x-slot name="trigger">
-                            <x-navs.nav-link href="#">
-                                <img class="w-6 h-6 rounded-lg"
-                                    src="{{ !empty(Auth::user()->profile) ? asset('storage/' . Auth::user()->profile) : asset('images/logo.png') }}"
-                                    alt="user logo">
-                            </x-navs.nav-link>
-                        </x-slot>
+                @foreach ($teams as $team)
+                    <li>
+                        <x-templates.tooltip location="right">
+                            <x-slot name="trigger">
+                                <x-navs.nav-link href="{{ route('teams.show', $team->team_name) }}">
+                                    <img class="w-6 h-6 rounded-lg"
+                                        src="{{ $team->team_profile ? asset('storage/' . $team->team_profile) : asset('images/logo.png') }}"
+                                        alt="{{ $team->team_name }}">
+                                </x-navs.nav-link>
+                            </x-slot>
 
-                        Group 1
-                    </x-templates.tooltip>
-                </li>
-                <li>
-                    <x-templates.tooltip location="right">
-                        <x-slot name="trigger">
-                            <x-navs.nav-link href="#">
-                                <svg class="shrink-0 w-5 h-5 fill-red-500 text-red-500" viewBox="0 0 24 24"
-                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M3 7.8C3 6.11984 3 5.27976 3.32698 4.63803C3.6146 4.07354 4.07354 3.6146 4.63803 3.32698C5.27976 3 6.11984 3 7.8 3H16.2C17.8802 3 18.7202 3 19.362 3.32698C19.9265 3.6146 20.3854 4.07354 20.673 4.63803C21 5.27976 21 6.11984 21 7.8V16.2C21 17.8802 21 18.7202 20.673 19.362C20.3854 19.9265 19.9265 20.3854 19.362 20.673C18.7202 21 17.8802 21 16.2 21H7.8C6.11984 21 5.27976 21 4.63803 20.673C4.07354 20.3854 3.6146 19.9265 3.32698 19.362C3 18.7202 3 17.8802 3 16.2V7.8Z"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </x-navs.nav-link>
-                        </x-slot>
-
-                        Group 2
-                    </x-templates.tooltip>
-                </li>
+                            {{ $team->team_name }}
+                        </x-templates.tooltip>
+                    </li>
+                @endforeach
             </ul>
             <ul class="space-y-2 font-medium mt-5 pt-2 border-t border-gray-200 dark:border-gray-700">
                 <h5 class="mt-2 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Others</h5>

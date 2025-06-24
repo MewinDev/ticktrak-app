@@ -2,7 +2,8 @@
 
 namespace App\Models\Teams;
 
-use App\Http\Models\User;
+use App\Models\User;
+use App\Models\Teams\TeamJoinRequest;
 use App\Models\Teams\TeamMember;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,7 +34,7 @@ class Team extends Model
      */
     public function members(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'team_members')->withPivot('role')->withTimestamp();
+        return $this->belongsToMany(User::class, 'team_members')->withPivot('role')->withTimestamps();
     }
 
     /**

@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 class TeamApiController extends Controller
 {
     public function index() {
-        return auth()->user()->joinedTeams()->with('owner')->get();
+        $teams = auth()->user()->get();
+        return response()->json($teams);
     }
 
     public function show($team_name)
@@ -22,11 +23,27 @@ class TeamApiController extends Controller
 
     public function store(TeamRequest $request) : JsonResponse
     {
-        $team = Team::create($request->validated());
- 
+        $validated = $request->validated();
+
+        if ($request->hasFile('team_profile')) {
+            $path = $request->file('team_profile')->store('team_profiles', 'public');
+            $validated['team_profile'] = $path;
+        } else {
+            $validated['team_profile'] = null;
+        }
+
+        do {
+            $teamCode = strtoupper(str()->random(10));
+        } while (Team::where('team_code', $teamCode)->exists());
+
+        $validated['team_code'] = $teamCode;
+        $validated['owner_id'] = auth()->id();
+
+        $team = Team::create($validated);
+
         return response()->json([
-            'message' => 'Task Created Successfully',
-            'task' => $task,
+            'message' => 'Team Created Successfully',
+            'team' => $team,
         ], 201);
     }
 

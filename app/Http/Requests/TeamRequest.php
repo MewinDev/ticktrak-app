@@ -23,8 +23,7 @@ class TeamRequest extends FormRequest
     {
         return [
             'team_name' => ['required', 'string', 'max:255'],
-            'team_profile' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2000'],
-            'team_code' => ['required', 'string', 'unique:teams,team_code', 'max:10']
+            'team_profile' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2000'],
         ];
     }
 }

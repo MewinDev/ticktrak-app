@@ -33,4 +33,5 @@ Route::prefix('setting')->middleware('auth')->name('setting.')->group(function (
 
 require __DIR__.'/auth.php';
 require __DIR__.'/tasks.php';
+require __DIR__.'/teams.php';
 require __DIR__.'/timesheet.php';

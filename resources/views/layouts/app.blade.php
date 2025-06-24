@@ -32,7 +32,7 @@
         isGroup: window.innerWidth >= 1024 && window.location.pathname.includes('dashboard') ?
             JSON.parse(localStorage.getItem('isGroup')) ?? true : false,
         isMobile: window.innerWidth < 1024,
-
+    
         toggleSidebar(state) {
             this.isGroup = state;
             this.mini = this.isMobile ? true : state;
@@ -68,7 +68,9 @@
         <x-modal title="Create Team" name="create-team-project-modal" maxWidth="md">
             <div>
                 <!-- Replace 'teams.store' with 'teams.update' if editing -->
-                <form x-data="useFormSubmit('{{ route('api.teams.store') }}', 'POST')" @submit.prevent="submit" class="space-y-4">
+                <form action="{{ route('teams.store') }}" method="POST" class="space-y-4"
+                    enctype="multipart/form-data">
+                    @csrf
                     <!-- Team Picture Upload -->
                     <div class="flex flex-col md:flex-col lg:flex-row items-start gap-5 mt-3">
                         <img id="picturePreview" src="{{ asset('images/logo.png') }}" alt="picture"
@@ -76,13 +78,13 @@
                         <div class="w-full">
                             <h2 class="text-lg text-gray-900 dark:text-white uppercase">Team Picture</h2>
 
-                            <!-- File input (bind to preview via JS if needed) -->
-                            <x-forms.file-input color="gray" name="team_picture" id="team_picture" type="file"
-                                accept=".jpg,.jpeg,.png,.svg" placeholder="Team Picture" />
+                            <!-- Team Picture -->
+                            <x-forms.file-input color="gray" name="team_profile" id="team_profile" type="file"
+                                accept=".jpg,.jpeg,.png,.svg" x-model="form.team_profile" placeholder="Team Picture" />
 
                             <p class="mt-2 text-sm text-gray-500 dark:text-gray-300">SVG, JPG or PNG. Max size of 2MB.
                             </p>
-                            <x-forms.input-error :messages="$errors->get('team_picture')" class="mt-2" />
+                            <x-forms.input-error :messages="$errors->get('team_profile')" x-text="errors?.team_profile?.[0]" class="mt-2" />
                         </div>
                     </div>
 
@@ -90,8 +92,9 @@
                     <div>
                         <x-forms.input-label for="team_name" value="{{ __('Team Name') }}" />
                         <x-forms.text-input color="blue" type="text" name="team_name" id="team_name"
-                            fieldName="team_name" placeholder="Team Name..." extraClass="focus:border-blue-500" />
-                        <x-forms.input-error :messages="$errors->get('team_name')" class="mt-2" />
+                            fieldName="team_name" x-model="form.team_name" placeholder="Team Name..."
+                            extraClass="focus:border-blue-500" />
+                        <x-forms.input-error :messages="$errors->get('team_name')" x-text="errors?.team_name?.[0]" class="mt-2" />
                     </div>
 
                     <!-- Actions -->
@@ -129,7 +132,7 @@
     </script>
 
     <script>
-        document.getElementById('team_picture').addEventListener('change', (event) => {
+        document.getElementById('team_profile').addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
