@@ -29,7 +29,7 @@
 <body class="font-sans antialiased font-abz bg-white">
     <div x-data="{
         mini: window.innerWidth < 1024,
-        isGroup: window.innerWidth >= 1024 && window.location.pathname.includes('dashboard') ?
+        isGroup: window.innerWidth >= 1024 && window.location.pathname.includes('teams') ?
             JSON.parse(localStorage.getItem('isGroup')) ?? true : false,
         isMobile: window.innerWidth < 1024,
     
@@ -40,7 +40,7 @@
         }
     }" x-init="window.addEventListener('resize', () => {
         isMobile = window.innerWidth < 1024;
-        if (!isMobile && window.location.pathname.includes('dashboard')) {
+        if (!isMobile && window.location.pathname.includes('teams')) {
             isGroup = JSON.parse(localStorage.getItem('isGroup')) ?? true;
             mini = isGroup;
         } else {

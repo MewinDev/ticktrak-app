@@ -22,7 +22,7 @@
             </div>
 
             <!-- Menu -->
-            <ul class="space-y-2 font-medium mt-4 pt-2 border-t border-gray-200 dark:border-gray-700">
+            <ul class="space-y-2 font-medium mt-2 sm:mt-4 pt-2 border-t border-gray-200 dark:border-gray-700">
                 <h5 class="mt-2 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Menu</h5>
                 <li>
                     <x-templates.tooltip location="right">
@@ -104,14 +104,15 @@
                             </button>
                         </x-slot>
 
-                        Create Team Project
+                        Create Team
                     </x-templates.tooltip>
                 </li>
                 @foreach ($teams as $team)
                     <li>
                         <x-templates.tooltip location="right">
                             <x-slot name="trigger">
-                                <x-navs.nav-link href="{{ route('teams.show', $team->team_name) }}">
+                                <x-navs.nav-link
+                                    href="{{ route('teams.show', strtolower(Str::slug($team->team_name))) . '/dashboard' }}">
                                     <img class="w-6 h-6 rounded-lg"
                                         src="{{ $team->team_profile ? asset('storage/' . $team->team_profile) : asset('images/logo.png') }}"
                                         alt="{{ $team->team_name }}">
@@ -168,12 +169,12 @@
             </ul>
         </div>
         <!-- Show this button ONLY when group sidebar is closed -->
-        <div x-show="!isGroup && window.location.pathname.includes('dashboard')" class="fixed bottom-4 left-2 z-50"
-            x-transition>
+        <div x-show="!isGroup && (window.location.pathname.includes('teams') && (mini || !mini))"
+            class="fixed bottom-4 -right-14 z-50" x-transition>
             <x-templates.tooltip location="right">
                 <x-slot name="trigger">
                     <button
-                        class="border border-gray-300 rounded-full p-2 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                        class="border border-gray-300 dark:border-gray-700 rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                         @click="toggleSidebar(true)" title="Show Group Sidebar">
                         <svg class="w-6 h-6 text-gray-800 dark:text-gray-100" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -187,117 +188,142 @@
         </div>
     </aside>
 
-    <aside
-        class="fixed top-0 z-40 w-64 h-screen lg:left-16 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 transform transition-transform duration-300 ease-in-out -translate-x-full"
-        aria-label="Group Sidebar"
-        :class="{
-            '-translate-x-full': (!mini && !isGroup) || isMobile,
-            'translate-x-0 left-16': (mini && isGroup)
-        }">
-        <div class="h-full px-3 pb-4 overflow-visible no-scrollbar">
-            <div class="flex items-center justify-between gap-3 mt-4 py-2">
-                <div class="flex gap-2 ml-3 items-center">
-                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
-                        </path>
-                    </svg>
-                    <span class="text-lg font-semibold text-gray-900 dark:text-white">
-                        @if (Str::contains(request()->url(), 'group1'))
-                            Group 1
-                        @elseif(Str::contains(request()->url(), 'group2'))
-                            Group 2
-                        @else
-                            Group Unknown
-                        @endif
-                    </span>
-                </div>
-            </div>
+    @auth
+        @if (isset($team))
+            <aside
+                class="fixed top-0 z-40 w-64 h-screen lg:left-16 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 transform transition-transform duration-300 ease-in-out -translate-x-full"
+                aria-label="Group Sidebar"
+                :class="{
+                    '-translate-x-full': (!mini && !isGroup) || isMobile,
+                    'translate-x-0 left-16': (mini && isGroup)
+                }">
+                <div class="h-full px-3 pb-4 overflow-visible no-scrollbar">
+                    <div class="flex flex-col items-center pt-5">
+                        <img class="w-24 h-24 mb-3 rounded-2xl shadow-lg"
+                            src="{{ asset('storage/' . $team->team_profile) }}" alt="Team Profile" />
+                        <h5 class="mb-1 text-xl text-gray-900 dark:text-white uppercase font-bold">
+                            {{ $team->team_name }}</h5>
+                    </div>
 
-            <!-- Group Info -->
-            <div class="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <div class="flex items-center gap-3">
-                    <div class="flex -space-x-2">
-                        <img class="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800"
-                            src="{{ asset('images/user1.jpg') }}" alt="">
-                        <img class="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800"
-                            src="{{ asset('images/user2.jpg') }}" alt="">
-                        <img class="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800"
-                            src="{{ asset('images/user3.jpg') }}" alt="">
-                        <div
-                            class="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-300">
-                            +2
+                    <!-- Group Info -->
+                    <div class="mt-4 p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div class="flex items-center gap-3">
+                            <div class="flex -space-x-4">
+                                @php
+                                    $members = $team->members()->take(5)->get();
+                                    $totalMembers = $team->members()->count();
+                                @endphp
+                                @foreach ($members as $index => $member)
+                                    @if ($index < 4)
+                                        <img class="w-8 h-8 rounded-full border-2 border-white dark:border-gray-700"
+                                            src="{{ $member->profile ? asset('storage/' . $member->profile) : asset('images/logo.png') }}"
+                                            alt="{{ $member->name }}">
+                                    @elseif ($index === 4)
+                                        <div class="relative">
+                                            <img class="w-8 h-8 rounded-full border-2 border-white dark:border-gray-700"
+                                                src="{{ $member->profile ?? asset('images/logo.png') }}"
+                                                alt="{{ $member->name }}">
+                                            @if ($totalMembers > 5)
+                                                <span
+                                                    class="absolute inset-0 flex items-center justify-center text-xs font-medium text-gray-600 dark:text-gray-300 bg-black bg-opacity-30 rounded-full">
+                                                    +{{ $totalMembers - 4 }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ $totalMembers }} members
+                                </p>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">5 members</p>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Group Menu -->
-            <ul class="space-y-2 font-medium mt-4">
-                <li>
-                    <x-navs.nav-link href="" :active="Str::contains(request()->url(), 'group/dashboard')">
-                        <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
-                        </svg>
-                        <span class="text-sm ms-3">Group Dashboard</span>
-                    </x-navs.nav-link>
-                </li>
-                <li>
-                    <x-navs.nav-link href="}" :active="Str::contains(request()->url(), 'group/tasks')">
-                        <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                        </svg>
-                        <span class="text-sm ms-3">Group Tasks</span>
-                    </x-navs.nav-link>
-                </li>
-                <li>
-                    <x-navs.nav-link href="" :active="Str::contains(request()->url(), 'group/members')">
-                        <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-                        </svg>
-                        <span class="text-sm ms-3">Members</span>
-                    </x-navs.nav-link>
-                </li>
-                <li>
-                    <x-navs.nav-link href="" :active="Str::contains(request()->url(), 'group/settings')">
-                        <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a6.759 6.759 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.075-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.991l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <span class="text-sm ms-3">Group Settings</span>
-                    </x-navs.nav-link>
-                </li>
-            </ul>
-        </div>
-        <div class="fixed bottom-4 right-4">
-            <x-templates.tooltip location="left">
-                <x-slot name="trigger">
-                    <button class="border border-gray-300 rounded-full p-2" @click="toggleSidebar(false)">
-                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </button>
-                </x-slot>
-                Close Group Sidebar
-            </x-templates.tooltip>
-        </div>
-    </aside>
+                    <!-- Group Menu -->
+                    <ul class="space-y-2 font-medium mt-5 pt-2 border-t border-gray-200 dark:border-gray-700">
+                        <h5 class="mt-2 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Group</h5>
+                        <li>
+                            <x-navs.nav-link
+                                href="{{ route('teams.show.dashboard', strtolower(Str::slug($team->team_name))) }}"
+                                :active="Str::contains(request()->url(), '/teams') &&
+                                    Str::contains(request()->url(), '/dashboard')">
+                                <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+                                </svg>
+                                <span class="text-sm ms-3">Group Dashboard</span>
+                            </x-navs.nav-link>
+                        </li>
+                        <li>
+                            <x-navs.nav-link
+                                href="{{ route('teams.show.tasks', strtolower(Str::slug($team->team_name))) }}"
+                                :active="Str::contains(request()->url(), '/teams') &&
+                                    Str::contains(request()->url(), '/tasks')">
+                                <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                                <span class="text-sm ms-3">Group Tasks</span>
+                            </x-navs.nav-link>
+                        </li>
+                    </ul>
+                    <ul class="space-y-2 font-medium mt-5 pt-2 border-t border-gray-200 dark:border-gray-700">
+                        <h5 class="mt-2 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">Settings</h5>
+                        <li>
+                            <x-navs.nav-link
+                                href="{{ route('teams.show.members', strtolower(Str::slug($team->team_name))) }}"
+                                :active="Str::contains(request()->url(), '/teams') &&
+                                    Str::contains(request()->url(), '/members')">
+                                <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                                </svg>
+                                <span class="text-sm ms-3">Members Settings</span>
+                            </x-navs.nav-link>
+                        </li>
+                        <li>
+                            <x-navs.nav-link
+                                href="{{ route('teams.show.settings', strtolower(Str::slug($team->team_name))) }}"
+                                :active="Str::contains(request()->url(), '/teams') &&
+                                    Str::contains(request()->url(), '/settings')">
+                                <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a6.759 6.759 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.075-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.991l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <span class="text-sm ms-3">Group Settings</span>
+                            </x-navs.nav-link>
+                        </li>
+                    </ul>
+                </div>
+                <div class="fixed bottom-4 right-4">
+                    <x-templates.tooltip location="left">
+                        <x-slot name="trigger">
+                            <button
+                                class="border border-gray-300 dark:border-gray-700 rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                @click="toggleSidebar(false)">
+                                <svg class="w-6 h-6 text-gray-800 dark:text-gray-100" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </x-slot>
+                        Close Group Sidebar
+                    </x-templates.tooltip>
+                </div>
+            </aside>
+        @endif
+    @endauth
 </section>
