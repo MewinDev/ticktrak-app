@@ -58,7 +58,7 @@
         <main class="w-full -pl-16 lg:pl-16 transition-all duration-300 ease-in-out"
             :class="{
                 'lg:pl-80': isGroup,
-                'lg:pl-16': !isGroup
+                'lg:pl-16': !isGroup,
             }">
             <div class="pt-24 px-5 lg:px-10 ">
                 {{ $slot }}
@@ -67,6 +67,9 @@
 
         <x-modal title="Create Team" name="create-team-project-modal" maxWidth="md">
             <div>
+                <p class="text-sm text-blue-500 dark:text-blue-200">
+                    <strong>Note:</strong> <br> Creating this group will enable team collaboration and task sharing.
+                </p>
                 <!-- Replace 'teams.store' with 'teams.update' if editing -->
                 <form action="{{ route('teams.store') }}" method="POST" class="space-y-4"
                     enctype="multipart/form-data">

@@ -27,7 +27,14 @@ class ViewServiceProvider extends ServiceProvider
                     })
                     ->get();
 
-                $view->with('teams', $teams);
+                $currentTeam = null;
+                $route = request()->route();
+                if ($route && $route->parameter('team_name')) {
+                    $teamName = str_replace('-', ' ', $route->parameter('team_name'));
+                    $currentTeam = Team::where('team_name', $teamName)->first();
+                }
+
+                $view->with(compact('teams', 'currentTeam'));
             }
         });
     }

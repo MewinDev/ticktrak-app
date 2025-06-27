@@ -22,10 +22,10 @@ Route::middleware(['auth', 'throttle:1000,1'])->prefix('teams')->name('teams.')-
         Route::get('/{team}', 'show')->name('show'); // -> /teams/{id}
 
         Route::name('show.')->group(function () {
-            Route::get('/{team_name}/group/dashboard', 'showDashboard')->name('dashboard');  // -> /teams/{team_name}/dashboard
-            Route::get('/{team_name}/group/tasks', 'showTasks')->name('tasks');  // -> /teams/{team_name}/tasks
-            Route::get('/{team_name}/group/members', 'showMembers')->name('members');  // -> /teams/{team_name}/members
-            Route::get('/{team_name}/group/settings', 'showSettings')->name('settings');  // -> /teams/{team_name}/settings
+            Route::get('/{team_name}/dashboard', 'showDashboard')->name('dashboard');  // -> /teams/{team_name}/dashboard
+            Route::get('/{team_name}/tasks', 'showTasks')->name('tasks');  // -> /teams/{team_name}/tasks
+            Route::get('/{team_name}/members', 'showMembers')->name('members');  // -> /teams/{team_name}/members
+            Route::get('/{team_name}/settings', 'showSettings')->name('settings');  // -> /teams/{team_name}/settings
         });
     });
 });

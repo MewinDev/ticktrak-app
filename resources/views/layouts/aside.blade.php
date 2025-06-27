@@ -112,12 +112,12 @@
                         <x-templates.tooltip location="right">
                             <x-slot name="trigger">
                                 <x-navs.nav-link
-                                    href="{{ route('teams.show', strtolower(Str::slug($team->team_name))) . '/group/dashboard' }}"
+                                    href="{{ route('teams.show', strtolower(Str::slug($team->team_name))) . '/dashboard' }}"
                                     :active="Str::contains(
                                         request()->url(),
                                         'teams/' . strtolower(Str::slug($team->team_name)),
                                     )">
-                                    <img class="w-6 h-6 rounded-lg"
+                                    <img class="w-7 h-6 rounded-full"
                                         src="{{ $team->team_profile ? asset('storage/' . $team->team_profile) : asset('images/logo.png') }}"
                                         alt="{{ $team->team_name }}">
                                 </x-navs.nav-link>
@@ -156,7 +156,7 @@
                             <x-slot name="trigger">
                                 <x-navs.nav-link :href="route('logout')"
                                     onclick="event.preventDefault(); this.closest('form').submit();">
-                                    <svg class="shrink-0 w-5 h-5 transition duration-75  group-hover:text-blue-600 dark:group-hover:text-blue-500"
+                                    <svg class="shrink-0 w-5 h-5 transition duration-75  group-hover:text-red-600 dark:group-hover:text-red-500"
                                         viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M16 16.9999L21 11.9999M21 11.9999L16 6.99994M21 11.9999H9M12 16.9999C12 17.2955 12 17.4433 11.989 17.5713C11.8748 18.9019 10.8949 19.9968 9.58503 20.2572C9.45903 20.2823 9.31202 20.2986 9.01835 20.3312L7.99694 20.4447C6.46248 20.6152 5.69521 20.7005 5.08566 20.5054C4.27293 20.2453 3.60942 19.6515 3.26118 18.8724C3 18.2881 3 17.5162 3 15.9722V8.02764C3 6.4837 3 5.71174 3.26118 5.12746C3.60942 4.34842 4.27293 3.75454 5.08566 3.49447C5.69521 3.29941 6.46246 3.38466 7.99694 3.55516L9.01835 3.66865C9.31212 3.70129 9.45901 3.71761 9.58503 3.74267C10.8949 4.0031 11.8748 5.09798 11.989 6.42855C12 6.55657 12 6.70436 12 6.99994"
@@ -178,7 +178,7 @@
             <x-templates.tooltip location="right">
                 <x-slot name="trigger">
                     <button
-                        class="border border-gray-300 dark:border-gray-700 rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        class="bg-gray-50 border border-gray-300 dark:border-gray-700 rounded-full p-2 hover:bg-gray-300 dark:hover:bg-gray-700"
                         @click="toggleSidebar(true)" title="Show Group Sidebar">
                         <svg class="w-6 h-6 text-gray-800 dark:text-gray-100" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -193,9 +193,9 @@
     </aside>
 
     @auth
-        @if (isset($team))
+        @if (isset($currentTeam))
             <aside
-                class="fixed top-0 z-40 w-64 h-screen lg:left-16 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 transform transition-transform duration-300 ease-in-out -translate-x-full"
+                class="fixed top-0 z-40 w-64 h-screen lg:left-16 bg-gray-50 border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 transform transition-transform duration-300 ease-in-out -translate-x-full"
                 aria-label="Group Sidebar"
                 :class="{
                     '-translate-x-full': (!mini && !isGroup) || isMobile,
@@ -204,9 +204,9 @@
                 <div class="h-full px-3 pb-4 overflow-visible no-scrollbar">
                     <div class="flex flex-col items-center pt-5">
                         <img class="w-24 h-24 mb-3 rounded-2xl shadow-lg"
-                            src="{{ asset('storage/' . $team->team_profile) }}" alt="Team Profile" />
+                            src="{{ asset('storage/' . $currentTeam->team_profile) }}" alt="Team Profile" />
                         <h5 class="mb-1 text-xl text-gray-900 dark:text-white uppercase font-bold">
-                            {{ $team->team_name }}</h5>
+                            {{ $currentTeam->team_name }}</h5>
                     </div>
 
                     <!-- Group Info -->
@@ -214,8 +214,8 @@
                         <div class="flex items-center gap-3">
                             <div class="flex -space-x-4">
                                 @php
-                                    $members = $team->members()->take(5)->get();
-                                    $totalMembers = $team->members()->count();
+                                    $members = $currentTeam->members()->take(5)->get();
+                                    $totalMembers = $currentTeam->members()->count();
                                 @endphp
                                 @foreach ($members as $index => $member)
                                     @if ($index < 4)
@@ -251,7 +251,7 @@
                         <li>
                             <x-navs.nav-link
                                 href="{{ route('teams.show.dashboard', strtolower(Str::slug($team->team_name))) }}"
-                                :active="Str::contains(request()->url(), '/group/dashboard')">
+                                :active="Str::contains(request()->url(), '/dashboard')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -264,7 +264,7 @@
                         <li>
                             <x-navs.nav-link
                                 href="{{ route('teams.show.tasks', strtolower(Str::slug($team->team_name))) }}"
-                                :active="Str::contains(request()->url(), '/group/tasks')">
+                                :active="Str::contains(request()->url(), '/tasks')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -280,7 +280,7 @@
                         <li>
                             <x-navs.nav-link
                                 href="{{ route('teams.show.members', strtolower(Str::slug($team->team_name))) }}"
-                                :active="Str::contains(request()->url(), '/group/members')">
+                                :active="Str::contains(request()->url(), '/members')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -293,7 +293,7 @@
                         <li>
                             <x-navs.nav-link
                                 href="{{ route('teams.show.settings', strtolower(Str::slug($team->team_name))) }}"
-                                :active="Str::contains(request()->url(), '/group/settings')">
+                                :active="Str::contains(request()->url(), '/settings')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
