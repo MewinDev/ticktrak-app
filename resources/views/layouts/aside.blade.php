@@ -27,7 +27,7 @@
                 <li>
                     <x-templates.tooltip location="right">
                         <x-slot name="trigger">
-                            <x-navs.nav-link href="{{ route('dashboard') }}" :active="Str::contains(request()->url(), 'dashboard')">
+                            <x-navs.nav-link href="{{ route('dashboard') }}" :active="Str::contains(request()->url(), 'mydashboard')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -43,7 +43,7 @@
                 <li>
                     <x-templates.tooltip location="right">
                         <x-slot name="trigger">
-                            <x-navs.nav-link href="{{ route('tasks.index') }}" :active="Str::contains(request()->url(), 'tasks')">
+                            <x-navs.nav-link href="{{ route('tasks.index') }}" :active="Str::contains(request()->url(), 'mytasks')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -112,7 +112,11 @@
                         <x-templates.tooltip location="right">
                             <x-slot name="trigger">
                                 <x-navs.nav-link
-                                    href="{{ route('teams.show', strtolower(Str::slug($team->team_name))) . '/dashboard' }}">
+                                    href="{{ route('teams.show', strtolower(Str::slug($team->team_name))) . '/group/dashboard' }}"
+                                    :active="Str::contains(
+                                        request()->url(),
+                                        'teams/' . strtolower(Str::slug($team->team_name)),
+                                    )">
                                     <img class="w-6 h-6 rounded-lg"
                                         src="{{ $team->team_profile ? asset('storage/' . $team->team_profile) : asset('images/logo.png') }}"
                                         alt="{{ $team->team_name }}">
@@ -129,7 +133,7 @@
                 <li>
                     <x-templates.tooltip location="right">
                         <x-slot name="trigger">
-                            <x-navs.nav-link href="{{ route('setting.edit') }}" :active="Str::contains(request()->url(), 'setting')">
+                            <x-navs.nav-link href="{{ route('setting.edit') }}" :active="Str::contains(request()->url(), 'mysetting')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75  group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -247,8 +251,7 @@
                         <li>
                             <x-navs.nav-link
                                 href="{{ route('teams.show.dashboard', strtolower(Str::slug($team->team_name))) }}"
-                                :active="Str::contains(request()->url(), '/teams') &&
-                                    Str::contains(request()->url(), '/dashboard')">
+                                :active="Str::contains(request()->url(), '/group/dashboard')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -261,8 +264,7 @@
                         <li>
                             <x-navs.nav-link
                                 href="{{ route('teams.show.tasks', strtolower(Str::slug($team->team_name))) }}"
-                                :active="Str::contains(request()->url(), '/teams') &&
-                                    Str::contains(request()->url(), '/tasks')">
+                                :active="Str::contains(request()->url(), '/group/tasks')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -278,8 +280,7 @@
                         <li>
                             <x-navs.nav-link
                                 href="{{ route('teams.show.members', strtolower(Str::slug($team->team_name))) }}"
-                                :active="Str::contains(request()->url(), '/teams') &&
-                                    Str::contains(request()->url(), '/members')">
+                                :active="Str::contains(request()->url(), '/group/members')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -292,8 +293,7 @@
                         <li>
                             <x-navs.nav-link
                                 href="{{ route('teams.show.settings', strtolower(Str::slug($team->team_name))) }}"
-                                :active="Str::contains(request()->url(), '/teams') &&
-                                    Str::contains(request()->url(), '/settings')">
+                                :active="Str::contains(request()->url(), '/group/settings')">
                                 <svg class="shrink-0 w-5 h-5 transition duration-75 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">

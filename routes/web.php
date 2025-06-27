@@ -18,11 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
+Route::get('/mydashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix('setting')->middleware('auth')->name('setting.')->group(function () {
+Route::prefix('mysetting')->middleware('auth')->name('setting.')->group(function () {
     Route::get('/', [SettingController::class, 'edit'])->name('edit');
 
     Route::patch('/', [SettingController::class, 'update'])->name('update');
