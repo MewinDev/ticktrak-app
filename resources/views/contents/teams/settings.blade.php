@@ -1,28 +1,15 @@
 <x-app-layout>
-    <main class="pb-10">
-        <header>
-            <h1 class="text-2xl py-2 font-bold tracking-wider text-gray-900 dark:text-white">Group Setting</h1>
-        </header>
+    <header>
+        <h2 class="text-2xl py-2 font-bold tracking-wider text-gray-900 dark:text-white">Group Settings</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Manage your group information and preferences</p>
+    </header>
 
-        <div class="grid sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 mt-3">
-            <!-- Left Section -->
-            <section class="col-span-1 sm:col-span-2 lg:col-span-2 xl:col-span-2 space-y-7">
-                <div>
-                    <div class="space-y-7">
-                        @include('contents.teams.setting-partials.group-picture')
-                    </div>
-                </div>
-            </section>
-
-            <!-- Right Section -->
-            <section class="col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-3 xl:col-span-4 space-y-7">
-                <div>
-                    <div class="space-y-7">
-                        @include('contents.teams.setting-partials.group-name')
-                        @include('contents.teams.setting-partials.delete-group')
-                    </div>
-                </div>
-            </section>
-        </div>
+    <main class="space-y-6 py-8">
+        @include('contents.teams.setting-partials.group-picture')
+        @include('contents.teams.setting-partials.general-info')
+        @include('contents.teams.setting-partials.activity-logs')
+        @include('contents.teams.setting-partials.transfer-ownership')
+        @include('contents.teams.setting-partials.delete-group')
     </main>
+
 </x-app-layout>
