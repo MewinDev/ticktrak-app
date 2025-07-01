@@ -56,6 +56,13 @@ class TeamController extends Controller
         return view('contents.teams.settings', compact('team'));
     }
 
+    public function showLeave($team_name) {
+        $name = str_replace('-', ' ', $team_name);
+        $team = Team::where('team_name', $name)->firstOrFail();
+
+        return view('contents.teams.leave', compact('team'));
+    }
+
     public function store(TeamRequest $request) {
         $validated = $request->validated();
 
